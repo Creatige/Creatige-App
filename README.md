@@ -1,7 +1,5 @@
 # **CREATIGE**
 
-===
-
 ## Table of Contents
 
 1. [Overview](#Overview)
@@ -20,15 +18,15 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 ### App Evaluation
 
 - **Category:** AI art generator.
-- 
+
 - **Mobile:** This app is more than a glorified web application because it is capable of accepting images as an input, so the user can take a picture with their camera and use it as a base for generating art. The app also uses push notifications to inform the user their images are ready, as well as other functions like having an image of theirs added as a favorite by another user.
-- 
+ 
 - **Story:** This app is of immense value to its audience, because it allows users to use this cutting edge technology on the go, in a simple and efficient way. It can be useful to both artists and enthusiasts. 
-- 
+ 
 - **Market:** Stable Diffusion is extremely new and the user base is growing day by day. With this app, more users will be able to use the system.
-- 
+ 
 - **Habit:** The app is primarily about creating, allowing the user to express themselves via art, regardless of their traditional art skills. Generating art is very addictive. The user could spend hours on end with it.
-- 
+ 
 - **Scope:** A stripped down version of the app would still be interesting to build because it uses an API for image generation, as well as camera integration, and remote image storage in our backend. A fully fledged future version of the app will include more advanced social interaction, as well as advanced features, such as inpainting.
 
 ## Product Spec
@@ -59,7 +57,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 * User can log out of the app
 
-  **Optional Nice-to-have Stories**
+**Optional Nice-to-have Stories**
 
 * Allow user to make their profile public or private 
 
