@@ -91,7 +91,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   * User will be able to create AI generated pictures using a text description
   * User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera
 * Profile
-  * The user profile shows the user’s creations
+  * The user profile shows the user’s username and creations
 * Settings
   * User can log out of the app
 
