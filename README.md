@@ -155,8 +155,12 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 #### Create
 
+* Text to image
+
 <img src='others\pictures\wireframes\lo-fi\Create.png' height='500'/>
 <br>
+
+* Image to image
 
 <img src='others\pictures\wireframes\lo-fi\Create-img.png' height='500'/>
 <br><br>
@@ -180,22 +184,22 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 #### Login
 
 <img src='others\pictures\wireframes\hi-fi\Login.png' height='500'/>
-<br><br>
+<br>
 
 #### Register
 
 <img src='others\pictures\wireframes\hi-fi\Register.png' height='500'/>
-<br><br>
+<br>
 
 #### Feed
 
 <img src='others\pictures\wireframes\hi-fi\Feed.png' height='500'/>
-<br><br>
+<br>
 
 #### Detail
 
 <img src='others\pictures\wireframes\hi-fi\Detail.png' height='500'/>
-<br><br>
+<br>
 
 #### Create
 
@@ -203,17 +207,17 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 <br>
 
 <img src='others\pictures\wireframes\hi-fi\Create-img2img.png' height='500'/>
-<br><br>
+<br>
 
 #### Profile
 
-<img src='others\pictures\wireframes\lo-fi\Profile.png' height='500'/>
-<br><br>
+<img src='others\pictures\wireframes\hi-fi\Profile.png' height='500'/>
+<br>
 
 #### Settings
 
-<img src='others\pictures\wireframes\lo-fi\Settings.png' height='500'/>
-<br><br>
+<img src='others\pictures\wireframes\hi-fi\Settings.png' height='500'/>
+<br>
 
 ### 
 
