@@ -51,25 +51,27 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 * User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
 
-* User receives push notifications
+* User receives push notifications to notify them their image is ready
 
-* User can view the embedded image media within the detail view
+* Detail view shows comments
+
+* Detail view lets user add comments
 
 * User can log out of the app
 
-**Optional Nice-to-have Stories**
+* User can change their profile picture
+ 
+* User can change their password
 
-* Allow user to make their profile public or private 
+* User can change the visibility of their profile
+
+**Optional Nice-to-have Stories**
 
 * Share between other social media
 
 * Allow user to search for other accounts in the app 
 
 * User can refresh posts timeline by pulling down to refresh
-
-* User can comment on a post
-
-* User can like a post 
 
 * User can add friends to see their creations on their feed
 
@@ -81,19 +83,32 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 * Login
   * User can log into the app
+  
 * Register
   * User can create an account
+  
 * Feed
   * Create a stream to view creations posted on the app
+  * User can tap on a post and it will display a detailed view of that post 
+  
 * Detail
-  * User can tap on a post and it will display a detailed view of that post
+  * Shows the picture embedded in the post
+  * Shows comments
+  * User can add comments
+  
 * Create
   * User will be able to create AI generated pictures using a text description
   * User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera
+  * User can use advanced settings for creation
+  
 * Profile
   * The user profile shows the user’s creations
+  
 * Settings
   * User can log out of the app
+  * User can change their profile picture
+  * User can change their password
+  * User can change the visibility of their profile
 
 ### 3. Navigation
 
@@ -113,9 +128,6 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 * Settings -> Login (if user logs out in Settings)
 
 ## Wireframes
-
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ### Digital Wireframes & Mockups
 
@@ -144,6 +156,53 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 #### Create
 
 <img src='others\pictures\wireframes\lo-fi\Create.png' height='500'/>
+<br>
+
+<img src='others\pictures\wireframes\lo-fi\Create-img.png' height='500'/>
+<br><br>
+
+#### Profile
+
+<img src='others\pictures\wireframes\lo-fi\Profile.png' height='500'/>
+<br><br>
+
+#### Settings
+
+<img src='others\pictures\wireframes\lo-fi\Settings.png' height='500'/>
+<br><br>
+
+### 
+
+
+
+#### **[Hi-Fi]**
+
+#### Login
+
+<img src='others\pictures\wireframes\hi-fi\Login.png' height='500'/>
+<br><br>
+
+#### Register
+
+<img src='others\pictures\wireframes\hi-fi\Register.png' height='500'/>
+<br><br>
+
+#### Feed
+
+<img src='others\pictures\wireframes\hi-fi\Feed.png' height='500'/>
+<br><br>
+
+#### Detail
+
+<img src='others\pictures\wireframes\hi-fi\Detail.png' height='500'/>
+<br><br>
+
+#### Create
+
+<img src='others\pictures\wireframes\hi-fi\Create-txt2img.png' height='500'/>
+<br>
+
+<img src='others\pictures\wireframes\hi-fi\Create-img2img.png' height='500'/>
 <br><br>
 
 #### Profile
@@ -160,6 +219,8 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 ### Interactive Prototype
 
+<img src='others\pictures\wireframes\interactive.gif' height='500'/>
+<br><br>
 
 ## Schema
 
