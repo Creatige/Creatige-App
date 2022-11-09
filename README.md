@@ -232,10 +232,45 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 ### Models
 
-[Add table of models]
+####User
+
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| objectId      | String   | unique id for the user post (default field) |
+| emailVerified | Boolean  | if this user is email verified |
+| image         | File     | image that user posts |
+| caption       | String   | image caption by author |
+| commentsCount | Number   | number of comments that has been posted to an image |
+| likesCount    | Number   | number of likes for the post |
+| createdAt     | DateTime | date when post is created (default field) |
+| updatedAt     | DateTime | date when post is last updated (default field) |
+
+
+
+####Post
+
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| objectId      | String   | unique id for the user post (default field) |
+| author        | Pointer to User| image author |
+| image         | File     | image that user posts |
+| caption       | String   | image caption by author |
+| prompt        | String   | prompt to generate image |
+| commentsCount | Number   | number of comments that has been posted to an image |
+| comments      | Array    | array holding the comments and usernames?|??????
+| likesCount    | Number   | number of likes for the post |
+| createdAt     | DateTime | date when post is created (default field) |
+| updatedAt     | DateTime | date when post is last updated (default field) |
+
+####Comments
+
 
 ### Networking
 
 - [Add list of network requests by screen ]
+  * Request to get the user
+  * Request to get the posts
+  * get post comments
+  * generate image by sending prompt to stable horde api
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
