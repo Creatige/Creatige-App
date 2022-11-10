@@ -232,10 +232,103 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 ### Models
 
-[Add table of models]
+####User
+
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| objectId      | String   | unique id for the user post (default field) |
+| emailVerified | Boolean  | if this user is email verified |
+| image         | File     | image that user posts |
+| caption       | String   | image caption by author |
+| commentsCount | Number   | number of comments that has been posted to an image |
+| likesCount    | Number   | number of likes for the post |
+| createdAt     | DateTime | date when post is created (default field) |
+| updatedAt     | DateTime | date when post is last updated (default field) |
+
+
+####GenerationInput
+
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| prompt      | string     | Prompt to send to stable diffusion to generate image |
+| params     | Parse obect?     | holds all of the advanced features  |
+
+####ModelGenerationInputStable
+
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| sampler_name      | string     | **TODO** |
+| toggles     | Array     | **TODO**  |
+| cfg_scale     | denoising_strength     | **TODO**  |
+| denoising_strength     | integer     | **TODO** |
+| seed     | string     | **TODO**  |
+| height     | integer     | **TODO**  |
+| width     | integer     | **TODO** |
+| seed_variation     | integer     | **TODO** |
+| use_gfpgan     | boolean     | **TODO** |
+| karras     | boolean     | **TODO** |
+| use_real_esrgan     | boolean     | **TODO** |
+| use_ldsr     | boolean     | **TODO** |
+| use_upscaling     | boolean     | **TODO** |
+| steps     | integer     | **TODO** |
+| n     | integer     | number of images to generate |
+
+####RequestStatusStable
+
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| finished      | integer     | The amount of finished jobs in this request |
+| processing      | integer     | The amount of still processing jobs in this request |
+| restarted      | integer     | The amount of jobs that timed out and had to be restarted or were reported as failed by a worker |
+| waiting      | integer     | The amount of jobs waiting to be picked up by a worker |
+| done      | boolean     | True when all jobs in this request are done. Else False. |
+| faulted      | boolean     | True when this request caused an internal server error and could not be completed. |
+| wait_time      | integer     | The expected amount to wait (in seconds) to generate all jobs in this request |
+| queue_position      | integer     | The position in the requests queue. This position is determined by relative Kudos amounts. |
+| kudos      | integer     | The amount of total Kudos this request has consumed until now. |
+| is_possible      | boolean     | If False, this request will not be able to be completed with the pool of workers currently available |
+| generations      | GenerationStable     | **TODO** |
+
+
+####Post
+
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| objectId      | String   | unique id for the user post (default field) |
+| author        | Pointer to User| image author |
+| image         | File     | image that user posts |
+| prompt        | String   | prompt to generate image |
+| commentsCount | Number   | number of comments that has been posted to an image |
+| comments      | Array    | array holding the comments and usernames|
+| likesCount    | Number   | number of likes for the post |
+| createdAt     | DateTime | date when post is created (default field) |
+
+####Comments
+| Property      | Type     | Description |
+| ------------- | -------- | ------------|
+| objectId      | String   | unique id for the user post (default field) |
+| author        | Pointer to User| image author |
+| comment       | String   | Comment the user posted on the post |
+| Post          | Pointer  | pointer to post |
+
 
 ### Networking
 
 - [Add list of network requests by screen ]
+  * Request to get the user
+  * Request to get the posts
+  * get post comments
+  * generate image by sending prompt to stable horde api
+
+
+| CRUD          | HTTP Verb| Example |
+| ------------- | -------- | ------------|
+| Create      | POST   | create a new user or post |
+
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+**Stable Horde API**
+*Base URL: https://stablehorde.net/api/
+|HTTP Verb | Endpoint | Description |
+|GET       | /v2/generate/check/{id} | Retrieve the status of an Asynchronous generation request without the image |
