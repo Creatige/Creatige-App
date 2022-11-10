@@ -319,6 +319,8 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   * Request to get the posts
   * get post comments
   * generate image by sending prompt to stable horde api
+
+
 | CRUD          | HTTP Verb| Example |
 | ------------- | -------- | ------------|
 | Create      | POST   | create a new user or post |
