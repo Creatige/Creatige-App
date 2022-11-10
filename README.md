@@ -247,11 +247,13 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 
 ####GenerationInput
+
 | Property      | Type     | Description |
 | prompt      | string     | Prompt to send to stable diffusion to generate image |
 | params     | Parse obect?     | holds all of the advanced features  |
 
 ####ModelGenerationInputStable
+
 | Property      | Type     | Description |
 | sampler_name      | string     | **TODO** |
 | toggles     | Array     | **TODO**  |
@@ -270,6 +272,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 | n     | integer     | number of images to generate |
 
 ####RequestStatusStable
+
 | Property      | Type     | Description |
 | finished      | integer     | The amount of finished jobs in this request |
 | processing      | integer     | The amount of still processing jobs in this request |
