@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">creatige</string>
+
+
+    <string name="get_creativ">
+
+    Get Creative.
+</string>
+
+    <string name="new_registe">
+
+New? Register here
+</string>
+
 </resources>
