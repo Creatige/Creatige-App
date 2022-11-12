@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/alatsi</item>
+        <item>@font/alfa_slab_one</item>
+        <item>@font/anton</item>
+        <item>@font/baloo_bhai</item>
+        <item>@font/khula</item>
+        <item>@font/khula_bold</item>
+        <item>@font/khula_light</item>
+        <item>@font/khula_semibold</item>
+    </array>
+</resources>
