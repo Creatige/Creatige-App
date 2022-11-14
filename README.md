@@ -232,7 +232,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 ### Models
 
-####User
+#### User
 
 | Property      | Type     | Description |
 | ------------- | -------- | ------------|
@@ -246,14 +246,14 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 | updatedAt     | DateTime | date when post is last updated (default field) |
 
 
-####GenerationInput
+#### GenerationInput
 
 | Property      | Type     | Description |
 | ------------- | -------- | ------------|
 | prompt      | string     | Prompt to send to stable diffusion to generate image |
 | params     | Parse obect?     | holds all of the advanced features  |
 
-####ModelGenerationInputStable
+#### ModelGenerationInputStable
 
 | Property      | Type     | Description |
 | ------------- | -------- | ------------|
@@ -267,7 +267,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 | steps     | integer     | determines quality of the image |
 | n     | integer     | number of images to generate |
 
-####RequestStatusStable
+#### RequestStatusStable
 
 | Property      | Type     | Description |
 | ------------- | -------- | ------------|
@@ -284,7 +284,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 | generations      | GenerationStable     | **TODO** |
 
 
-####Post
+#### Post
 
 | Property      | Type     | Description |
 | ------------- | -------- | ------------|
@@ -297,7 +297,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 | likesCount    | Number   | number of likes for the post |
 | createdAt     | DateTime | date when post is created (default field) |
 
-####Comments
+#### Comments
 | Property      | Type     | Description |
 | ------------- | -------- | ------------|
 | objectId      | String   | unique id for the user post (default field) |
