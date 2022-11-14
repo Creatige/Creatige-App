@@ -246,44 +246,6 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 | updatedAt     | DateTime | date when post is last updated (default field) |
 
 
-#### GenerationInput
-
-| Property      | Type     | Description |
-| ------------- | -------- | ------------|
-| prompt      | string     | Prompt to send to stable diffusion to generate image |
-| params     | Parse obect?     | holds all of the advanced features  |
-
-#### ModelGenerationInputStable
-
-| Property      | Type     | Description |
-| ------------- | -------- | ------------|
-| sampler_name      | string     | method to generate image |
-| cfg_scale     | integer     | strength of the prompt |
-| denoising_strength     | integer     | strength of the input image |
-| seed     | string     | determines source random noise |
-| height     | integer     | height of image  |
-| width     | integer     | width of image |
-| seed_variation     | integer     | **TODO** |
-| steps     | integer     | determines quality of the image |
-| n     | integer     | number of images to generate |
-
-#### RequestStatusStable
-
-| Property      | Type     | Description |
-| ------------- | -------- | ------------|
-| finished      | integer     | The amount of finished jobs in this request |
-| processing      | integer     | The amount of still processing jobs in this request |
-| restarted      | integer     | The amount of jobs that timed out and had to be restarted or were reported as failed by a worker |
-| waiting      | integer     | The amount of jobs waiting to be picked up by a worker |
-| done      | boolean     | True when all jobs in this request are done. Else False. |
-| faulted      | boolean     | True when this request caused an internal server error and could not be completed. |
-| wait_time      | integer     | The expected amount to wait (in seconds) to generate all jobs in this request |
-| queue_position      | integer     | The position in the requests queue. This position is determined by relative Kudos amounts. |
-| kudos      | integer     | The amount of total Kudos this request has consumed until now. |
-| is_possible      | boolean     | If False, this request will not be able to be completed with the pool of workers currently available |
-| generations      | GenerationStable     | **TODO** |
-
-
 #### Post
 
 | Property      | Type     | Description |
@@ -307,22 +269,32 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 
 ### Networking
-
-- [Add list of network requests by screen ]
-  * Request to get the user
-  * Request to get the posts
-  * get post comments
-  * generate image by sending prompt to stable horde api
-
-
-| CRUD          | HTTP Verb| Example |
-| ------------- | -------- | ------------|
-| Create      | POST   | create a new user or post |
-
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
-
-**Stable Horde API**
-*Base URL: https://stablehorde.net/api/
-|HTTP Verb | Endpoint | Description |
-|GET       | /v2/generate/check/{id} | Retrieve the status of an Asynchronous generation request without the image |
+#### List of network requests by screen:
+* Feed Screen
+  * (Read/GET) Query all posts 
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/GetAllPosts.png" width=200>
+    
+* Create Post Screen
+  * (Create/Post) Create new post on the feed screen
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/CreatePost.png" width=300>
+  
+* Profile Screen
+  * (Read/GET) Get user's post
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/PostsByUser.png" width=300>
+  
+* Detail Screen
+  *  (Read/GET) Get the post from back4app 
+ <img src="" width=300>
+  *  (Read/GET) Get user comments for the specific post
+ <img src="" width=300>
+* Login Screen
+  *  (Read/GET) Pass the username and password in URL parameters
+ <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/LoginUser.png" width=300>
+* Register Screen
+  * (Create/POST) Create new user with username and password
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/RegisterUser.png" width=300>
+* Setting Screen
+  * (Update/PUT) Update user profile picture
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserAvatar.png" width=300>
+  * (Update/PUT) Update users password after verifying the password
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserPassword.png" width=300>
