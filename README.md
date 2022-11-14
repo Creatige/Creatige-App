@@ -258,18 +258,12 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 | Property      | Type     | Description |
 | ------------- | -------- | ------------|
 | sampler_name      | string     | method to generate image |
-| toggles     | Array     | **TODO**  |
 | cfg_scale     | integer     | strength of the prompt |
 | denoising_strength     | integer     | strength of the input image |
 | seed     | string     | determines source random noise |
 | height     | integer     | height of image  |
 | width     | integer     | width of image |
 | seed_variation     | integer     | **TODO** |
-| use_gfpgan     | boolean     | **TODO** |
-| karras     | boolean     | **TODO** |
-| use_real_esrgan     | boolean     | **TODO** |
-| use_ldsr     | boolean     | **TODO** |
-| use_upscaling     | boolean     | **TODO** |
 | steps     | integer     | determines quality of the image |
 | n     | integer     | number of images to generate |
 
