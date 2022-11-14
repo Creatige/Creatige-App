@@ -275,7 +275,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   * (Read/GET) Query all posts 
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/GetAllPosts.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/GetAllPosts.png" width=200>
     
 * Create Post Screen
 
@@ -283,7 +283,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   * (Create/Post) Create new post on the feed screen
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/CreatePost.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/CreatePost.png" width=300>
   
 * Profile Screen
 
@@ -291,21 +291,15 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   * (Read/GET) Get user's post
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/PostsByUser.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/PostsByUser.png" width=300>
   
 * Detail Screen
-
-
-  *  (Read/GET) Get the post from back4app 
-
-
- <img src="" width=300>
  
  
   *  (Read/GET) Get user comments for the specific post
 
 
- <img src="" width=300>
+ <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/queryCommentsByPost.png" width=300>
  
  
 * Login Screen
@@ -314,7 +308,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   *  (Read/GET) Pass the username and password in URL parameters
 
 
- <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/LoginUser.png" width=500>
+ <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/LoginUser.png" width=300>
  
  
 * Register Screen
@@ -323,7 +317,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   * (Create/POST) Create new user with username and password
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/RegisterUser.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/RegisterUser.png" width=300>
   
 * Setting Screen
 
@@ -331,10 +325,10 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   * (Update/PUT) Update user profile picture
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserAvatar.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserAvatar.png" width=300>
   
   
   * (Update/PUT) Update users password after verifying the password
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserPassword.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserPassword.png" width=300>
