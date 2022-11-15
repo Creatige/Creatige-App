@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.rkpandey.creatige">
+    package="com.creatige.creatige">
 
     <application
         android:allowBackup="true"
@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Creatige"
         tools:targetApi="31">
         <activity
-            android:name=".register"
+            android:name="com.creatige.creatige.register"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name="com.creatige.creatige.LoginActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -38,7 +38,7 @@
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.creatige.creatige.MainActivity"
             android:exported="true">
 
         </activity>

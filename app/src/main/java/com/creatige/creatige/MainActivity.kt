@@ -1,4 +1,4 @@
-package com.rkpandey.creatige
+package com.creatige.creatige
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

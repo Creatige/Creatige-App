@@ -1,4 +1,4 @@
-package com.rkpandey.creatige
+package com.creatige.creatige
 
 import org.junit.Test
 
