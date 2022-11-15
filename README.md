@@ -228,8 +228,6 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 ## Schema
 
-[This section will be completed in Unit 9]
-
 ### Models
 
 #### User
@@ -270,71 +268,81 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 ### Networking
 #### List of network requests by screen:
-* Feed Screen
 
-  * (Read/GET) Query all posts 
+* **Feed Screen**
+
+  * (Read/GET) Query all posts <br>
+  <br>
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/GetAllPosts.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/GetAllPosts.png" width=500><br><br>
     
-* Create Post Screen
+* **Create Post Screen**
 
 
-  * (Create/Post) Create new post on the feed screen
+  * (Create/Post) Create new post on the feed screen <br>
+  <br>
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/CreatePost.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/CreatePost.png" width=500><br><br>
   
-* Profile Screen
+* **Profile Screen**
 
 
-  * (Read/GET) Get user's post
+  * (Read/GET) Get user's post <br>
+  <br>
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/PostsByUser.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/PostsByUser.png" width=500><br><br>
   
-* Detail Screen
+* **Detail Screen**
  
  
-  *  (Read/GET) Get user comments for the specific post
+  * (Read/GET) Get user comments for the specific post <br>
+  <br>
 
 
- <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/queryCommentsByPost.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/queryCommentsByPost.png" width=500><br><br>
  
  
-  *  (Create/POST) Get user comments for the specific post
+  * (Create/POST) Get user comments for the specific post <br>
+  <br>
 
 
- <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/createComment.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/createComment.png" width=500><br><br>
  
  
-* Login Screen
+* **Login Screen**
 
 
-  *  (Read/GET) Pass the username and password in URL parameters
+  *  (Read/GET) Pass the username and password in URL parameters <br>
+  <br>
 
 
- <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/LoginUser.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/LoginUser.png" width=500><br><br>
  
  
-* Register Screen
+* **Register Screen**
 
 
-  * (Create/POST) Create new user with username and password
+  * (Create/POST) Create new user with username and password <br>
+  <br>
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/RegisterUser.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/RegisterUser.png" width=500><br><br>
   
-* Setting Screen
+* **Settings Screen**
 
 
-  * (Update/PUT) Update user profile picture
+  * (Update/PUT) Update user profile picture <br>
+  <br>
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserAvatar.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserAvatar.png" width=500><br><br>
   
   
-  * (Update/PUT) Update users password after verifying the password
+  * (Update/PUT) Update users password after verifying the password <br>
+  <br>
 
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserPassword.png" width=500>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserPassword.png" width=500><br>
