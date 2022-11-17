@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/background"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".register">
 
 
     <Button
@@ -61,7 +61,8 @@
         android:width="200dp"
         android:background="@drawable/et_userpass"
         android:ems="10"
-        android:hint="  password"
+        android:paddingLeft="30dp"
+        android:hint="password"
         android:fontFamily="@font/khula"
         android:inputType="textPassword"
         android:textColorHint="@color/black"
@@ -79,7 +80,8 @@
         android:width="200dp"
         android:background="@drawable/et_userpass"
         android:fontFamily="@font/khula"
-        android:hint="  username"
+        android:paddingLeft="30dp"
+        android:hint="username"
         android:textColorHint="@color/black"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"

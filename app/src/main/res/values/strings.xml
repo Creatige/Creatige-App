@@ -12,5 +12,11 @@
 New? Register here
 </string>
     <string name="slogan">GET CREATIVE.</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <!-- Change the following strings as required -->
+    <string name="back4app_app_id">QRj9GeE9fWk48WTZ80SrOHuPuYjSIJkE8a7N73qO</string>
+    <string name="back4app_client_key">VhITSJ1bqmmnc8ZYrMbmxhKPK1UV6FhpuwpSHA76</string>
+
+
 
 </resources>
