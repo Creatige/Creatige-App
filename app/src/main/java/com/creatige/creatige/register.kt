@@ -22,6 +22,16 @@ class register : AppCompatActivity() {
             goToMainActivity()
         }
 
+        //switching screens from register to login
+
+        val screen_login = findViewById<TextView>(R.id.new_registe);
+
+        screen_login.setOnClickListener({
+            val screen_login = Intent(this@register, LoginActivity::class.java);
+            startActivity(screen_login);
+
+        })
+
         //login for user
 
         findViewById<Button>(R.id.register_button).setOnClickListener{
