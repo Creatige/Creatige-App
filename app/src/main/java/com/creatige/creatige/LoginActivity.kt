@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
 
 
-    }
+  }
 
     private fun loginUser(username: String, password: String) {
 
@@ -76,5 +76,6 @@ class LoginActivity : AppCompatActivity() {
 
         const val TAG = "LoginActivity"
     }
+
 
 }
