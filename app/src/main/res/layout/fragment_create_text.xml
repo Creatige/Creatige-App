@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CreateTextFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello, Blank Create (text to image mode) Fragment!" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/etPrompt"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_margin="20dp"
+        android:gravity="start|bottom"
+        android:hint="@string/enter_prompt"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/btnGenerate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etPrompt"
+        android:layout_marginStart="20dp"
+        android:text="@string/generate" />
+
+    <ImageView
+        android:id="@+id/ivGenerated"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnGenerate"
+        tools:src="@tools:sample/avatars" />
+
+
+</RelativeLayout>

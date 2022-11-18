@@ -18,6 +18,8 @@ New? Register here
     <string name="back4app_client_key">VhITSJ1bqmmnc8ZYrMbmxhKPK1UV6FhpuwpSHA76</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="generate">Generate Image</string>
+    <string name="enter_prompt">What do you want to see?</string>
 
 
 </resources>
