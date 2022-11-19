@@ -1,11 +1,15 @@
 package com.creatige.creatige.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import com.creatige.creatige.LoginActivity
 import com.creatige.creatige.R
+import com.parse.ParseUser
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +42,22 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        var btnLogout = view.findViewById<Button>(R.id.btnLogout)
+
+        btnLogout.setOnClickListener {
+
+            ParseUser.logOut()
+            ParseUser.getCurrentUser()
+
+            var intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
+
+        }
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -57,4 +77,5 @@ class ProfileFragment : Fragment() {
                 }
             }
     }
+
 }
