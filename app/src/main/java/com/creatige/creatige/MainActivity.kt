@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         val fragmentManager: FragmentManager = supportFragmentManager
 
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnItemSelectedListener {
@@ -26,10 +25,7 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId){
 
                 R.id.action_feed -> {
-
                     fragmentToShow = FeedFragment()
-
-//                    Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
                 }
 
                 R.id.action_create -> {
@@ -38,14 +34,10 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.action_profile -> {
                     fragmentToShow = ProfileFragment()
-
-//                    Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
                 }
             }
 
             if (fragmentToShow!=null){
-
-//                Toast.makeText(this, "Fragment is not null", Toast.LENGTH_SHORT).show()
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragmentToShow).commit()
             }
 
