@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
+import com.creatige.creatige.JSONHeaderInterceptor
 import com.creatige.creatige.R
 import okhttp3.Headers
+import okhttp3.OkHttpClient
+import org.json.JSONObject
 
 
 private const val URL = "https://stablehorde.net/api/v2/generate/async"
@@ -23,17 +26,21 @@ class CreateTextFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val json = JSONObject("{prompt:tree}")
+
+
         val client = AsyncHttpClient()
-        val params = RequestParams()
-        params["api_key"] = getString(R.string.horde_api_key)
-        client.get(URL, object:JsonHttpResponseHandler(){
+
+
+
+        client.post(URL, object:JsonHttpResponseHandler(){
             override fun onFailure(
                 statusCode: Int,
                 headers: Headers?,
                 response: String?,
                 throwable: Throwable?
             ) {
-                Log.e(TAG, "onFailure $statusCode")
+                Log.e(TAG, "onFailure $response")
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
@@ -41,6 +48,14 @@ class CreateTextFragment : Fragment() {
             }
 
         })
+
+
+        fun provideHttpClient(): OkHttpClient{
+            val okHttpClientBuilder = OkHttpClient.Builder()
+            okHttpClientBuilder.addInterceptor(JSONHeaderInterceptor())
+            return okHttpClientBuilder.build()
+        }
+
 
     }
 
@@ -58,3 +73,4 @@ class CreateTextFragment : Fragment() {
         val TAG = "CreateTextFragment"
     }
 }
+
