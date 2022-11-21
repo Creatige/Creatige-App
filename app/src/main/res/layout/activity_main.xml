@@ -15,11 +15,11 @@
         android:id="@+id/flContainer"
         />
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:paddingTop="15dp"
+        app:itemIconSize="48dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom_navigation" />
