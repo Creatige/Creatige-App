@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.JSONHeaderInterceptor
 import com.creatige.creatige.R
 import okhttp3.Headers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import org.json.JSONObject
 
 
@@ -26,35 +29,35 @@ class CreateTextFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val json = JSONObject("{prompt:tree}")
-
-
+        val json = "{\"prompt\":\"tree\"}"
+        val jsonObject = JSONObject(json)
+        Log.e(TAG, jsonObject.toString())
         val client = AsyncHttpClient()
-
-
-
-        client.post(URL, object:JsonHttpResponseHandler(){
+        val params = RequestParams()
+        val requestHeaders = RequestHeaders()
+        requestHeaders["apikey"] = "QcRxfonkWODntMJO7sOiNA"
+        requestHeaders["Accept"] = "application/json"
+        val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val body : RequestBody = RequestBody.create(JSON,json)
+        client.post(URL,requestHeaders,params,body,object: JsonHttpResponseHandler(){
             override fun onFailure(
                 statusCode: Int,
                 headers: Headers?,
                 response: String?,
                 throwable: Throwable?
             ) {
-                Log.e(TAG, "onFailure $response")
+                Log.e(TAG, "onFailure $statusCode $response $headers")
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
-                Log.i(TAG, "onSuccess: JSON data $json")
+                Log.e(TAG, "onSuccess $statusCode $json")
+
             }
 
         })
 
 
-        fun provideHttpClient(): OkHttpClient{
-            val okHttpClientBuilder = OkHttpClient.Builder()
-            okHttpClientBuilder.addInterceptor(JSONHeaderInterceptor())
-            return okHttpClientBuilder.build()
-        }
+
 
 
     }
