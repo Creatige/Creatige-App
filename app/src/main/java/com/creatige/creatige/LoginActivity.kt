@@ -15,7 +15,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
         //if user already logged in, don't want to keep logging in
 
         if(ParseUser.getCurrentUser() != null) {
@@ -46,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
 
 
 
-    }
+  }
 
     private fun loginUser(username: String, password: String) {
 
@@ -76,5 +75,6 @@ class LoginActivity : AppCompatActivity() {
 
         const val TAG = "LoginActivity"
     }
+
 
 }
