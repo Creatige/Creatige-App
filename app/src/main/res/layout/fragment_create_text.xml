@@ -4,18 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CreateTextFragment">
+    tools:context=".fragments.CreateTextFragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ImageView
+        android:id="@+id/ivGenerated"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/prompt_placeholder_img"
+        />
     <EditText
+        android:layout_below="@id/ivGenerated"
         android:id="@+id/etPrompt"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="160dp"
         android:ems="10"
-        android:layout_alignParentTop="true"
+        android:textColor="#E9E9E9"
+        android:background="@drawable/prompt_input_border"
         android:layout_margin="20dp"
-        android:gravity="start|bottom"
+        android:padding="8dp"
+        android:gravity="start|top"
         android:hint="@string/enter_prompt"
         android:inputType="textMultiLine" />
 
@@ -25,15 +39,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/etPrompt"
         android:layout_marginStart="20dp"
+        android:layout_centerInParent="true"
         android:text="@string/generate" />
 
-    <ImageView
-        android:id="@+id/ivGenerated"
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnGenerate"
-        tools:src="@tools:sample/avatars" />
+
+
 
 
 </RelativeLayout>
