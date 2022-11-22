@@ -40,33 +40,7 @@ class CreateTextFragment : Fragment() {
     var params = RequestParams()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val json = "{\"prompt\":\"tree\"}"
-        requestHeaders["apikey"] = "QcRxfonkWODntMJO7sOiNA"
-        requestHeaders["Accept"] = "application/json"
-        val client = AsyncHttpClient()
-        val body : RequestBody = RequestBody.create(JSON,json)
-        client.post(URL,requestHeaders,params,body,object: JsonHttpResponseHandler(){
-            override fun onFailure(
-                statusCode: Int,
-                headers: Headers?,
-                response: String?,
-                throwable: Throwable?
-            ) {
-                Log.e(TAG, "onFailure $statusCode $response $headers")
-            }
-            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
-                Log.e(TAG, "onSuccess $statusCode $json")
-                val jsonObject = json?.jsonObject
-                val id = jsonObject?.getString("id")
-                if (id != null) {
-                    val handler = Handler()
-                    handler.postDelayed(Runnable {
-                        getImg(id)
-                    }, 30000)
-                    //TODO: Implement the exact wait time into this function
-                }
-            }
-        })
+
     }
 
     fun getImg(id:String){
@@ -126,7 +100,32 @@ class CreateTextFragment : Fragment() {
         val post = posts()
         post.setPrompt(prompt)
         post.setUser(user)
-
+        val json = "{\"prompt\":\"$prompt\"}"
+        requestHeaders["apikey"] = "QcRxfonkWODntMJO7sOiNA"
+        requestHeaders["Accept"] = "application/json"
+        val client = AsyncHttpClient()
+        val body : RequestBody = RequestBody.create(JSON,json)
+        client.post(URL,requestHeaders,params,body,object: JsonHttpResponseHandler(){
+            override fun onFailure(
+                statusCode: Int,
+                headers: Headers?,
+                response: String?,
+                throwable: Throwable?
+            ) {
+                Log.e(TAG, "onFailure $statusCode $response $headers")
+            }
+            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
+                Log.e(TAG, "onSuccess $statusCode $json")
+                val jsonObject = json?.jsonObject
+                val id = jsonObject?.getString("id")
+                if (id != null) {
+                    val handler = Handler()
+                    handler.postDelayed(Runnable {
+                        getImg(id)
+                    }, 30000)
+                }
+            }
+        })
 //        ivGenerated.buildDrawingCache()
 //        val bmap: Bitmap = ivGenerated.getDrawingCache()
 //
