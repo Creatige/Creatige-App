@@ -35,49 +35,49 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 **Required Must-have Stories**
 
-* User can log into the app
+- [x] User can log into the app
 
-* User can create an account 
+- [x] User can create an account 
 
-* Create a stream to view creations posted on the app 
+- [ ] Create a stream to view creations posted on the app 
 
-* The current signed in user is persisted across app restarts 
+- [x] The current signed in user is persisted across app restarts 
 
-* The user profile shows the user’s creations
+- [ ] The user profile shows the user’s creations
 
-* User can tap on a post and it will display a detailed view of that post
+- [ ] User can tap on a post and it will display a detailed view of that post
 
-* User will be able to create AI generated pictures using a text description on the creation screen
+- [ ] User will be able to create AI generated pictures using a text description on the creation screen
 
-* User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
+- [ ] User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
 
-* User receives push notifications to notify them their image is ready
+- [ ] User receives push notifications to notify them their image is ready
 
-* Detail view shows comments
+- [ ] Detail view shows comments
 
-* Detail view lets user add comments
+- [ ] Detail view lets user add comments
 
-* User can log out of the app
+- [x] User can log out of the app
 
-* User can change their profile picture
+- [ ] User can change their profile picture
  
-* User can change their password
+- [ ] User can change their password
 
-* User can change the visibility of their profile
+- [ ] User can change the visibility of their profile
 
 **Optional Nice-to-have Stories**
 
-* Share between other social media
+- [ ] Share between other social media
 
-* Allow user to search for other accounts in the app 
+- [ ] Allow user to search for other accounts in the app 
 
-* User can refresh posts timeline by pulling down to refresh
+- [ ] User can refresh posts timeline by pulling down to refresh
 
-* User can add friends to see their creations on their feed
+- [ ] User can add friends to see their creations on their feed
 
-* User can add posts to their favorites
+- [ ] User can add posts to their favorites
 
-* User can view a feed of their favorite images
+- [ ] User can view a feed of their favorite images
 
 ### 2. Screen Archetypes
 

@@ -11,7 +11,7 @@ import com.parse.ParseUser
 
 
 @ParseClassName("posts")
-class Post() : ParseObject() {
+class posts() : ParseObject() {
     fun getPrompt(): String?{
         return getString(KEY_PROMPT)
     }

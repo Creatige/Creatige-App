@@ -16,6 +16,7 @@ New? Register here
     <!-- Change the following strings as required -->
     <string name="back4app_app_id">QRj9GeE9fWk48WTZ80SrOHuPuYjSIJkE8a7N73qO</string>
     <string name="back4app_client_key">VhITSJ1bqmmnc8ZYrMbmxhKPK1UV6FhpuwpSHA76</string>
+    <string name="horde_api_key">Yz9NiA13BCeusyIxwwM_2w</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="generate">Generate Image</string>
