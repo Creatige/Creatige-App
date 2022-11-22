@@ -35,19 +35,15 @@ private const val URL = "https://stablehorde.net/api/v2/generate/async"
 class CreateTextFragment : Fragment() {
     lateinit var ivGenerated:ImageView
     lateinit var btnGenerate:Button
-
+    val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+    var requestHeaders = RequestHeaders()
+    var params = RequestParams()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val json = "{\"prompt\":\"tree\"}"
-        val jsonObject = JSONObject(json)
-        Log.e(TAG, jsonObject.toString())
-        val client = AsyncHttpClient()
-        val params = RequestParams()
-        val requestHeaders = RequestHeaders()
         requestHeaders["apikey"] = "QcRxfonkWODntMJO7sOiNA"
         requestHeaders["Accept"] = "application/json"
-        val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val client = AsyncHttpClient()
         val body : RequestBody = RequestBody.create(JSON,json)
         client.post(URL,requestHeaders,params,body,object: JsonHttpResponseHandler(){
             override fun onFailure(
