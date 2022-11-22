@@ -1,6 +1,5 @@
 package com.creatige.creatige.fragments
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
@@ -18,16 +17,13 @@ import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
-import com.creatige.creatige.posts
 import com.creatige.creatige.R
+import com.creatige.creatige.posts
 import com.parse.ParseFile
-import com.parse.ParseObject
 import com.parse.ParseUser
 import okhttp3.Headers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
-import org.json.JSONObject
-import java.io.ByteArrayOutputStream
 
 
 private const val URL = "https://stablehorde.net/api/v2/generate/async"
@@ -38,6 +34,8 @@ class CreateTextFragment : Fragment() {
     val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
     var requestHeaders = RequestHeaders()
     var params = RequestParams()
+    lateinit var parseFile: ParseFile
+    var post= posts()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,6 +64,19 @@ class CreateTextFragment : Fragment() {
                 ivGenerated.setImageBitmap(
                     BitmapFactory.decodeByteArray(decodedString, 0, decodedString
                         .size))
+                parseFile = ParseFile(decodedString)
+                post.setImage(parseFile)
+                post.saveInBackground{exception ->
+                    if(exception != null){
+                        Log.e(TAG, "Error while saving post")
+                        exception.printStackTrace()
+                        Toast.makeText(requireContext(), "Error while saving post", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Log.i(TAG, "Successfully saved post")
+                        //TODO: Resetting the EditText field to be empty
+                        //TODO: Reset the ImageView to empty
+                    }
+                }
             }
         })
     }
@@ -97,7 +108,7 @@ class CreateTextFragment : Fragment() {
     }
 
     private fun submitPost(prompt: String, user: ParseUser, ivGenerated: ImageView) {
-        val post = posts()
+        post = posts()
         post.setPrompt(prompt)
         post.setUser(user)
         val json = "{\"prompt\":\"$prompt\"}"
@@ -122,10 +133,13 @@ class CreateTextFragment : Fragment() {
                     val handler = Handler()
                     handler.postDelayed(Runnable {
                         getImg(id)
+
                     }, 30000)
                 }
             }
         })
+
+
 //        ivGenerated.buildDrawingCache()
 //        val bmap: Bitmap = ivGenerated.getDrawingCache()
 //
@@ -145,17 +159,7 @@ class CreateTextFragment : Fragment() {
         //post.setImage(file)
 
         //TODO: Add a loading bar to indicate the saving of the post? or at least the generation of an image
-        post.saveInBackground{exception ->
-            if(exception != null){
-                Log.e(TAG, "Error while saving post")
-                exception.printStackTrace()
-                Toast.makeText(requireContext(), "Error while saving post", Toast.LENGTH_SHORT).show()
-            } else {
-                Log.i(TAG, "Successfully saved post")
-                //TODO: Resetting the EditText field to be empty
-                //TODO: Reset the ImageView to empty
-            }
-        }
+
 
     }
 
