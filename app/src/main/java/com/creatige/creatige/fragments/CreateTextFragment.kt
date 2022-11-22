@@ -1,20 +1,22 @@
 package com.creatige.creatige.fragments
 
-import com.codepath.asynchttpclient.AsyncHttpClient
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.util.Base64
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
-import com.creatige.creatige.JSONHeaderInterceptor
 import com.creatige.creatige.R
 import okhttp3.Headers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import org.json.JSONObject
 
@@ -25,7 +27,7 @@ class CreateTextFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    lateinit var ivGenerated:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,19 +50,48 @@ class CreateTextFragment : Fragment() {
             ) {
                 Log.e(TAG, "onFailure $statusCode $response $headers")
             }
-
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                 Log.e(TAG, "onSuccess $statusCode $json")
+                val jsonObject = json?.jsonObject
+                val id = jsonObject?.getString("id")
+                if (id != null) {
+                    val handler = Handler()
+                    handler.postDelayed(Runnable {
+                        getImg(id)
+                    }, 30000)
 
+                }
+            }
+        })
+    }
+    fun getImg(id:String){
+        val idUrl = "https://stablehorde.net/api/v2/generate/status/$id"
+        val client = AsyncHttpClient()
+        client.get(idUrl,object :JsonHttpResponseHandler(){
+            override fun onFailure(
+                statusCode: Int,
+                headers: Headers?,
+                response: String?,
+                throwable: Throwable?
+            ) {
+                Log.e(TAG, "onFailure $statusCode $response ")
+            }
+            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
+                Log.e(TAG, "Retrieved image  $statusCode $json")
+                //Change if we do multiple generations in the future
+                val jsonObject = json?.jsonObject
+                val generations = jsonObject?.getJSONArray("generations")
+                val jsonObjectImg = generations?.getJSONObject(0)
+                val img64 = jsonObjectImg?.getString("img")
+                val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
+                ivGenerated?.setImageBitmap(
+                    BitmapFactory.decodeByteArray(decodedString, 0, decodedString
+                        .size))
             }
 
         })
-
-
-
-
-
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +101,16 @@ class CreateTextFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_create_text, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        // Decodes the generated image and puts it into the imageView
+
+        // Remove this and set to the actual image we get back from the API
+        ivGenerated = view.findViewById<ImageView>(R.id.ivGenerated)
+
+
+    }
 
     companion object {
         val TAG = "CreateTextFragment"
