@@ -24,10 +24,7 @@ import com.parse.ParseUser
 import okhttp3.Headers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
-
-
 private const val URL = "https://stablehorde.net/api/v2/generate/async"
-
 class CreateTextFragment : Fragment() {
     lateinit var ivGenerated:ImageView
     lateinit var btnGenerate:Button
@@ -38,9 +35,7 @@ class CreateTextFragment : Fragment() {
     var post= posts()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
-
     fun getImg(id:String){
         val idUrl = "https://stablehorde.net/api/v2/generate/status/$id"
         val client = AsyncHttpClient()
@@ -64,7 +59,7 @@ class CreateTextFragment : Fragment() {
                 ivGenerated.setImageBitmap(
                     BitmapFactory.decodeByteArray(decodedString, 0, decodedString
                         .size))
-                parseFile = ParseFile(decodedString)
+                parseFile = ParseFile("photo.webp",decodedString)
                 post.setImage(parseFile)
                 post.saveInBackground{exception ->
                     if(exception != null){
