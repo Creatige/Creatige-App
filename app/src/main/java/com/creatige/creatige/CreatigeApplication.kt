@@ -2,10 +2,12 @@ package com.creatige.creatige
 
 import android.app.Application
 import com.parse.Parse
+import com.parse.ParseObject
 
 class CreatigeApplication : Application() {
     override fun onCreate(){
         super.onCreate()
+        ParseObject.registerSubclass(posts::class.java)
         Parse.initialize(
             Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))
