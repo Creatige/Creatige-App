@@ -35,7 +35,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="0dp"
-                android:background="none"
+                android:background="@null"
                 app:srcCompat="@drawable/ic_baseline_search_24" />
 
         </RelativeLayout>
