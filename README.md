@@ -47,7 +47,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [ ] User can tap on a post and it will display a detailed view of that post
 
-- [ ] User will be able to create AI generated pictures using a text description on the creation screen
+- [x] User will be able to create AI generated pictures using a text description on the creation screen
 
 - [ ] User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
 
@@ -346,3 +346,9 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 
   <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserPassword.png" width=500><br>
+  
+  ## Sprint 1
+  
+  
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint1Demo.gif" width=500><br>
+  
