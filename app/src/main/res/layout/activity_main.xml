@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignBottom="@id/bottom_navigation"
+        android:layout_below="@id/bottom_navigation"
         android:id="@+id/flContainer"
         />
 

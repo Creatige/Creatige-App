@@ -24,7 +24,7 @@
                 android:layout_marginLeft="100dp"
                 android:background="@null"
                 android:hint="Search Feed"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="20sp"
                 tools:layout_height="48dp" />
 
