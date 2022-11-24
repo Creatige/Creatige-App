@@ -49,7 +49,8 @@ open class FeedFragment : Fragment() {
 
         postsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        queryPosts()
+        // Pedro: commented it out because this was being called twice
+//        queryPosts()
 
     }
     open fun queryPosts() {

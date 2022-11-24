@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
 
         findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = R.id
-            .action_create
+            .action_feed
 
 
     }
