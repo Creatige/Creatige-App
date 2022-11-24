@@ -47,7 +47,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [ ] User can tap on a post and it will display a detailed view of that post
 
-- [ ] User will be able to create AI generated pictures using a text description on the creation screen
+- [x] User will be able to create AI generated pictures using a text description on the creation screen
 
 - [ ] User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
 
