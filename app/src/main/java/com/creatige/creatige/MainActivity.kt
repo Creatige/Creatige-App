@@ -16,9 +16,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-
-
-
         val fragmentManager: FragmentManager = supportFragmentManager
 
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnItemSelectedListener {
@@ -52,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
 
         findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = R.id
-            .action_create
+            .action_feed
 
 
     }

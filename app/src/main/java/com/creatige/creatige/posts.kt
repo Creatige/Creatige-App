@@ -8,7 +8,7 @@ import com.parse.ParseUser
 //Prompt : String
 //Image : File
 //User : User
-
+//TODO: Get time of creation of the post
 
 @ParseClassName("posts")
 class posts() : ParseObject() {

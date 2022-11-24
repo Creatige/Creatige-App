@@ -1,34 +1,28 @@
 package com.creatige.creatige.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.creatige.creatige.PostAdapter
 import com.creatige.creatige.R
+import com.creatige.creatige.posts
+import com.parse.FindCallback
+import com.parse.ParseException
+import com.parse.ParseQuery
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FeedFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FeedFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+open class FeedFragment : Fragment() {
+    lateinit var postsRecyclerView: RecyclerView
+    lateinit var adapter: PostAdapter
+    var allPosts: MutableList<posts> = mutableListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    //TODO: implement swiperefreshlayout
+    //lateinit var swipeContainer:SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +32,90 @@ class FeedFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FeedFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FeedFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        super.onViewCreated(view, savedInstanceState)
+        queryPosts()
+        //TODO: IMPLEMENT THE SWIPE CONTAINER LOGIC AND CREATE SWIPECONTAINER KOTLIN FILE
+//        swipeContainer = view.findViewById(R.id.swipeContainer)
+//        swipeContainer.setOnRefreshListener{
+//            queryPosts()
+//        }
+
+        //this is where we set up our views and click listeners
+
+        postsRecyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
+        adapter = PostAdapter(requireContext(), allPosts)
+        postsRecyclerView.adapter = adapter
+
+        postsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Pedro: commented it out because this was being called twice
+//        queryPosts()
+
     }
+    open fun queryPosts() {
+        //specify which class to query
+        val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
+        //find all post objects
+        query.include(posts.KEY_USER)
+        query.setLimit(20)
+        query.addDescendingOrder("createdAt")
+        //TODO: Only return the most recent 20 posts
+
+        query.findInBackground(object : FindCallback<posts> {
+            override fun done(posts: MutableList<posts>?, e: ParseException?){
+                if(e != null){
+                    Log.e(TAG, "Error fetching posts")
+                } else {
+                    if (posts != null){
+                        for(post in posts){
+                            Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
+                        }
+                        allPosts.clear()
+                        allPosts.addAll(posts)
+                        adapter.notifyDataSetChanged()
+                        //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
+                        //swipeContainer.setRefreshing(false)
+                    }
+                }
+
+            }
+        })
+
+    }
+
+    open fun searchDB(searchItem : String){
+        //specify which class to query
+        val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
+        query.include(posts.KEY_PROMPT)
+
+
+
+
+        query.findInBackground(object : FindCallback<posts> {
+            override fun done(posts: MutableList<posts>?, e: ParseException?){
+                if(e != null){
+                    Log.e(TAG, "Error fetching posts")
+                } else {
+                    if (posts != null){
+                        for(post in posts){
+                            Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
+                        }
+                        allPosts.clear()
+                        allPosts.addAll(posts)
+                        adapter.notifyDataSetChanged()
+                        //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
+                        //swipeContainer.setRefreshing(false)
+                    }
+                }
+
+            }
+        })
+    }
+
+    companion object{
+        const val TAG = "FeedFragment"
+    }
+
+
 }
