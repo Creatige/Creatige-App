@@ -36,7 +36,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="0dp"
                 android:background="@null"
-                app:srcCompat="@drawable/ic_baseline_search_24" />
+                app:srcCompat="@drawable/ic_baseline_search_24"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </RelativeLayout>
 
