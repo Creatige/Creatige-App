@@ -39,7 +39,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [x] User can create an account 
 
-- [ ] Create a stream to view creations posted on the app 
+- [x] Create a stream to view creations posted on the app 
 
 - [x] The current signed in user is persisted across app restarts 
 
