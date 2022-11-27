@@ -1,14 +1,17 @@
 package com.creatige.creatige
 
+import android.os.Parcelable
 import com.parse.ParseClassName
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseUser
+import kotlinx.parcelize.Parcelize
 
 //Prompt : String
 //Image : File
 //User : User
 //TODO: Get time of creation of the post
+
 
 @ParseClassName("posts")
 class posts() : ParseObject() {
