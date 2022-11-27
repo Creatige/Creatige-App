@@ -22,6 +22,17 @@ New? Register here
     <string name="generate">Generate Image</string>
     <string name="enter_prompt">What do you want to see?</string>
     <string name="logout">Log out</string>
-
+    <string-array name="sampler">
+        <item>k_euler</item>
+        <item>k_heun</item>
+        <item>k_lms</item>
+        <item>k_euler_a</item>
+        <item>k_dpm_2</item>
+        <item>k_dpm_2_a</item>
+        <item>k_dpm_fast</item>
+        <item>k_dpm_adaptive</item>
+        <item>k_dpmpp_2m</item>
+        <item>k_dpmpp_2m_a</item>
+    </string-array>
 
 </resources>
