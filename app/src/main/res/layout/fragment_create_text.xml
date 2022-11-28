@@ -15,23 +15,37 @@
     >
 
     <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/ll_generated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_margin="10dp"
+            android:id="@+id/ivCameraImg"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/prompt_placeholder_img_hd"
+            />
+        <ImageView
+            android:id="@+id/ivGenerated"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/prompt_placeholder_img_hd"
+            />
+    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/ivGenerated"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:background="@drawable/prompt_placeholder_img_hd"
-        />
 
     <EditText
         android:id="@+id/etPrompt"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_below="@id/ivGenerated"
+        android:layout_below="@id/ll_generated"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"

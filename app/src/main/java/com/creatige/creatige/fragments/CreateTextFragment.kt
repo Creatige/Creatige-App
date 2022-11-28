@@ -101,6 +101,20 @@ class CreateTextFragment : Fragment() {
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
         val client = AsyncHttpClient()
 
+        val test = "{\"prompt\":\"$prompt\"," +
+                "\"params\":{" +
+                "\"sampler_name\":\"$sampler\"," +
+                "\"toggles\":[1,4]," +
+                "\"cfg_scale\":$guidance," +
+                "\"seed\":\"$seed\"," +
+                "\"height\":$height," +
+                "\"width\":$width]," +
+                "\"karras\":false," +
+                "\"steps\":$steps," +
+                "\"n\":1 }," +
+                "\"nsfw\":false," +
+                "\"trusted_workers\":true," +
+                "\"censor_nsfw\":true}"
         var json = "{\"prompt\":\"$prompt\"}"
 
 //        if(negative != null){
