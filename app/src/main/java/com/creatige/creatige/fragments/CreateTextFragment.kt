@@ -45,13 +45,9 @@ class CreateTextFragment : Fragment() {
     var params = RequestParams()
     var post = posts()
     var expanded = false
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,8 +55,6 @@ class CreateTextFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_text, container, false)
     }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         etPrompt = view.findViewById<EditText>(R.id.etPrompt)
@@ -86,19 +80,26 @@ class CreateTextFragment : Fragment() {
             spinner.adapter = adapter
         }
         btnGenerate.setOnClickListener {
-            val prompt = etPrompt.text.toString()
+
             val user = ParseUser.getCurrentUser()
-            submitPost(prompt, user)
+            submitPost( user)
         }
     }
 
 
-    private fun submitPost(prompt: String, user: ParseUser) {
-        val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)
-        val height = view?.findViewById<SeekBar>(R.id.height_seekbar)
-        val width = view?.findViewById<SeekBar>(R.id.width_seekbar)
-        val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)
+    private fun submitPost( user: ParseUser) {
+        Log.i(TAG, "submit post")
+        var prompt = etPrompt.text.toString()
+        val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
+        val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
+        val sampler = view?.findViewById<Spinner>(R.id.spinner)?.selectedView.toString()
+        val height = view?.findViewById<SeekBar>(R.id.height_seekbar)?.progress?.times(64)
+        val width = view?.findViewById<SeekBar>(R.id.width_seekbar)?.progress?.times(64)
+        val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)?.progress?.div(2)
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
+        if (negative != ""){
+            prompt=prompt+"###$negative"
+        }
         val client = AsyncHttpClient()
 
         val test = "{\"prompt\":\"$prompt\"," +
@@ -116,39 +117,30 @@ class CreateTextFragment : Fragment() {
                 "\"trusted_workers\":true," +
                 "\"censor_nsfw\":true}"
         var json = "{\"prompt\":\"$prompt\"}"
-
 //        if(negative != null){
 //            json = "{\"prompt\":\"$prompt ### $negative\"}"
 //        }
-
         val body: RequestBody = json.toRequestBody(JSON)
-
         post = posts()
         post.setPrompt(prompt)
         post.setUser(user)
-
         requestHeaders["apikey"] = GlobalVariableClass.api_key
         requestHeaders["Accept"] = "application/json"
-
-        params["sampler_name"] = view?.findViewById<Spinner>(R.id.spinner).toString()
-        params["seed"] = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
-
+        //params["sampler_name"] = view?.findViewById<Spinner>(R.id.spinner).toString()
+        //params["seed"] = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
         //TODO: see if there is an issue with the int values meant to be sent to the API call
-        if (steps != null) {
+        /*if (steps != null) {
             params["steps"] = steps.progress.toString()
         }
-
         if (height != null){
             params["height"] = height.progress.toString()
         }
-
         if (width != null){
             params["width"] = width.progress.toString()
         }
         if (guidance != null){
             params["cfg_scale"] = guidance.progress.toString()
-        }
-
+        }*/
         client.post(GlobalVariableClass.api_generate_url, requestHeaders, params, body, object :
             JsonHttpResponseHandler() {
             override fun onFailure(
@@ -157,9 +149,8 @@ class CreateTextFragment : Fragment() {
                 response: String?,
                 throwable: Throwable?
             ) {
-                Log.e(TAG, "onFailure $statusCode $response $headers")
+                Log.e(TAG, "onFailure1111 $statusCode $response $headers")
             }
-
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                 Log.e(TAG, "onSuccess $statusCode $json")
                 val jsonObject = json?.jsonObject

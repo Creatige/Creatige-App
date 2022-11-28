@@ -39,16 +39,11 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
             ivImage = itemView.findViewById(R.id.imgPost)
             tvDescription = itemView.findViewById(R.id.postPrompt)
         }
-
         fun bind(post: posts){
             tvDescription.text = post.getPrompt()
             tvUsername.text = post.getUser()?.username
-
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
-
-            //TODO: Get users profile picture 
-
-
+            //TODO: Get users profile picture
         }
 
     }
