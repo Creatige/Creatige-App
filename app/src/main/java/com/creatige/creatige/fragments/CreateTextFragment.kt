@@ -13,8 +13,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.fragment.app.Fragment
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
@@ -48,7 +51,7 @@ class CreateTextFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,14 +94,47 @@ class CreateTextFragment : Fragment() {
 
 
     private fun submitPost(prompt: String, user: ParseUser) {
+        val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)
+        val height = view?.findViewById<SeekBar>(R.id.height_seekbar)
+        val width = view?.findViewById<SeekBar>(R.id.width_seekbar)
+        val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)
+        val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
+        val client = AsyncHttpClient()
+
+        var json = "{\"prompt\":\"$prompt\"}"
+
+//        if(negative != null){
+//            json = "{\"prompt\":\"$prompt ### $negative\"}"
+//        }
+
+        val body: RequestBody = json.toRequestBody(JSON)
+
         post = posts()
         post.setPrompt(prompt)
         post.setUser(user)
-        val json = "{\"prompt\":\"$prompt\"}"
+
         requestHeaders["apikey"] = GlobalVariableClass.api_key
         requestHeaders["Accept"] = "application/json"
-        val client = AsyncHttpClient()
-        val body: RequestBody = json.toRequestBody(JSON)
+
+        params["sampler_name"] = view?.findViewById<Spinner>(R.id.spinner).toString()
+        params["seed"] = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
+
+        //TODO: see if there is an issue with the int values meant to be sent to the API call
+        if (steps != null) {
+            params["steps"] = steps.progress.toString()
+        }
+
+        if (height != null){
+            params["height"] = height.progress.toString()
+        }
+
+        if (width != null){
+            params["width"] = width.progress.toString()
+        }
+        if (guidance != null){
+            params["cfg_scale"] = guidance.progress.toString()
+        }
+
         client.post(GlobalVariableClass.api_generate_url, requestHeaders, params, body, object :
             JsonHttpResponseHandler() {
             override fun onFailure(
@@ -118,17 +154,12 @@ class CreateTextFragment : Fragment() {
                     val handler = Handler()
                     handler.postDelayed({
                         getImg(id)
-
                     }, wait_time)
                 }
             }
         })
-
         //TODO: Add a loading bar to indicate the saving of the post? or at least the generation of an image
-
     }
-
-
 
 
     //this function allows us to retrieve the image from the API call
@@ -177,9 +208,6 @@ class CreateTextFragment : Fragment() {
             }
         })
     }
-
-
-
 
     companion object {
         const val TAG = "CreateTextFragment"
