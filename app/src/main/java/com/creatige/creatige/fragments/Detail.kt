@@ -1,4 +1,4 @@
-package com.creatige.creatige.models
+package com.creatige.creatige.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -37,7 +37,6 @@ class Detail : AppCompatActivity() {
                         var Prompt = post.getPrompt()
                         Log.i(TAG, "post is $Prompt")
                         }
-
                     }
                 }
             }
