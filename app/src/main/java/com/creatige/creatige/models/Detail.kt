@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.creatige.creatige.Post_Extra
 import com.creatige.creatige.R
 import com.creatige.creatige.posts
@@ -21,8 +22,6 @@ class Detail : AppCompatActivity() {
     private lateinit var imgPost: ImageView
 
 
-
-
     fun queryPosts(postId: String) {
 
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
@@ -37,7 +36,6 @@ class Detail : AppCompatActivity() {
                         for (post in posts) {
                         var Prompt = post.getPrompt()
                         Log.i(TAG, "post is $Prompt")
-                        //Log.i(TAG, "Username: " + post.getUser()?.username)
                         }
 
                     }
@@ -57,26 +55,9 @@ class Detail : AppCompatActivity() {
         imgPost = findViewById(R.id.imgPost)
 
 
-        //val Posts = intent.getParcelableExtra<posts>(Post_Extra) as String
-
-        val extras = intent.extras
-        var postId = ""
-        if (extras != null) {
-                postId = extras.getString("Post_Extra").toString()
-        }
-        Log.i(TAG, "PostId is $postId")
-        queryPosts(postId)
-
-
-        //val prompt = posts.toString()
-        //Log.i(TAG, "Post is $prompt")
-
-        //Log.i(TAG, "Post is $Posts")
-
-        author.text = posts.KEY_USER
-
-
-
+        val Post = intent.getParcelableExtra<posts>(Post_Extra) as posts
+        Glide.with(this).load(Post.getImage()?.url).into(imgPost)
+        author.text = Post.getUser()?.username
 
 
     }

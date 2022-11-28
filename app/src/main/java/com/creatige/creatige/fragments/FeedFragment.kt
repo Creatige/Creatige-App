@@ -88,10 +88,6 @@ open class FeedFragment : Fragment() {
         //specify which class to query
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
         query.include(posts.KEY_PROMPT)
-
-
-
-
         query.findInBackground(object : FindCallback<posts> {
             override fun done(posts: MutableList<posts>?, e: ParseException?){
                 if(e != null){

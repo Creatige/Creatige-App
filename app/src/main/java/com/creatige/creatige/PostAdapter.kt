@@ -66,9 +66,9 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
         }
 
         override fun onClick(v: View?) {
-            val postId = posts[adapterPosition].objectId
+            val post = posts[adapterPosition]
             val intent = Intent(context, Detail::class.java)
-            intent.putExtra(Post_Extra, postId)
+            intent.putExtra(Post_Extra, post)
             context.startActivity(intent)
 
         }
