@@ -10,7 +10,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
-        <include layout="@layout/fragment_searchbar" />
+
+        <Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <EditText
+                    android:id="@+id/searchBox"
+                    android:layout_width="345dp"
+                    android:layout_height="49dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="100dp"
+                    android:background="@null"
+                    android:hint="Search Feed"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    tools:layout_height="48dp" />
+
+                <ImageButton
+                    android:id="@+id/searchButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="0dp"
+                    android:background="@null"
+                    app:srcCompat="@drawable/ic_baseline_search_24"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+            </RelativeLayout>
+
+
+        </Toolbar>
 
     </RelativeLayout>
 
