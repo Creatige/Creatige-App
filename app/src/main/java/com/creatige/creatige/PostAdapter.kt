@@ -3,6 +3,7 @@ package com.creatige.creatige
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,9 @@ import com.bumptech.glide.Glide
 import com.creatige.creatige.models.Detail
 
 
+
 const val Post_Extra = "Post_Extra"
+private const val TAG = "Postadapter"
 
 class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
@@ -63,9 +66,9 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
         }
 
         override fun onClick(v: View?) {
-            val post = posts[adapterPosition]
+            val postId = posts[adapterPosition].objectId
             val intent = Intent(context, Detail::class.java)
-            intent.putExtra(Post_Extra, post)
+            intent.putExtra(Post_Extra, postId)
             context.startActivity(intent)
 
         }
