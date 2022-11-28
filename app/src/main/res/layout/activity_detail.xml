@@ -12,7 +12,7 @@
         android:layout_width="110dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="50dp"
-        android:layout_height="79dp"
+        android:layout_height="55dp"
         app:layout_constraintBottom_toTopOf="@+id/imgPost"
         app:layout_constraintEnd_toStartOf="@+id/author"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,16 +22,17 @@
     <TextView
         android:id="@+id/author"
         android:layout_width="158dp"
-        android:layout_marginTop="30dp"
-        android:layout_height="42dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="155dp"
         android:layout_marginBottom="80dp"
         android:text="ormolu"
-        android:layout_marginRight="130dp"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/imgPost"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imgPost"
@@ -66,8 +67,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
-        android:layout_width="408dp"
-        android:layout_height="186dp"
+        android:layout_width="398dp"
+        android:layout_height="214dp"
         android:paddingBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
