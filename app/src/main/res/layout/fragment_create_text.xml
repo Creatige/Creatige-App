@@ -59,7 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Advanced Options"
+                android:text="@string/advanced_options"
                 android:textSize="24sp"
                 android:layout_gravity="center|start"
                 android:paddingStart="8dp"
@@ -93,7 +93,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Negative Prompt"
+                android:text="@string/negative_prompt"
                 android:layout_marginEnd="8dp"/>
             <EditText
                 android:id="@+id/et_neg_prompt"
@@ -109,7 +109,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seed"
+                android:text="@string/seed"
                 android:layout_marginEnd="82dp"/>
             <EditText
                 android:id="@+id/et_seed"
@@ -125,7 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sampler"
+                android:text="@string/sampler"
                 android:layout_marginEnd="61dp"/>
             <Spinner
                 android:id="@+id/spinner"
@@ -143,7 +143,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Steps"
+                android:text="@string/steps"
                 android:layout_marginEnd="65dp"/>
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/steps_seekbar"
@@ -162,7 +162,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Width"
+                android:text="@string/width"
                 android:layout_marginEnd="65dp"/>
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/width_seekbar"
@@ -180,7 +180,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Height"
+                android:text="@string/height"
                 android:layout_marginEnd="60dp"/>
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/height_seekbar"
@@ -200,7 +200,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guidance"
+                android:text="@string/guidance"
                 android:layout_marginEnd="43dp"/>
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/guid_seekbar"

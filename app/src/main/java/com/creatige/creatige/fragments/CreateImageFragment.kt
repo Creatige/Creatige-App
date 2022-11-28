@@ -5,17 +5,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Base64
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Spinner
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import android.widget.*
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
@@ -30,7 +24,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class CreateTextFragment : Fragment() {
+class CreateImageFragment : Fragment() {
     lateinit var ivGenerated: ImageView
     lateinit var btnGenerate: Button
     lateinit var etPrompt: EditText
@@ -173,8 +167,7 @@ class CreateTextFragment : Fragment() {
 
 
     companion object {
-        const val TAG = "CreateTextFragment"
+        const val TAG = "CreateImageFragment"
         const val wait_time = 30000L
     }
 }
-
