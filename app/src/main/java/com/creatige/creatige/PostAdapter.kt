@@ -51,7 +51,7 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
             itemView.setOnClickListener(this)
         }
 
-        fun bind(post: List<comments>){
+        fun bind(post: posts){
             tvDescription.text = post.getPrompt()
             tvUsername.text = post.getUser()?.username
 
