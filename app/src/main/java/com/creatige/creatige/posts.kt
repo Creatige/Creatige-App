@@ -1,16 +1,18 @@
 package com.creatige.creatige
 
-import android.os.Parcelable
 import com.parse.ParseClassName
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseUser
+<<<<<<< Updated upstream
+=======
+import java.util.Date
+>>>>>>> Stashed changes
 
 //Prompt : String
 //Image : File
 //User : User
 //TODO: Get time of creation of the post
-
 
 @ParseClassName("posts")
 class posts() : ParseObject() {
@@ -36,11 +38,16 @@ class posts() : ParseObject() {
         put(KEY_USER, user)
     }
 
+    fun getTime(): Date?{
+        return createdAt
+    }
+
 
     companion object{
         const val KEY_PROMPT = "prompt"
         const val KEY_IMAGE = "image"
         const val KEY_USER = "user"
+        const val KEY_TIME = "createdAt"
 
     }
 }
