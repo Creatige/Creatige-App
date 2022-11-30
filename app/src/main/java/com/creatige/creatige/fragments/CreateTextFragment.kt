@@ -88,38 +88,38 @@ class CreateTextFragment : Fragment() {
 
 
     private fun submitPost( user: ParseUser) {
-        Log.i(TAG, "submit post")
+        Log.i(TAG, "Submitting request to the API...")
         var prompt = etPrompt.text.toString()
         val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
         val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
-        val sampler = view?.findViewById<Spinner>(R.id.spinner)?.selectedView.toString()
+        val sampler = view?.findViewById<Spinner>(R.id.spinner)?.selectedItem.toString()
         val height = view?.findViewById<SeekBar>(R.id.height_seekbar)?.progress?.times(64)
         val width = view?.findViewById<SeekBar>(R.id.width_seekbar)?.progress?.times(64)
         val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)?.progress?.div(2)
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
         if (negative != ""){
-            prompt=prompt+"###$negative"
+            prompt= "$prompt ### $negative"
         }
         val client = AsyncHttpClient()
 
-        val test = "{\"prompt\":\"$prompt\"," +
+        val json = "{\"prompt\":\"$prompt\"," +
                 "\"params\":{" +
                 "\"sampler_name\":\"$sampler\"," +
-                "\"toggles\":[1,4]," +
                 "\"cfg_scale\":$guidance," +
                 "\"seed\":\"$seed\"," +
                 "\"height\":$height," +
-                "\"width\":$width]," +
+                "\"width\":$width," +
                 "\"karras\":false," +
                 "\"steps\":$steps," +
                 "\"n\":1 }," +
                 "\"nsfw\":false," +
                 "\"trusted_workers\":true," +
                 "\"censor_nsfw\":true}"
-        var json = "{\"prompt\":\"$prompt\"}"
+//        var json = "{\"prompt\":\"$prompt\"}"
 //        if(negative != null){
 //            json = "{\"prompt\":\"$prompt ### $negative\"}"
 //        }
+        Log.i(TAG, "Sending JSON: $json")
         val body: RequestBody = json.toRequestBody(JSON)
         post = posts()
         post.setPrompt(prompt)
