@@ -90,7 +90,7 @@ class CreateTextFragment : Fragment() {
     private fun submitPost( user: ParseUser) {
         Log.i(TAG, "Submitting request to the API...")
         var prompt = etPrompt.text.toString()
-        val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
+        val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString().toInt()
         val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
         val sampler = view?.findViewById<Spinner>(R.id.spinner)?.selectedItem.toString()
         val height = view?.findViewById<SeekBar>(R.id.height_seekbar)?.progress?.times(64)
