@@ -45,7 +45,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [ ] The user profile shows the user’s creations
 
-- [ ] User can tap on a post and it will display a detailed view of that post
+- [x] User can tap on a post and it will display a detailed view of that post
 
 - [x] User will be able to create AI generated pictures using a text description on the creation screen
 

@@ -34,11 +34,15 @@ class posts() : ParseObject() {
         put(KEY_USER, user)
     }
 
+    fun getPost(): String?{
+        return getString(KEY_POSTID)
+    }
 
     companion object{
         const val KEY_PROMPT = "prompt"
         const val KEY_IMAGE = "image"
         const val KEY_USER = "user"
+        const val KEY_POSTID = "objectId"
 
     }
 }
