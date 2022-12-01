@@ -63,9 +63,8 @@
         </activity>
 
         <activity
-            android:name="com.creatige.creatige.models.Detail"
+            android:name="com.creatige.creatige.fragments.Detail"
             android:exported="true">
-
         </activity>
 
         <meta-data

@@ -90,8 +90,8 @@ open class FeedFragment : Fragment() {
         var allPosts: MutableList<posts> = mutableListOf()
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
         query.include(posts.KEY_PROMPT)
-        findViewById<Button>(R.id.searchButton).setOnClickListener{
-            val search = findViewById<EditText>(R.id.searchBox).text.toString()
+        view?.findViewById<Button>(R.id.searchButton)?.setOnClickListener{
+            val search = view?.findViewById<EditText>(R.id.searchBox)?.text.toString()
 
         }
 

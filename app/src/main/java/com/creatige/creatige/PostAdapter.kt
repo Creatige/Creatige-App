@@ -1,22 +1,21 @@
 package com.creatige.creatige
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-<<<<<<< Updated upstream
-=======
-import com.creatige.creatige.models.Detail
+import com.creatige.creatige.fragments.Detail
+import com.parse.ParseObject
 
 
 const val Post_Extra = "Post_Extra"
-private const val TAG = "Postadapter"
->>>>>>> Stashed changes
 
 class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
@@ -34,9 +33,8 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
         return posts.size
     }
 
-    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         //TODO: Get Users profile image to display it in the imageview (may need to create user class for this)
-        //TODO: Get time of creation of the post
         val ivProfileImage: ImageView
         val tvUsername: TextView
         val ivImage: ImageView
@@ -51,10 +49,15 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
             tvCreatedAT = itemView.findViewById(R.id.createdAt)
         }
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         fun bind(post: posts){
             tvDescription.text = post.getPrompt()
             tvUsername.text = post.getUser()?.username
             tvCreatedAT.text = TimeFormatter.getTimeDifference(post.getTime())
+
             Log.i(TAG, "Tvcreated is ${post.getTime()}")
 
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
@@ -64,8 +67,17 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
 
         }
 
-    }
+        override fun onClick(v: View?) {
+            val post = posts[adapterPosition]
+            val intent = Intent(context, Detail::class.java)
+            val postID = post.objectId
+            intent.putExtra("postID", postID)
+            intent.putExtra(Post_Extra, post)
+            context.startActivity(intent)
+        }
 
+
+    }
     companion object{
         val TAG = "PostAdapter"
     }

@@ -4,10 +4,7 @@ import com.parse.ParseClassName
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseUser
-<<<<<<< Updated upstream
-=======
 import java.util.Date
->>>>>>> Stashed changes
 
 //Prompt : String
 //Image : File
@@ -48,6 +45,7 @@ class posts() : ParseObject() {
         const val KEY_IMAGE = "image"
         const val KEY_USER = "user"
         const val KEY_TIME = "createdAt"
+        const val KEY_POST_ID = "objectId"
 
     }
 }

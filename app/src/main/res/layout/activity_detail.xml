@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".models.Detail"
+    tools:context=".fragments.Detail"
     android:background="@color/black">
 
     <ImageView
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/userProfilePicture"
             android:layout_width="87dp"
             android:layout_height="66dp"
             android:layout_marginRight="10dp"
@@ -93,7 +93,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <EditText
-            android:id="@+id/et_username"
+            android:id="@+id/et_composeComment"
             android:layout_width="236dp"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
@@ -104,7 +104,7 @@
             android:textSize="15sp" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/submitComment"
             android:layout_marginTop="19dp"
             android:layout_width="77dp"
             android:layout_height="53dp"
