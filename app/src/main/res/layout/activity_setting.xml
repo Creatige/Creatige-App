@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1E1E">
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="114dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/author"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="158dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="136dp"
+        android:fontFamily="@font/khula"
+        android:text="ormolu"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BtnchangePic"
+        android:layout_width="165dp"
+        android:layout_height="38dp"
+        android:background="#333333"
+        android:fontFamily="@font/khula_bold"
+        android:text="CHANGE PICTURE"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/author" />
+
+    <TextView
+        android:id="@+id/tv_oldpass"
+        android:layout_marginTop="24dp"
+        android:layout_width="161dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/khula_bold"
+        android:text="Old Password"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BtnchangePic" />
+
+    <EditText
+        android:id="@+id/et_oldPass"
+        android:layout_width="352dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="140dp"
+        android:width="200dp"
+        android:background="@drawable/settingbackground"
+        android:fontFamily="@font/khula_light"
+        android:hint="Old password"
+        android:paddingLeft="20dp"
+        android:textColor="#656565"
+        android:textColorHint="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_newpass"
+        android:layout_width="161dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:paddingTop="10dp"
+        android:fontFamily="@font/khula_bold"
+        android:text="New Password"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_oldPass" />
+
+    <EditText
+        android:id="@+id/et_newpass"
+        android:layout_width="352dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="224dp"
+        android:width="200dp"
+        android:background="@drawable/settingbackground"
+        android:fontFamily="@font/khula_light"
+        android:hint="New password"
+        android:paddingLeft="20dp"
+        android:textColor="#656565"
+        android:textColorHint="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_confirm_pass"
+        android:layout_width="250dp"
+        android:layout_height="32dp"
+        android:paddingTop="10dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/khula_bold"
+        android:text="Confirm New Password"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_newpass" />
+
+    <EditText
+        android:id="@+id/et_confirm_pass"
+        android:layout_width="352dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="308dp"
+        android:width="200dp"
+        android:background="@drawable/settingbackground"
+        android:fontFamily="@font/khula_light"
+        android:hint="New password"
+        android:paddingLeft="20dp"
+        android:textColor="#656565"
+        android:textColorHint="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_changePass"
+        android:layout_width="252dp"
+        android:layout_height="42dp"
+        android:background="#333333"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/khula_bold"
+        android:text="CHANGE PASSWORD"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_confirm_pass" />
+
+    <TextView
+        android:id="@+id/tv_profileVisibility"
+        android:layout_width="250dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/khula_bold"
+        android:text="Profile visibility"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_changePass" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
