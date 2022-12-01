@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
@@ -191,7 +192,7 @@ class CreateTextFragment : Fragment() {
         val width = view?.findViewById<SeekBar>(R.id.width_seekbar)?.progress?.times(64)
         val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)?.progress?.div(2)
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
-        val denoising = view?.findViewById<SeekBar>(R.id.denoising)?.progress?.div(20)?.toFloat()
+        val denoising = view?.findViewById<SeekBar>(R.id.denoising)?.progress?.toFloat()?.div(20)
         if (negative != ""){
             prompt= "$prompt ### $negative"
         }
@@ -224,7 +225,7 @@ class CreateTextFragment : Fragment() {
             }else{
                 Toast.makeText(
                     requireContext(),
-                    "Please take a picture.",
+                    "Please take a picture",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -275,6 +276,13 @@ class CreateTextFragment : Fragment() {
                 throwable: Throwable?
             ) {
                 Log.e(TAG, "onFailure1111 $statusCode $response $headers")
+                // TODO REMOVE
+                Looper.prepare()
+                Toast.makeText(
+                    requireContext(),
+                    "Could not send generation request (Error $statusCode)",
+                    Toast.LENGTH_LONG
+                ).show()
             }
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                 Log.e(TAG, "onSuccess $statusCode $json")
@@ -304,6 +312,13 @@ class CreateTextFragment : Fragment() {
                 throwable: Throwable?
             ) {
                 Log.e(TAG, "onFailure $statusCode $response ")
+                // TODO REMOVE
+                Looper.prepare()
+                Toast.makeText(
+                    requireContext(),
+                    "Could not retrieve generated image (Error $statusCode)",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
@@ -314,12 +329,6 @@ class CreateTextFragment : Fragment() {
                 val jsonObjectImg = generations?.getJSONObject(0)
                 val img64 = jsonObjectImg?.getString("img")
                 val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
-//                ivGenerated.setImageBitmap(
-//                    BitmapFactory.decodeByteArray(
-//                        decodedString, 0, decodedString
-//                            .size
-//                    )
-//                )
                 Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
                     decodedString, 0, decodedString
                         .size
@@ -337,6 +346,11 @@ class CreateTextFragment : Fragment() {
                         ).show()
                     } else {
                         Log.i(TAG, "Successfully saved post")
+                        Toast.makeText(
+                            requireContext(),
+                            "Successfully saved post",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
