@@ -75,6 +75,13 @@ class CreateTextFragment : Fragment() {
         spinner = view.findViewById(R.id.spinner)
         btnSwitchModes = view.findViewById(R.id.btnSwitchModes)
 
+
+        val layoutParams = LayoutParams(to_dp(160), to_dp(160))
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+        layoutParams.setMargins(0, to_dp(5), to_dp(25), to_dp(20));
+        ivGenerated.layoutParams = layoutParams
+
         view.findViewById<Button>(R.id.options_expand).setOnClickListener {
             if (expanded) {
                 view.findViewById<LinearLayout>(R.id.adv_list).visibility = View.GONE
@@ -107,22 +114,22 @@ class CreateTextFragment : Fragment() {
                 ivCaptured.visibility = View.GONE
 
                 val layoutParams = LayoutParams(
-                    (160* resources.displayMetrics.density).toInt(), (160* resources.displayMetrics
-                        .density).toInt()
+                    to_dp(160), to_dp(160)
                 )
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+                layoutParams.setMargins(0, to_dp(5), to_dp(25), to_dp(20));
                 ivGenerated.layoutParams = layoutParams
             } else {
                 // Switch to image mode
                 btnSwitchModes.text = "Image Mode"
                 modeImageEnabled = true
                 ivCaptured.visibility = View.VISIBLE
-                val layoutParams = LayoutParams(
-                    (160* resources.displayMetrics.density).toInt(), (160* resources.displayMetrics
-                        .density).toInt()
-                )
+
+                val layoutParams = LayoutParams(to_dp(160), to_dp(160));
+
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-//                layoutParams.setMargins(0, 0, 16, 16);
+                layoutParams.setMargins(0, to_dp(5), to_dp(25), to_dp(20));
                 ivGenerated.layoutParams = layoutParams;
             }
         }
@@ -257,6 +264,10 @@ class CreateTextFragment : Fragment() {
                 }
             }
         })
+    }
+
+    fun to_dp(px: Int): Int {
+        return ((px * resources.displayMetrics.density).toInt())
     }
 
     companion object {
