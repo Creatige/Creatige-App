@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
     android:layout_width="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/login_bg_hd"
     android:layout_height="match_parent"
     tools:context=".register">
 

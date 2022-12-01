@@ -12,5 +12,40 @@
 New? Register here
 </string>
     <string name="slogan">GET CREATIVE.</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <!-- Change the following strings as required -->
+    <string name="back4app_app_id">QRj9GeE9fWk48WTZ80SrOHuPuYjSIJkE8a7N73qO</string>
+    <string name="back4app_client_key">VhITSJ1bqmmnc8ZYrMbmxhKPK1UV6FhpuwpSHA76</string>
+    <string name="horde_api_key">Yz9NiA13BCeusyIxwwM_2w</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="generate">Generate Image</string>
+    <string name="enter_prompt">What do you want to see?</string>
+    <string name="logout">Log out</string>
+    <string name="url_generate">https://stablehorde.net/api/v2/generate/async</string>
+    <string name="url_retrieve_image">https://stablehorde.net/api/v2/generate/async</string>
+    <string name="url_check_status">https://stablehorde.net/api/v2/generate/async</string>
+    <string name="advanced_options">Advanced Options</string>
+    <string name="negative_prompt">Negative Prompt</string>
+    <string name="seed">Seed</string>
+    <string name="sampler">Sampler</string>
+    <string name="steps">Steps</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="guidance">Guidance</string>
+    <string name="switch_modes">Text mode</string>
+    <string name="denoising">Denoising</string>
+    <string-array name="sampler">
+        <item>k_euler</item>
+        <item>k_heun</item>
+        <item>k_lms</item>
+        <item>k_euler_a</item>
+        <item>k_dpm_2</item>
+        <item>k_dpm_2_a</item>
+        <item>k_dpm_fast</item>
+        <item>k_dpm_adaptive</item>
+        <item>k_dpmpp_2m</item>
+        <item>k_dpmpp_2m_a</item>
+    </string-array>
 
 </resources>
