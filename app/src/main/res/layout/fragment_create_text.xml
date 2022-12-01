@@ -2,47 +2,62 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:fillViewport="true"
     >
 <RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".fragments.CreateTextFragment"
     >
-    <!-- TODO: Update blank fragment layout -->
+
+<!--     Create the button for switching modes-->
+    <Button
+        android:id="@+id/btnSwitchModes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/switch_modes"
+        android:textSize="15sp"
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:id="@+id/rlGeneratePreviews"
+        android:layout_below="@id/btnSwitchModes"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/ivCaptured"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
-            android:layout_width="170dp"
+            android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="25dp"
             android:visibility="gone"
-            android:background="@drawable/prompt_placeholder_img_hd"
+            android:src="@drawable/prompt_placeholder_img"
             />
+
         <ImageView
-            android:layout_centerInParent="true"
             android:id="@+id/ivGenerated"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="25dp"
-            android:layout_width="170dp"
+            android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="false"
-            android:background="@drawable/prompt_placeholder_img_hd"
-            />
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/prompt_placeholder_img_hd" />
 
 
     </RelativeLayout>

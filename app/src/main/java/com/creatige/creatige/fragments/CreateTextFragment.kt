@@ -13,18 +13,23 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.RelativeLayout.LayoutParams
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
 import com.creatige.creatige.R
+import com.creatige.creatige.fragments.CreateImageFragment.Companion.wait_time
 import com.creatige.creatige.posts
 import com.parse.ParseFile
 import com.parse.ParseUser
@@ -39,12 +44,17 @@ class CreateTextFragment : Fragment() {
     lateinit var etPrompt: EditText
     lateinit var parseFile: ParseFile
     lateinit var spinner: Spinner
+    lateinit var btnSwitchModes : Button
+    lateinit var ivCaptured : ImageView
+
 
     val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
     var requestHeaders = RequestHeaders()
     var params = RequestParams()
     var post = posts()
     var expanded = false
+    var modeImageEnabled = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -59,9 +69,12 @@ class CreateTextFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         etPrompt = view.findViewById<EditText>(R.id.etPrompt)
         ivGenerated = view.findViewById<ImageView>(R.id.ivGenerated)
+        ivCaptured = view.findViewById<ImageView>(R.id.ivCaptured)
         btnGenerate = view.findViewById<Button>(R.id.btnGenerate)
         etPrompt = view.findViewById<EditText>(R.id.etPrompt)
         spinner = view.findViewById(R.id.spinner)
+        btnSwitchModes = view.findViewById(R.id.btnSwitchModes)
+
         view.findViewById<Button>(R.id.options_expand).setOnClickListener {
             if (expanded) {
                 view.findViewById<LinearLayout>(R.id.adv_list).visibility = View.GONE
@@ -82,15 +95,43 @@ class CreateTextFragment : Fragment() {
         btnGenerate.setOnClickListener {
 
             val user = ParseUser.getCurrentUser()
-            submitPost( user)
+            submitPost(user)
+        }
+
+        // Switch modes
+        btnSwitchModes.setOnClickListener {
+            if (modeImageEnabled) {
+                // Switch to text mode
+                btnSwitchModes.text = "Text Mode"
+                modeImageEnabled = false
+                ivCaptured.visibility = View.GONE
+
+                val layoutParams = LayoutParams(
+                    (160* resources.displayMetrics.density).toInt(), (160* resources.displayMetrics
+                        .density).toInt()
+                )
+                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                ivGenerated.layoutParams = layoutParams
+            } else {
+                // Switch to image mode
+                btnSwitchModes.text = "Image Mode"
+                modeImageEnabled = true
+                ivCaptured.visibility = View.VISIBLE
+                val layoutParams = LayoutParams(
+                    (160* resources.displayMetrics.density).toInt(), (160* resources.displayMetrics
+                        .density).toInt()
+                )
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+//                layoutParams.setMargins(0, 0, 16, 16);
+                ivGenerated.layoutParams = layoutParams;
+            }
         }
     }
-
 
     private fun submitPost( user: ParseUser) {
         Log.i(TAG, "Submitting request to the API...")
         var prompt = etPrompt.text.toString()
-        val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString().toInt()
+        val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
         val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
         val sampler = view?.findViewById<Spinner>(R.id.spinner)?.selectedItem.toString()
         val height = view?.findViewById<SeekBar>(R.id.height_seekbar)?.progress?.times(64)
@@ -189,12 +230,16 @@ class CreateTextFragment : Fragment() {
                 val jsonObjectImg = generations?.getJSONObject(0)
                 val img64 = jsonObjectImg?.getString("img")
                 val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
-                ivGenerated.setImageBitmap(
-                    BitmapFactory.decodeByteArray(
-                        decodedString, 0, decodedString
-                            .size
-                    )
-                )
+//                ivGenerated.setImageBitmap(
+//                    BitmapFactory.decodeByteArray(
+//                        decodedString, 0, decodedString
+//                            .size
+//                    )
+//                )
+                Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
+                    decodedString, 0, decodedString
+                        .size
+                )).into(ivGenerated)
                 parseFile = ParseFile("photo.webp", decodedString)
                 post.setImage(parseFile)
                 post.saveInBackground { exception ->

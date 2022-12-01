@@ -33,6 +33,7 @@ New? Register here
     <string name="width">Width</string>
     <string name="height">Height</string>
     <string name="guidance">Guidance</string>
+    <string name="switch_modes">Text mode</string>
     <string-array name="sampler">
         <item>k_euler</item>
         <item>k_heun</item>
