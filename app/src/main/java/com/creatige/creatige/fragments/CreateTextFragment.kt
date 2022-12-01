@@ -26,6 +26,7 @@ import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
 import com.creatige.creatige.R
+import com.creatige.creatige.fragments.CreateImageFragment.Companion.wait_time
 import com.creatige.creatige.posts
 import com.parse.ParseFile
 import com.parse.ParseUser
@@ -183,7 +184,6 @@ class CreateTextFragment : Fragment() {
         }
     }
     private fun submitPost( user: ParseUser) {
-        Log.i(TAG, "Submitting request to the API...")
         var prompt = etPrompt.text.toString()
         val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
         val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
@@ -245,57 +245,65 @@ class CreateTextFragment : Fragment() {
                     "\"trusted_workers\":${GlobalVariableClass.trusted_workers}," +
                     "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}}"
         }
-        Log.i(TAG, "Sending JSON: $json")
-        val body: RequestBody = json.toRequestBody(JSON)
-        post = posts()
-        post.setPrompt(prompt)
-        post.setUser(user)
-        requestHeaders["apikey"] = GlobalVariableClass.api_key
-        requestHeaders["Accept"] = "application/json"
-        //params["sampler_name"] = view?.findViewById<Spinner>(R.id.spinner).toString()
-        //params["seed"] = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
-        //TODO: see if there is an issue with the int values meant to be sent to the API call
-        /*if (steps != null) {
-            params["steps"] = steps.progress.toString()
-        }
-        if (height != null){
-            params["height"] = height.progress.toString()
-        }
-        if (width != null){
-            params["width"] = width.progress.toString()
-        }
-        if (guidance != null){
-            params["cfg_scale"] = guidance.progress.toString()
-        }*/
-        client.post(GlobalVariableClass.api_generate_url, requestHeaders, params, body, object :
-            JsonHttpResponseHandler() {
-            override fun onFailure(
-                statusCode: Int,
-                headers: Headers?,
-                response: String?,
-                throwable: Throwable?
-            ) {
-                Log.e(TAG, "onFailure1111 $statusCode $response $headers")
-                // TODO REMOVE
-                Looper.prepare()
-                Toast.makeText(
-                    requireContext(),
-                    "Could not send generation request (Error $statusCode)",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
-                Log.e(TAG, "onSuccess $statusCode $json")
-                val jsonObject = json?.jsonObject
-                val id = jsonObject?.getString("id")
-                if (id != null) {
-                    val handler = Handler()
-                    handler.postDelayed({
-                        getImg(id)
-                    }, wait_time)
+        if (!modeImageEnabled || tookPicture) {
+            Log.i(TAG, "Submitting request to the API...")
+            Toast.makeText(
+                requireContext(),
+                "Sending generation request",
+                Toast.LENGTH_SHORT
+            ).show()
+            Log.i(TAG, "Sending JSON: $json")
+            val body: RequestBody = json.toRequestBody(JSON)
+            post = posts()
+            post.setPrompt(prompt)
+            post.setUser(user)
+            requestHeaders["apikey"] = GlobalVariableClass.api_key
+            requestHeaders["Accept"] = "application/json"
+            //params["sampler_name"] = view?.findViewById<Spinner>(R.id.spinner).toString()
+            //params["seed"] = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
+            //TODO: see if there is an issue with the int values meant to be sent to the API call
+            /*if (steps != null) {
+                    params["steps"] = steps.progress.toString()
                 }
-            }
-        })
+                if (height != null){
+                    params["height"] = height.progress.toString()
+                }
+                if (width != null){
+                    params["width"] = width.progress.toString()
+                }
+                if (guidance != null){
+                    params["cfg_scale"] = guidance.progress.toString()
+                }*/
+            client.post(GlobalVariableClass.api_generate_url, requestHeaders, params, body, object :
+                JsonHttpResponseHandler() {
+                override fun onFailure(
+                    statusCode: Int,
+                    headers: Headers?,
+                    response: String?,
+                    throwable: Throwable?
+                ) {
+                    Log.e(TAG, "onFailure1111 $statusCode $response $headers")
+                    // TODO REMOVE
+                    Looper.prepare()
+                    Toast.makeText(
+                        requireContext(),
+                        "Could not send generation request (Error $statusCode)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
+                    Log.e(TAG, "onSuccess $statusCode $json")
+                    val jsonObject = json?.jsonObject
+                    val id = jsonObject?.getString("id")
+                    if (id != null) {
+                        val handler = Handler()
+                        handler.postDelayed({
+                            getImg(id)
+                        }, wait_time)
+                    }
+                }
+            })
+        }
         //TODO: Add a loading bar to indicate the saving of the post? or at least the generation of an image
     }
 
