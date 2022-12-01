@@ -48,4 +48,11 @@ New? Register here
         <item>k_dpmpp_2m_a</item>
     </string-array>
 
+    <string name="dropdown">dropDownMenuExample</string>
+    <string-array name="languages">
+        <item>Public</item>
+        <item>Private</item>
+
+    </string-array>
+
 </resources>

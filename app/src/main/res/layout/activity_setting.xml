@@ -167,4 +167,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_changePass" />
 
+    <Spinner
+        android:id="@+id/spinner_visibility"
+        android:layout_width="352dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="196dp"
+        android:background="@drawable/settingbackground"
+        android:fontFamily="@font/khula_light"
+        android:hint="Public"
+        android:spinnerMode="dropdown"
+        android:textColor="@color/white"
+        android:textColorHint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
