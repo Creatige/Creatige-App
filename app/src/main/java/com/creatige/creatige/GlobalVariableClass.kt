@@ -10,5 +10,15 @@ class GlobalVariableClass {
         val api_generate_url = "https://stablehorde.net/api/v2/generate/async"
 //        val api_status_url = "https://stablehorde.net/api/v2/generate/status/"
         val api_retrieve_img_url = "https://stablehorde.net/api/v2/generate/status/"
+
+
+        /* Generation parameters not exposed to the user */
+        // Whether to use only trusted Horde workers. Setting it to true is safer (in case there are troll workers) but it also makes generation potentially slower as we can't get generations from new workers
+        // TODO: Set all the following 3 to true for demo day
+        val trusted_workers = false
+        // Whether to censor accidental nsfw images that we could potentially get from the worker
+        val censor_nsfw = true
+        // Whether our prompt has NSFW content; some workers disable NSFW so they don't get any of those requests
+        val nsfw_enabled = false
     }
 }

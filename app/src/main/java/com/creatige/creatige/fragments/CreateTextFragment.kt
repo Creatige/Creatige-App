@@ -112,9 +112,9 @@ class CreateTextFragment : Fragment() {
                 "\"karras\":false," +
                 "\"steps\":$steps," +
                 "\"n\":1 }," +
-                "\"nsfw\":false," +
-                "\"trusted_workers\":true," +
-                "\"censor_nsfw\":true}"
+                "\"nsfw\":${GlobalVariableClass.nsfw_enabled}," +
+                "\"trusted_workers\":${GlobalVariableClass.trusted_workers}," +
+                "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}}"
 //        var json = "{\"prompt\":\"$prompt\"}"
 //        if(negative != null){
 //            json = "{\"prompt\":\"$prompt ### $negative\"}"
