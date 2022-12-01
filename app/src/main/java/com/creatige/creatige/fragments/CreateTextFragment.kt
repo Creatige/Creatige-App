@@ -46,6 +46,7 @@ class CreateTextFragment : Fragment() {
     lateinit var spinner: Spinner
     lateinit var btnSwitchModes : Button
     lateinit var ivCaptured : ImageView
+    lateinit var btnExpand: Button
     val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034
     var photoFile: File? = null
     val photoFileName = "photo.jpg"
@@ -72,6 +73,7 @@ class CreateTextFragment : Fragment() {
         ivGenerated = view.findViewById<ImageView>(R.id.ivGenerated)
         ivCaptured = view.findViewById<ImageView>(R.id.ivCaptured)
         btnGenerate = view.findViewById<Button>(R.id.btnGenerate)
+        btnExpand = view.findViewById<Button>(R.id.options_expand)
         etPrompt = view.findViewById<EditText>(R.id.etPrompt)
         spinner = view.findViewById(R.id.spinner)
         btnSwitchModes = view.findViewById(R.id.btnSwitchModes)
@@ -83,12 +85,14 @@ class CreateTextFragment : Fragment() {
         layoutParams.setMargins(0, to_dp(5), to_dp(25), to_dp(20));
         ivGenerated.layoutParams = layoutParams
 
-        view.findViewById<Button>(R.id.options_expand).setOnClickListener {
+        btnExpand.setOnClickListener {
             if (expanded) {
                 view.findViewById<LinearLayout>(R.id.adv_list).visibility = View.GONE
+                btnExpand.background = resources.getDrawable(R.drawable.ic_baseline_arrow_downward_24)
                 expanded = false
             } else {
                 view.findViewById<LinearLayout>(R.id.adv_list).visibility = View.VISIBLE
+                btnExpand.background = resources.getDrawable(R.drawable.ic_baseline_arrow_upward_24)
                 expanded = true
             }
         }
@@ -201,6 +205,8 @@ class CreateTextFragment : Fragment() {
         if (modeImageEnabled){
             if(tookPicture){
                 val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
+                Log.i(TAG, "Captured picture height: ${takenImage.height} width: ${takenImage
+                    .width}")
                 val out = Bitmap.createScaledBitmap(takenImage, 512, 512, false)
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 out.compress(Bitmap.CompressFormat.WEBP, 50, byteArrayOutputStream)
