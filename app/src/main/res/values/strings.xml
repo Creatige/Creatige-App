@@ -34,6 +34,7 @@ New? Register here
     <string name="height">Height</string>
     <string name="guidance">Guidance</string>
     <string name="switch_modes">Text mode</string>
+    <string name="denoising">Denoising</string>
     <string-array name="sampler">
         <item>k_euler</item>
         <item>k_heun</item>

@@ -1,26 +1,22 @@
 package com.creatige.creatige.fragments
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.widget.*
 import android.widget.RelativeLayout.LayoutParams
-import android.widget.SeekBar
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatSeekBar
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
@@ -29,7 +25,6 @@ import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
 import com.creatige.creatige.R
-import com.creatige.creatige.fragments.CreateImageFragment.Companion.wait_time
 import com.creatige.creatige.posts
 import com.parse.ParseFile
 import com.parse.ParseUser
@@ -37,6 +32,9 @@ import okhttp3.Headers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
+import java.io.File
+
 
 class CreateTextFragment : Fragment() {
     lateinit var ivGenerated: ImageView
@@ -46,15 +44,16 @@ class CreateTextFragment : Fragment() {
     lateinit var spinner: Spinner
     lateinit var btnSwitchModes : Button
     lateinit var ivCaptured : ImageView
-
-
+    val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034
+    var photoFile: File? = null
+    val photoFileName = "photo.jpg"
     val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
     var requestHeaders = RequestHeaders()
     var params = RequestParams()
     var post = posts()
     var expanded = false
     var modeImageEnabled = false
-
+    var tookPicture = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -100,7 +99,6 @@ class CreateTextFragment : Fragment() {
             spinner.adapter = adapter
         }
         btnGenerate.setOnClickListener {
-
             val user = ParseUser.getCurrentUser()
             submitPost(user)
         }
@@ -117,7 +115,6 @@ class CreateTextFragment : Fragment() {
                     to_dp(160), to_dp(160)
                 )
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-
                 layoutParams.setMargins(0, to_dp(5), to_dp(25), to_dp(20));
                 ivGenerated.layoutParams = layoutParams
             } else {
@@ -133,8 +130,57 @@ class CreateTextFragment : Fragment() {
                 ivGenerated.layoutParams = layoutParams;
             }
         }
+        ivCaptured.setOnClickListener{
+            onLaunchCamera()
+        }
     }
-
+    private fun onLaunchCamera() {
+        // create Intent to take a picture and return control to the calling application
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // Create a File reference for future access
+        photoFile = getPhotoFileUri(photoFileName)
+        // wrap File object into a content provider
+        // required for API >= 24
+        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        if (photoFile != null) {
+            val fileProvider: Uri =
+                FileProvider.getUriForFile(requireContext(), "com.codepath.fileprovider", photoFile!!)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
+            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+            // So as long as the result is not null, it's safe to use the intent.
+            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+            // So as long as the result is not null, it's safe to use the intent.
+            if (intent.resolveActivity(requireContext().packageManager) != null) {
+                // Start the image capture intent to take photo
+                startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE)
+            }
+        }
+    }
+    private fun getPhotoFileUri(fileName: String): File {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        val mediaStorageDir =
+            File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG)
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+            Log.d(TAG, "failed to create directory")
+        }
+        // Return the file target for the photo based on filename
+        return File(mediaStorageDir.path + File.separator + fileName)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
+            if(resultCode== AppCompatActivity.RESULT_OK){
+                val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
+                ivCaptured.setImageBitmap(takenImage)
+                tookPicture = true
+            }else{
+                Toast.makeText(requireContext(), "Error taking picture", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     private fun submitPost( user: ParseUser) {
         Log.i(TAG, "Submitting request to the API...")
         var prompt = etPrompt.text.toString()
@@ -145,28 +191,59 @@ class CreateTextFragment : Fragment() {
         val width = view?.findViewById<SeekBar>(R.id.width_seekbar)?.progress?.times(64)
         val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)?.progress?.div(2)
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
+        val denoising = view?.findViewById<SeekBar>(R.id.denoising)?.progress?.div(20)?.toFloat()
         if (negative != ""){
             prompt= "$prompt ### $negative"
         }
         val client = AsyncHttpClient()
+        var json = ""
+        if (modeImageEnabled){
+            if(tookPicture){
+                val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
+                val out = Bitmap.createScaledBitmap(takenImage, 512, 512, false)
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                out.compress(Bitmap.CompressFormat.WEBP, 50, byteArrayOutputStream)
+                val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+                var encoded = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+                json = "{\"prompt\":\"$prompt\"," +
+                        "\"params\":{" +
+                        "\"sampler_name\":\"$sampler\"," +
+                        "\"cfg_scale\":$guidance," +
+                        " \"denoising_strength\":$denoising," +
+                        "\"seed\":\"$seed\"," +
+                        "\"height\":$height," +
+                        "\"width\":$width," +
+                        "\"karras\":false," +
+                        "\"steps\":$steps," +
+                        "\"n\":1 }," +
+                        "\"nsfw\":${GlobalVariableClass.nsfw_enabled}," +
+                        "\"trusted_workers\":${GlobalVariableClass.trusted_workers}," +
+                        "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}," +
+                        "\"source_image\":\"$encoded\"," +
+                        " \"source_processing\":\"img2img\"}"
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "Please take a picture.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
-        val json = "{\"prompt\":\"$prompt\"," +
-                "\"params\":{" +
-                "\"sampler_name\":\"$sampler\"," +
-                "\"cfg_scale\":$guidance," +
-                "\"seed\":\"$seed\"," +
-                "\"height\":$height," +
-                "\"width\":$width," +
-                "\"karras\":false," +
-                "\"steps\":$steps," +
-                "\"n\":1 }," +
-                "\"nsfw\":${GlobalVariableClass.nsfw_enabled}," +
-                "\"trusted_workers\":${GlobalVariableClass.trusted_workers}," +
-                "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}}"
-//        var json = "{\"prompt\":\"$prompt\"}"
-//        if(negative != null){
-//            json = "{\"prompt\":\"$prompt ### $negative\"}"
-//        }
+        }else {
+            json = "{\"prompt\":\"$prompt\"," +
+                    "\"params\":{" +
+                    "\"sampler_name\":\"$sampler\"," +
+                    "\"cfg_scale\":$guidance," +
+                    "\"seed\":\"$seed\"," +
+                    "\"height\":$height," +
+                    "\"width\":$width," +
+                    "\"karras\":false," +
+                    "\"steps\":$steps," +
+                    "\"n\":1 }," +
+                    "\"nsfw\":${GlobalVariableClass.nsfw_enabled}," +
+                    "\"trusted_workers\":${GlobalVariableClass.trusted_workers}," +
+                    "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}}"
+        }
         Log.i(TAG, "Sending JSON: $json")
         val body: RequestBody = json.toRequestBody(JSON)
         post = posts()
