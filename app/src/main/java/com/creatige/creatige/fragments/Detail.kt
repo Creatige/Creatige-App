@@ -10,22 +10,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creatige.creatige.CommentAdapter
-import com.creatige.creatige.Post_Extra
+import com.creatige.creatige.*
 import com.creatige.creatige.R
-import com.creatige.creatige.comments
-import com.creatige.creatige.posts
-import com.parse.FindCallback
-import com.parse.ParseException
-import com.parse.ParseObject
-import com.parse.ParseQuery
-import com.parse.ParseUser
+import com.parse.*
 
 
 private const val TAG = "DetailActivity"
 class Detail : AppCompatActivity() {
 
-    private lateinit var ivAuthorImage: ImageView
+    private lateinit var ivProfileImage: ImageView
     private lateinit var author: TextView
     private lateinit var imgPost: ImageView
     private lateinit var commentRecyclerView: RecyclerView
@@ -39,7 +32,7 @@ class Detail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        ivAuthorImage = findViewById(R.id.ivProfileImage)
+        ivProfileImage = findViewById(R.id.ivProfileImage)
         author = findViewById(R.id.author)
         imgPost = findViewById(R.id.imgPost)
         submitComment = findViewById<ImageButton>(R.id.submitComment)
@@ -49,8 +42,17 @@ class Detail : AppCompatActivity() {
 
         val Post = intent.getParcelableExtra<posts>(Post_Extra) as posts
         val postId = intent.getParcelableExtra<ParseObject>("postId").toString()
+        //val profile = intent.getParcelableExtra<ParseFile>("profile") as ParseFile
+        val profile :ParseFile = Post.getUser()?.get("avatar") as ParseFile
+
+
+
         Glide.with(this).load(Post.getImage()?.url).into(imgPost)
         author.text = Post.getUser()?.username
+
+        Glide.with(this).load(profile.url).into(ivProfileImage)
+
+
 
         if (postId != null) {
             queryComments(postId)

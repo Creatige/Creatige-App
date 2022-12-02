@@ -10,8 +10,6 @@
     <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="110dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="50dp"
         android:layout_height="55dp"
         app:layout_constraintBottom_toTopOf="@+id/imgPost"
         app:layout_constraintEnd_toStartOf="@+id/author"
@@ -22,22 +20,19 @@
     <TextView
         android:id="@+id/author"
         android:layout_width="158dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="155dp"
-        android:layout_marginBottom="80dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="56dp"
         android:text="ormolu"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/imgPost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imgPost"
-        android:layout_width="455dp"
-        android:layout_height="316dp"
+        android:layout_width="465dp"
+        android:layout_height="311dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
