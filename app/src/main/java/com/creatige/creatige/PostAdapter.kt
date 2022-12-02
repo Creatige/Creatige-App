@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.fragments.Detail
+import com.parse.ParseFile
 import com.parse.ParseObject
 
 
@@ -40,11 +41,13 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
         val ivImage: ImageView
         val tvDescription: TextView
         val tvCreatedAT: TextView
+        val ivProfileImg: ImageView
 
         init{
             ivProfileImage = itemView.findViewById((R.id.ivProfileImage))
             tvUsername = itemView.findViewById(R.id.author)
             ivImage = itemView.findViewById(R.id.imgPost)
+            ivProfileImg = itemView.findViewById(R.id.ivProfileImage)
             tvDescription = itemView.findViewById(R.id.postPrompt)
             tvCreatedAT = itemView.findViewById(R.id.createdAt)
         }
@@ -58,11 +61,11 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
             tvUsername.text = post.getUser()?.username
             tvCreatedAT.text = TimeFormatter.getTimeDifference(post.getTime())
 
+            val profile :ParseFile = post.getUser()?.get("avatar") as ParseFile
             Log.i(TAG, "Tvcreated is ${post.getTime()}")
 
+            Glide.with(itemView.context).load(profile.url).into(ivProfileImg)
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
-
-            //TODO: Get users profile picture 
 
 
         }
