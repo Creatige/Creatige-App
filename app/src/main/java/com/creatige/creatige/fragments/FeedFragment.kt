@@ -95,8 +95,6 @@ open class FeedFragment : Fragment() {
 
         }
 
-
-
         query.findInBackground(object : FindCallback<posts> {
             override fun done(posts: MutableList<posts>?, e: ParseException?){
                 if(e != null){

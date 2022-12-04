@@ -22,12 +22,13 @@ class comments():ParseObject() {
         put(KEY_COMMENT, comment)
     }
     fun setPostId(postId: String){
-        put("post_id", postId)
+        put(KEY_POST_ID, postId)
     }
 
     companion object{
         const val KEY_USER = "user_id"
         const val KEY_COMMENT = "comment"
+        const val KEY_POST_ID = "postId"
     }
 }
 

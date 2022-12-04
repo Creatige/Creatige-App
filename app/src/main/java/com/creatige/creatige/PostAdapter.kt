@@ -78,8 +78,6 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
             intent.putExtra(Post_Extra, post)
             context.startActivity(intent)
         }
-
-
     }
     companion object{
         val TAG = "PostAdapter"

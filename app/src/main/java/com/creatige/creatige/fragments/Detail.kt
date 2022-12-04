@@ -41,7 +41,6 @@ class Detail : AppCompatActivity() {
 
 
         val Post = intent.getParcelableExtra<posts>(Post_Extra) as posts
-        val postId = intent.getParcelableExtra<ParseObject>("postId").toString()
         //val profile = intent.getParcelableExtra<ParseFile>("profile") as ParseFile
         val profile :ParseFile = Post.getUser()?.get("avatar") as ParseFile
 
@@ -49,35 +48,23 @@ class Detail : AppCompatActivity() {
 
         Glide.with(this).load(Post.getImage()?.url).into(imgPost)
         author.text = Post.getUser()?.username
-
         Glide.with(this).load(profile.url).into(ivProfileImage)
 
-
-
-        if (postId != null) {
-            queryComments(postId)
-        }
+        queryComments(Post)
 
         commentRecyclerView = findViewById<RecyclerView>(R.id.recycler)
         adapter = CommentAdapter(this, allComments)
         commentRecyclerView.adapter = adapter
 
         submitComment.setOnClickListener(){
-            if (postId != null) {
-                submitComment(composedComment.text.toString(), ParseUser.getCurrentUser(),postId)
-            }
-            if (postId != null) {
-                queryComments(postId)
-            }
+            submitComment(composedComment.text.toString(), ParseUser.getCurrentUser(), Post)
+            queryComments(Post)
         }
-
-
     }
 
-    fun queryComments(postId: String){
+    fun queryComments(Post:posts){
         val query: ParseQuery<comments> = ParseQuery.getQuery(comments::class.java)
-        //query.whereEqualTo("objectId", postId)
-        query.whereEqualTo("post_id", postId)
+        query.whereEqualTo("post_id", Post)
         query.findInBackground { comments, e ->
             if (e != null) {
                 //something went wrong
@@ -85,10 +72,9 @@ class Detail : AppCompatActivity() {
             } else {
 
                 if (comments != null) {
-                    Log.e(TAG, "$comments")
                     for (com in comments) {
                         val comment = com.getComment()
-                        Log.i(TAG, "comment is $comment")
+                        Log.i(TAG, "comment is: $comment")
                         allComments.clear()
                         allComments.addAll(comments)
                         adapter.notifyDataSetChanged()
@@ -99,24 +85,20 @@ class Detail : AppCompatActivity() {
         }
     }
 
-    fun submitComment(entry: String, user:ParseUser, postId: String){
-        var comment2 =ParseObject("comments")
-        comment2.put("post_id",postId)
-        comment2.put("comment",entry)
-        comment2.put("user_id",ParseUser.getCurrentUser())
-
+    fun submitComment(entry: String, user:ParseUser, Post : posts){
         var comment = comments()
         comment.setUser(user)
         comment.setComment(entry)
-        comment.put("post_id",ParseObject(postId))
-        comment2.saveInBackground{ exception ->
+        comment.put("post_id", Post)
+
+        comment.saveInBackground{ exception ->
             if(exception != null){
                 Log.e(TAG, "Error while saving comment")
                 exception.printStackTrace()
                 Toast.makeText(this, "Error while saving comment", Toast.LENGTH_SHORT).show()
             } else {
                 Log.i(TAG, "Successfully saved comment")
-                queryComments(postId)
+                queryComments(Post)
             }
         }
     }
