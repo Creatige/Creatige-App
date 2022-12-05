@@ -53,10 +53,10 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
         init {
             itemView.setOnClickListener(this)
         }
-
         fun bind(post: posts){
             tvDescription.text = post.getPrompt()
             tvUsername.text = post.getUser()?.username
+
             tvCreatedAT.text = TimeFormatter.getTimeDifference(post.getTime())
 
             val profile :ParseFile = post.getUser()?.get("avatar") as ParseFile

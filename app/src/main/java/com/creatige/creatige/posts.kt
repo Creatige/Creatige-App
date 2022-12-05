@@ -46,6 +46,5 @@ class posts() : ParseObject() {
         const val KEY_USER = "user"
         const val KEY_TIME = "createdAt"
         const val KEY_POST_ID = "objectId"
-
     }
 }
