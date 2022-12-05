@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.Detail"
+    android:background="@color/black">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        tools:layout_editor_absoluteX="5dp"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/imgPost">
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            app:layout_constraintBottom_toTopOf="@+id/imgPost"
+            app:layout_constraintEnd_toStartOf="@+id/author"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="158dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginEnd="160dp"
+            android:text="ormolu"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/imgPost" />
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imgPost"
+        android:layout_width="match_parent"
+        android:layout_height="254dp"
+        android:layout_below="@id/linearLayout2"
+        app:srcCompat="@drawable/img_register" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:background="@color/white"
+        android:layout_below="@id/imgPost"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="300dp"
+        android:text="Comments"
+        android:textColor="@color/white"
+        android:layout_below="@id/view" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/commentRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView3"
+        android:layout_above="@id/linearLayout" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#505050"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/userProfilePicture"
+            android:layout_width="87dp"
+            android:layout_height="66dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <EditText
+            android:id="@+id/et_composeComment"
+            android:layout_width="236dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/et_passuser"
+            android:fontFamily="@font/khula"
+            android:hint="  Add a comment"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/submitComment"
+            android:layout_width="77dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="19dp"
+            app:srcCompat="@drawable/comment" />
+
+    </LinearLayout>
+
+</RelativeLayout>
