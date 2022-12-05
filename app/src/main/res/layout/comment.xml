@@ -49,7 +49,7 @@
 
     <TextView
         android:id="@+id/createdAt"
-        android:layout_width="135dp"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_margin="10dp"
         android:text="1d"
