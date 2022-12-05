@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.fragments.Detail
 import com.parse.ParseFile
-import com.parse.ParseObject
 
 
 const val Post_Extra = "Post_Extra"

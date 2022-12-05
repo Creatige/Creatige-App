@@ -1,7 +1,6 @@
 package com.creatige.creatige.fragments
 
 import android.os.Bundle
-import android.os.TestLooperManager
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -22,7 +21,7 @@ class Detail : AppCompatActivity() {
     private lateinit var author: TextView
     private lateinit var imgPost: ImageView
     private lateinit var commentRecyclerView: RecyclerView
-    private lateinit var adapter: CommentAdapter
+    private lateinit var commentAdapter: CommentAdapter
     private lateinit var submitComment:ImageButton
     private lateinit var composedComment:TextView
     private lateinit var userProfilePicture: ImageView
@@ -45,22 +44,25 @@ class Detail : AppCompatActivity() {
         val profile :ParseFile = Post.getUser()?.get("avatar") as ParseFile
 
 
-
         Glide.with(this).load(Post.getImage()?.url).into(imgPost)
         author.text = Post.getUser()?.username
         Glide.with(this).load(profile.url).into(ivProfileImage)
 
-        queryComments(Post)
 
-        commentRecyclerView = findViewById<RecyclerView>(R.id.recycler)
-        adapter = CommentAdapter(this, allComments)
-        commentRecyclerView.adapter = adapter
+
+        commentRecyclerView = findViewById<RecyclerView>(R.id.commentRecyclerView)
+        commentAdapter = CommentAdapter(this, allComments)
+        //Log.e(TAG, "before query: $allComments")
+        commentRecyclerView.adapter = commentAdapter
+
+        queryComments(Post)
 
         submitComment.setOnClickListener(){
             submitComment(composedComment.text.toString(), ParseUser.getCurrentUser(), Post)
             queryComments(Post)
         }
     }
+
 
     fun queryComments(Post:posts){
         val query: ParseQuery<comments> = ParseQuery.getQuery(comments::class.java)
@@ -75,11 +77,11 @@ class Detail : AppCompatActivity() {
                     for (com in comments) {
                         val comment = com.getComment()
                         Log.i(TAG, "comment is: $comment")
-                        allComments.clear()
-                        allComments.addAll(comments)
-                        adapter.notifyDataSetChanged()
-
                     }
+                    allComments.clear()
+                    allComments.addAll(comments)
+                    Log.e(TAG, "Allcomments during the query: $allComments")
+                    commentAdapter.notifyDataSetChanged()
                 }
             }
         }
