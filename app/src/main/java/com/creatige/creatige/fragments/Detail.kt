@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.*
@@ -42,18 +43,17 @@ class Detail : AppCompatActivity() {
         val Post = intent.getParcelableExtra<posts>(Post_Extra) as posts
         //val profile = intent.getParcelableExtra<ParseFile>("profile") as ParseFile
         val profile :ParseFile = Post.getUser()?.get("avatar") as ParseFile
+        commentRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
         Glide.with(this).load(Post.getImage()?.url).into(imgPost)
         author.text = Post.getUser()?.username
         Glide.with(this).load(profile.url).into(ivProfileImage)
 
-
-
         commentRecyclerView = findViewById<RecyclerView>(R.id.commentRecyclerView)
         commentAdapter = CommentAdapter(this, allComments)
-        //Log.e(TAG, "before query: $allComments")
         commentRecyclerView.adapter = commentAdapter
+
 
         queryComments(Post)
 
