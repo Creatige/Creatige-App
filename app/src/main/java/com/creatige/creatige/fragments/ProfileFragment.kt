@@ -2,14 +2,29 @@ package com.creatige.creatige.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.creatige.creatige.LoginActivity
+import com.creatige.creatige.PostAdapter
 import com.creatige.creatige.R
+import com.creatige.creatige.adapters.ProfilePostAdapter
+import com.creatige.creatige.posts
+import com.parse.FindCallback
+import com.parse.ParseException
+import com.parse.ParseQuery
 import com.parse.ParseUser
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +40,12 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    lateinit var adapter: ProfilePostAdapter
+    var allPosts: MutableList<posts> = mutableListOf()
+    lateinit var tvNumberPhotos: TextView
+    lateinit var query: ParseQuery<posts>
+    lateinit var rvPosts: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,19 +66,102 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //this is where we set up our views and click listeners
+
+        rvPosts = view.findViewById<RecyclerView>(R.id.rvPosts)
+        adapter = ProfilePostAdapter(requireContext(), allPosts)
+        rvPosts.adapter = adapter
+
+//        rvPosts.layoutManager = LinearLayoutManager(requireContext())
+
+        rvPosts.layoutManager = GridLayoutManager (requireContext(), 2)
+
+        queryPosts()
+
         var btnLogout = view.findViewById<Button>(R.id.btnLogout)
+        var btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
+        var ivProfileImage = view.findViewById<ImageView>(R.id.ivProfileImage)
+        var tvUsername = view.findViewById<TextView>(R.id.tvUsername)
+        tvNumberPhotos = view.findViewById<TextView>(R.id.tvNumberPhotos)
+
+        var numberOfPosts = 0
+
 
         btnLogout.setOnClickListener {
+            logoutUser();
+        }
 
-            ParseUser.logOut()
-            ParseUser.getCurrentUser()
+        btnSettings.setOnClickListener {
+            // TODO: Uncomment when Settings activity is created
+            //var intent = Intent(context, SettingsActivity::class.java)
+            //startActivity(intent)
+        }
 
-            var intent = Intent(context, LoginActivity::class.java)
-            startActivity(intent)
+        Glide.with(this@ProfileFragment).load(ParseUser.getCurrentUser().getParseFile("avatar")?.url).into(ivProfileImage)
+        tvUsername.text = ParseUser.getCurrentUser().username
+        findNumberPosts()
 
+
+
+    }
+
+    private fun logoutUser() {
+        ParseUser.logOut()
+        ParseUser.getCurrentUser()
+
+        var intent = Intent(context, LoginActivity::class.java)
+        // This prevents the user to go back to the previous activity, which causes the app to crash as there is no user logged in
+        // It clears the activity stack
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+    }
+
+    // function to get the number of photos the user has posted
+
+    private fun findNumberPosts(){
+        var query = ParseQuery.getQuery(posts::class.java)
+        query.whereEqualTo("user", ParseUser.getCurrentUser())
+        query.countInBackground { count, e ->
+            if (e == null) {
+                tvNumberPhotos.text =  "$count images generated"
+            } else {
+                Log.e("ProfileFragment", "Error counting posts: $e")
+            }
         }
     }
 
+
+    private fun queryPosts() {
+        val parseUser = ParseUser.getCurrentUser()
+        //specify which class to query
+        query = ParseQuery<posts>("posts").whereContainedIn("user", listOf(parseUser))
+        //find all post objects
+        query.include(posts.KEY_USER)
+        query.setLimit(2000)
+        query.addDescendingOrder("createdAt")
+        //TODO: Only return the most recent 20 posts
+
+        query.findInBackground { posts, e ->
+            if (e != null) {
+                Log.e(FeedFragment.TAG, "Error fetching posts")
+            } else {
+                if (posts != null) {
+                    for (post in posts) {
+                        Log.i(
+                            FeedFragment.TAG,
+                            "Post:" + post.getPrompt() + ", username: " + post.getUser()?.username
+                        )
+                    }
+                    allPosts.clear()
+                    allPosts.addAll(posts)
+                    adapter.notifyDataSetChanged()
+                    //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
+                    //swipeContainer.setRefreshing(false)
+                }
+            }
+        }
+
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -76,6 +180,8 @@ class ProfileFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+        const val TAG = "ProfileFragment"
     }
 
 }
