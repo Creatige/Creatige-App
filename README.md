@@ -359,4 +359,4 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
   ## Sprint 3
 
-  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint2Demo.gif" width=500><br>
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint3Demo.gif" width=500><br>
