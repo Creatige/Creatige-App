@@ -7,6 +7,9 @@
     tools:context=".fragments.Detail"
     android:background="@color/black">
 
+
+
+
     <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="110dp"
@@ -64,9 +67,11 @@
         android:id="@+id/recycler"
         android:layout_width="398dp"
         android:layout_height="214dp"
+        android:layout_marginBottom="4dp"
         android:paddingBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -94,15 +99,17 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/et_passuser"
             android:fontFamily="@font/khula"
-            android:hint="  Add a comment"
+            android:hint="Add a comment"
             android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:paddingStart="20dp"
             android:textSize="15sp" />
 
         <ImageButton
             android:id="@+id/submitComment"
-            android:layout_marginTop="19dp"
-            android:layout_width="77dp"
+            android:layout_width="56dp"
             android:layout_height="53dp"
+            android:layout_marginTop="19dp"
             app:srcCompat="@drawable/comment" />
 
     </LinearLayout>

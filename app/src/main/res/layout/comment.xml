@@ -9,8 +9,10 @@
     <TextView
         android:id="@+id/comments"
         android:layout_width="327dp"
-        android:layout_height="72dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/comment_bar_color"
         android:text="Great post"
         android:textColor="@color/white"
@@ -25,8 +27,8 @@
 
     <TextView
         android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
         android:layout_margin="10dp"
         android:background="@null"
         android:text="username"
@@ -47,12 +49,12 @@
 
     <TextView
         android:id="@+id/createdAt"
-        android:layout_width="wrap_content"
-        android:textColor="@color/white"
-        android:layout_height="48dp"
+        android:layout_width="135dp"
+        android:layout_height="26dp"
         android:layout_margin="10dp"
-        android:text="3 mins ago"
         android:paddingRight="14dp"
+        android:text="3 mins ago"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/comments"
         app:layout_constraintEnd_toEndOf="parent"
