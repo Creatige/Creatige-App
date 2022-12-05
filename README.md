@@ -43,15 +43,13 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [x] The current signed in user is persisted across app restarts 
 
-- [ ] The user profile shows the user’s creations
+- [x] The user profile shows the user’s creations
 
 - [x] User can tap on a post and it will display a detailed view of that post
 
 - [x] User will be able to create AI generated pictures using a text description on the creation screen
 
 - [x] User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
-
-- [ ] User receives push notifications to notify them their image is ready
 
 - [x] Detail view shows comments
 
@@ -68,6 +66,8 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 **Optional Nice-to-have Stories**
 
 - [ ] Share between other social media
+
+- [ ] User receives push notifications to notify them their image is ready
 
 - [ ] Allow user to search for other accounts in the app 
 
@@ -352,8 +352,11 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   
   <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint1Demo.gif" width=500><br>
 
-## Sprint 2
+  ## Sprint 2
 
 
-<img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint2Demo.gif" width=500><br>
-  
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint2Demo.gif" width=500><br>
+
+  ## Sprint 3
+
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint2Demo.gif" width=500><br>
