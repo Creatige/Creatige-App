@@ -1,6 +1,7 @@
 package com.creatige.creatige.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.R
+import com.creatige.creatige.fragments.FeedFragment
 import com.creatige.creatige.posts
+
+
+const val Post_Extra = "Post_Extra"
 
 class ProfilePostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.Adapter<ProfilePostAdapter.ViewHolder>() {
 
@@ -27,7 +32,7 @@ class ProfilePostAdapter(val context: Context, val posts: List<posts>) : Recycle
         return posts.size
     }
 
-    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         //TODO: Get Users profile image to display it in the imageview (may need to create user class for this)
         //TODO: Get time of creation of the post
         val ivImage: ImageView
@@ -35,8 +40,23 @@ class ProfilePostAdapter(val context: Context, val posts: List<posts>) : Recycle
         init{
             ivImage = itemView.findViewById(R.id.imgPost)
         }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
         fun bind(post: posts){
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
+        }
+
+        override fun onClick(v: View?) {
+            val post = posts[adapterPosition]
+            // TODO profile: change to Detail activity
+            val intent = Intent(context, FeedFragment::class.java)
+            val postID = post.objectId
+            intent.putExtra("postID", postID)
+            intent.putExtra(Post_Extra, post)
+            context.startActivity(intent)
         }
 
     }
