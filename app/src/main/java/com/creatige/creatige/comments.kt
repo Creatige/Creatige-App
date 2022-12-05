@@ -3,11 +3,13 @@ package com.creatige.creatige
 import com.parse.ParseClassName
 import com.parse.ParseObject
 import com.parse.ParseUser
+import java.util.*
 
 @ParseClassName("comments")
 class comments():ParseObject() {
-    fun getUser(): String?{
-        return getString(KEY_USER)
+
+    fun getUser(): ParseUser?{
+        return getParseUser(KEY_USER)
     }
 
     fun setUser(user: ParseUser){
@@ -23,6 +25,9 @@ class comments():ParseObject() {
     }
     fun setPostId(postId: String){
         put(KEY_POST_ID, postId)
+    }
+    fun getTime(): Date?{
+        return createdAt
     }
 
     companion object{

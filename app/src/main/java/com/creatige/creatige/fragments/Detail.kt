@@ -44,17 +44,18 @@ class Detail : AppCompatActivity() {
         //val profile = intent.getParcelableExtra<ParseFile>("profile") as ParseFile
         val profile :ParseFile = Post.getUser()?.get("avatar") as ParseFile
 
-
+        val currentUserPFP : ParseFile = ParseUser.getCurrentUser()?.get("avatar") as ParseFile
 
         Glide.with(this).load(Post.getImage()?.url).into(imgPost)
         author.text = Post.getUser()?.username
         Glide.with(this).load(profile.url).into(ivProfileImage)
+        Glide.with(this).load(currentUserPFP.url).into(userProfilePicture)
 
         commentRecyclerView = findViewById<RecyclerView>(R.id.commentRecyclerView)
         commentAdapter = CommentAdapter(this, allComments)
         commentRecyclerView.layoutManager = LinearLayoutManager(this)
         commentRecyclerView.adapter = commentAdapter
-
+        commentRecyclerView.layoutManager = LinearLayoutManager(this)
 
         queryComments(Post)
 
@@ -64,10 +65,10 @@ class Detail : AppCompatActivity() {
         }
     }
 
-
     fun queryComments(Post:posts){
         val query: ParseQuery<comments> = ParseQuery.getQuery(comments::class.java)
         query.whereEqualTo("post_id", Post)
+        query.addDescendingOrder("createdAt")
         query.findInBackground { comments, e ->
             if (e != null) {
                 //something went wrong

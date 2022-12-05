@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.parse.Parse
+import com.parse.ParseFile
+import java.util.*
 
 private const val TAG = "CommentAdapter"
 
@@ -33,19 +37,25 @@ class CommentAdapter(val context: Context, val comments: List<comments>) : Recyc
         val ivProfilePicture: ImageView
         val tvUser: TextView
         val tvComment: TextView
-
+        val timeOfCreation: TextView
 
         init {
             ivProfilePicture = itemView.findViewById(R.id.ivProfileImage)
             tvUser = itemView.findViewById(R.id.commenter)
             tvComment = itemView.findViewById(R.id.comments)
+            timeOfCreation = itemView.findViewById(R.id.createdAt)
         }
 
 
         fun bind(comment: comments) {
-            tvUser.text = comment.getUser()
+            tvUser.text = comment.getUser()?.fetchIfNeeded()?.username
             tvComment.text = comment.getComment()
+            timeOfCreation.text = TimeFormatter.getTimeDifference(comment.getTime())
+
+            var profile: ParseFile = comment.getUser()?.get("avatar") as ParseFile
+            Glide.with(itemView.context).load(profile.url).into(ivProfilePicture)
         }
     }
 }
+
 
