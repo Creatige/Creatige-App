@@ -98,6 +98,8 @@
             android:background="@drawable/et_passuser"
             android:fontFamily="@font/khula"
             android:hint="  Add a comment"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="15sp" />
 
