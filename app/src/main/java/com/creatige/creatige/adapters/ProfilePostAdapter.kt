@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.R
+import com.creatige.creatige.fragments.Detail
 import com.creatige.creatige.fragments.FeedFragment
 import com.creatige.creatige.posts
 
@@ -51,8 +52,7 @@ class ProfilePostAdapter(val context: Context, val posts: List<posts>) : Recycle
 
         override fun onClick(v: View?) {
             val post = posts[adapterPosition]
-            // TODO profile: change to Detail activity
-            val intent = Intent(context, FeedFragment::class.java)
+            val intent = Intent(context, Detail::class.java)
             val postID = post.objectId
             intent.putExtra("postID", postID)
             intent.putExtra(Post_Extra, post)
