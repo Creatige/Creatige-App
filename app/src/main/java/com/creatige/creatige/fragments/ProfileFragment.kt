@@ -11,10 +11,17 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.LoginActivity
+import com.creatige.creatige.PostAdapter
 import com.creatige.creatige.R
+import com.creatige.creatige.adapters.ProfilePostAdapter
 import com.creatige.creatige.posts
+import com.parse.FindCallback
+import com.parse.ParseException
 import com.parse.ParseQuery
 import com.parse.ParseUser
 
@@ -34,7 +41,11 @@ class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var adapter: ProfilePostAdapter
+    var allPosts: MutableList<posts> = mutableListOf()
     lateinit var tvNumberPhotos: TextView
+    lateinit var query: ParseQuery<posts>
+    lateinit var rvPosts: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +65,18 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //this is where we set up our views and click listeners
+
+        rvPosts = view.findViewById<RecyclerView>(R.id.rvPosts)
+        adapter = ProfilePostAdapter(requireContext(), allPosts)
+        rvPosts.adapter = adapter
+
+//        rvPosts.layoutManager = LinearLayoutManager(requireContext())
+
+        rvPosts.layoutManager = GridLayoutManager (requireContext(), 2)
+
+        queryPosts()
 
         var btnLogout = view.findViewById<Button>(R.id.btnLogout)
         var btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
@@ -78,6 +101,8 @@ class ProfileFragment : Fragment() {
         tvUsername.text = ParseUser.getCurrentUser().username
         findNumberPosts()
 
+
+
     }
 
     private fun logoutUser() {
@@ -98,7 +123,7 @@ class ProfileFragment : Fragment() {
         query.whereEqualTo("user", ParseUser.getCurrentUser())
         query.countInBackground { count, e ->
             if (e == null) {
-                tvNumberPhotos.text =  "${count} images generated"
+                tvNumberPhotos.text =  "$count images generated"
             } else {
                 Log.e("ProfileFragment", "Error counting posts: $e")
             }
@@ -106,6 +131,37 @@ class ProfileFragment : Fragment() {
     }
 
 
+    private fun queryPosts() {
+        val parseUser = ParseUser.getCurrentUser()
+        //specify which class to query
+        query = ParseQuery<posts>("posts").whereContainedIn("user", listOf(parseUser))
+        //find all post objects
+        query.include(posts.KEY_USER)
+        query.setLimit(2000)
+        query.addDescendingOrder("createdAt")
+        //TODO: Only return the most recent 20 posts
+
+        query.findInBackground { posts, e ->
+            if (e != null) {
+                Log.e(FeedFragment.TAG, "Error fetching posts")
+            } else {
+                if (posts != null) {
+                    for (post in posts) {
+                        Log.i(
+                            FeedFragment.TAG,
+                            "Post:" + post.getPrompt() + ", username: " + post.getUser()?.username
+                        )
+                    }
+                    allPosts.clear()
+                    allPosts.addAll(posts)
+                    adapter.notifyDataSetChanged()
+                    //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
+                    //swipeContainer.setRefreshing(false)
+                }
+            }
+        }
+
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -124,6 +180,8 @@ class ProfileFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+        const val TAG = "ProfileFragment"
     }
 
 }
