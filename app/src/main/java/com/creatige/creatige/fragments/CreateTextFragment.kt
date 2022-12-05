@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
@@ -25,6 +26,7 @@ import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
 import com.creatige.creatige.R
+import com.creatige.creatige.fragments.CreateImageFragment.Companion.wait_time
 import com.creatige.creatige.posts
 import com.parse.ParseFile
 import com.parse.ParseUser
@@ -44,6 +46,7 @@ class CreateTextFragment : Fragment() {
     lateinit var spinner: Spinner
     lateinit var btnSwitchModes : Button
     lateinit var ivCaptured : ImageView
+    lateinit var btnExpand: Button
     val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034
     var photoFile: File? = null
     val photoFileName = "photo.jpg"
@@ -70,6 +73,7 @@ class CreateTextFragment : Fragment() {
         ivGenerated = view.findViewById<ImageView>(R.id.ivGenerated)
         ivCaptured = view.findViewById<ImageView>(R.id.ivCaptured)
         btnGenerate = view.findViewById<Button>(R.id.btnGenerate)
+        btnExpand = view.findViewById<Button>(R.id.options_expand)
         etPrompt = view.findViewById<EditText>(R.id.etPrompt)
         spinner = view.findViewById(R.id.spinner)
         btnSwitchModes = view.findViewById(R.id.btnSwitchModes)
@@ -81,12 +85,14 @@ class CreateTextFragment : Fragment() {
         layoutParams.setMargins(0, to_dp(5), to_dp(25), to_dp(20));
         ivGenerated.layoutParams = layoutParams
 
-        view.findViewById<Button>(R.id.options_expand).setOnClickListener {
+        btnExpand.setOnClickListener {
             if (expanded) {
                 view.findViewById<LinearLayout>(R.id.adv_list).visibility = View.GONE
+                btnExpand.background = resources.getDrawable(R.drawable.ic_baseline_arrow_downward_24)
                 expanded = false
             } else {
                 view.findViewById<LinearLayout>(R.id.adv_list).visibility = View.VISIBLE
+                btnExpand.background = resources.getDrawable(R.drawable.ic_baseline_arrow_upward_24)
                 expanded = true
             }
         }
@@ -182,7 +188,6 @@ class CreateTextFragment : Fragment() {
         }
     }
     private fun submitPost( user: ParseUser) {
-        Log.i(TAG, "Submitting request to the API...")
         var prompt = etPrompt.text.toString()
         val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
         val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
@@ -191,7 +196,7 @@ class CreateTextFragment : Fragment() {
         val width = view?.findViewById<SeekBar>(R.id.width_seekbar)?.progress?.times(64)
         val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)?.progress?.div(2)
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
-        val denoising = view?.findViewById<SeekBar>(R.id.denoising)?.progress?.div(20)?.toFloat()
+        val denoising = view?.findViewById<SeekBar>(R.id.denoising)?.progress?.toFloat()?.div(20)
         if (negative != ""){
             prompt= "$prompt ### $negative"
         }
@@ -200,6 +205,8 @@ class CreateTextFragment : Fragment() {
         if (modeImageEnabled){
             if(tookPicture){
                 val takenImage = BitmapFactory.decodeFile(photoFile!!.absolutePath)
+                Log.i(TAG, "Captured picture height: ${takenImage.height} width: ${takenImage
+                    .width}")
                 val out = Bitmap.createScaledBitmap(takenImage, 512, 512, false)
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 out.compress(Bitmap.CompressFormat.WEBP, 50, byteArrayOutputStream)
@@ -224,7 +231,7 @@ class CreateTextFragment : Fragment() {
             }else{
                 Toast.makeText(
                     requireContext(),
-                    "Please take a picture.",
+                    "Please take a picture",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -244,50 +251,65 @@ class CreateTextFragment : Fragment() {
                     "\"trusted_workers\":${GlobalVariableClass.trusted_workers}," +
                     "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}}"
         }
-        Log.i(TAG, "Sending JSON: $json")
-        val body: RequestBody = json.toRequestBody(JSON)
-        post = posts()
-        post.setPrompt(prompt)
-        post.setUser(user)
-        requestHeaders["apikey"] = GlobalVariableClass.api_key
-        requestHeaders["Accept"] = "application/json"
-        //params["sampler_name"] = view?.findViewById<Spinner>(R.id.spinner).toString()
-        //params["seed"] = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
-        //TODO: see if there is an issue with the int values meant to be sent to the API call
-        /*if (steps != null) {
-            params["steps"] = steps.progress.toString()
-        }
-        if (height != null){
-            params["height"] = height.progress.toString()
-        }
-        if (width != null){
-            params["width"] = width.progress.toString()
-        }
-        if (guidance != null){
-            params["cfg_scale"] = guidance.progress.toString()
-        }*/
-        client.post(GlobalVariableClass.api_generate_url, requestHeaders, params, body, object :
-            JsonHttpResponseHandler() {
-            override fun onFailure(
-                statusCode: Int,
-                headers: Headers?,
-                response: String?,
-                throwable: Throwable?
-            ) {
-                Log.e(TAG, "onFailure1111 $statusCode $response $headers")
-            }
-            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
-                Log.e(TAG, "onSuccess $statusCode $json")
-                val jsonObject = json?.jsonObject
-                val id = jsonObject?.getString("id")
-                if (id != null) {
-                    val handler = Handler()
-                    handler.postDelayed({
-                        getImg(id)
-                    }, wait_time)
+        if (!modeImageEnabled || tookPicture) {
+            Log.i(TAG, "Submitting request to the API...")
+            Toast.makeText(
+                requireContext(),
+                "Sending generation request",
+                Toast.LENGTH_SHORT
+            ).show()
+            Log.i(TAG, "Sending JSON: $json")
+            val body: RequestBody = json.toRequestBody(JSON)
+            post = posts()
+            post.setPrompt(prompt)
+            post.setUser(user)
+            requestHeaders["apikey"] = GlobalVariableClass.api_key
+            requestHeaders["Accept"] = "application/json"
+            //params["sampler_name"] = view?.findViewById<Spinner>(R.id.spinner).toString()
+            //params["seed"] = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
+            //TODO: see if there is an issue with the int values meant to be sent to the API call
+            /*if (steps != null) {
+                    params["steps"] = steps.progress.toString()
                 }
-            }
-        })
+                if (height != null){
+                    params["height"] = height.progress.toString()
+                }
+                if (width != null){
+                    params["width"] = width.progress.toString()
+                }
+                if (guidance != null){
+                    params["cfg_scale"] = guidance.progress.toString()
+                }*/
+            client.post(GlobalVariableClass.api_generate_url, requestHeaders, params, body, object :
+                JsonHttpResponseHandler() {
+                override fun onFailure(
+                    statusCode: Int,
+                    headers: Headers?,
+                    response: String?,
+                    throwable: Throwable?
+                ) {
+                    Log.e(TAG, "onFailure1111 $statusCode $response $headers")
+                    // TODO REMOVE
+                    Looper.prepare()
+                    Toast.makeText(
+                        requireContext(),
+                        "Could not send generation request (Error $statusCode)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
+                    Log.e(TAG, "onSuccess $statusCode $json")
+                    val jsonObject = json?.jsonObject
+                    val id = jsonObject?.getString("id")
+                    if (id != null) {
+                        val handler = Handler()
+                        handler.postDelayed({
+                            getImg(id)
+                        }, wait_time)
+                    }
+                }
+            })
+        }
         //TODO: Add a loading bar to indicate the saving of the post? or at least the generation of an image
     }
 
@@ -304,6 +326,13 @@ class CreateTextFragment : Fragment() {
                 throwable: Throwable?
             ) {
                 Log.e(TAG, "onFailure $statusCode $response ")
+                // TODO REMOVE
+                Looper.prepare()
+                Toast.makeText(
+                    requireContext(),
+                    "Could not retrieve generated image (Error $statusCode)",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
@@ -314,12 +343,6 @@ class CreateTextFragment : Fragment() {
                 val jsonObjectImg = generations?.getJSONObject(0)
                 val img64 = jsonObjectImg?.getString("img")
                 val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
-//                ivGenerated.setImageBitmap(
-//                    BitmapFactory.decodeByteArray(
-//                        decodedString, 0, decodedString
-//                            .size
-//                    )
-//                )
                 Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
                     decodedString, 0, decodedString
                         .size
@@ -337,6 +360,11 @@ class CreateTextFragment : Fragment() {
                         ).show()
                     } else {
                         Log.i(TAG, "Successfully saved post")
+                        Toast.makeText(
+                            requireContext(),
+                            "Successfully saved post",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }

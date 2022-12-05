@@ -81,6 +81,11 @@
             android:name=".MainActivity"
             android:exported="true"></activity>
 
+        <activity
+            android:name="com.creatige.creatige.fragments.Detail"
+            android:exported="true">
+        </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

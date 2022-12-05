@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.creatige.creatige.PostAdapter
@@ -69,7 +71,7 @@ open class FeedFragment : Fragment() {
                 } else {
                     if (posts != null){
                         for(post in posts){
-                            Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
+                            Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username + "CreatedAt:" + post.getTime())
                         }
                         allPosts.clear()
                         allPosts.addAll(posts)
@@ -83,23 +85,24 @@ open class FeedFragment : Fragment() {
         })
 
     }
-
     open fun searchDB(searchItem : String){
         //specify which class to query
+        var allPosts: MutableList<posts> = mutableListOf()
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
         query.include(posts.KEY_PROMPT)
+        view?.findViewById<Button>(R.id.searchButton)?.setOnClickListener{
+            val search = view?.findViewById<EditText>(R.id.searchBox)?.text.toString()
 
-
-
+        }
 
         query.findInBackground(object : FindCallback<posts> {
             override fun done(posts: MutableList<posts>?, e: ParseException?){
                 if(e != null){
-                    Log.e(TAG, "Error fetching posts")
+                    Log.e(FeedFragment.TAG, "Error fetching posts")
                 } else {
                     if (posts != null){
                         for(post in posts){
-                            Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
+                            Log.i(FeedFragment.TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
                         }
                         allPosts.clear()
                         allPosts.addAll(posts)
@@ -112,7 +115,6 @@ open class FeedFragment : Fragment() {
             }
         })
     }
-
     companion object{
         const val TAG = "FeedFragment"
     }
