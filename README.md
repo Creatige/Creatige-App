@@ -53,9 +53,9 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [ ] User receives push notifications to notify them their image is ready
 
-- [ ] Detail view shows comments
+- [x] Detail view shows comments
 
-- [ ] Detail view lets user add comments
+- [x] Detail view lets user add comments
 
 - [x] User can log out of the app
 
