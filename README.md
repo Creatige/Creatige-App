@@ -57,17 +57,18 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [x] User can log out of the app
 
-- [ ] User can change their profile picture
+- [x] User can change their profile picture
  
-- [ ] User can change their password
+- [x] User can change their password
 
-- [ ] User can change the visibility of their profile
 
 **Optional Nice-to-have Stories**
 
 - [ ] Share between other social media
 
 - [ ] User receives push notifications to notify them their image is ready
+
+- [ ] User can change the visibility of their profile
 
 - [ ] Allow user to search for other accounts in the app 
 
