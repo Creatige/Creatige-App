@@ -105,7 +105,10 @@ class CreateTextFragment : Fragment() {
         }
         btnGenerate.setOnClickListener {
             val user = ParseUser.getCurrentUser()
-            submitPost(user)
+            val thread = Thread{
+                submitPost(user)
+            }
+            thread.start()
         }
 
         // Switch modes
@@ -228,11 +231,11 @@ class CreateTextFragment : Fragment() {
                         "\"source_image\":\"$encoded\"," +
                         " \"source_processing\":\"img2img\"}"
             }else{
-                Toast.makeText(
+                /*Toast.makeText(
                     requireContext(),
                     "Please take a picture",
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
             }
 
         }else {
@@ -252,11 +255,12 @@ class CreateTextFragment : Fragment() {
         }
         if (!modeImageEnabled || tookPicture) {
             Log.i(TAG, "Submitting request to the API...")
+            /*
             Toast.makeText(
                 requireContext(),
                 "Sending generation request",
                 Toast.LENGTH_SHORT
-            ).show()
+            ).show()*/
             Log.i(TAG, "Sending JSON: $json")
             val body: RequestBody = json.toRequestBody(JSON)
             post = posts()
@@ -291,11 +295,12 @@ class CreateTextFragment : Fragment() {
                     // TODO REMOVE
                     if (Looper.myLooper()==null)
                         Looper.prepare();
+                    /*
                     Toast.makeText(
                         requireContext(),
                         "Could not send generation request (Error $statusCode)",
                         Toast.LENGTH_LONG
-                    ).show()
+                    ).show()*/
                 }
                 override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                     Log.e(TAG, "onSuccess $statusCode $json")
@@ -329,11 +334,12 @@ class CreateTextFragment : Fragment() {
                 // TODO REMOVE
                 if (Looper.myLooper()==null)
                     Looper.prepare();
+                /*
                 Toast.makeText(
                     requireContext(),
                     "Could not retrieve generated image (Error $statusCode)",
                     Toast.LENGTH_LONG
-                ).show()
+                ).show()*/
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
@@ -344,28 +350,33 @@ class CreateTextFragment : Fragment() {
                 val jsonObjectImg = generations?.getJSONObject(0)
                 val img64 = jsonObjectImg?.getString("img")
                 val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
-                Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
-                    decodedString, 0, decodedString
-                        .size
-                )).into(ivGenerated)
+                if( !(this@CreateTextFragment.isRemoving || this@CreateTextFragment.activity == null || this@CreateTextFragment.isDetached || !this@CreateTextFragment.isAdded || this@CreateTextFragment.view == null )){
+                    Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
+                        decodedString, 0, decodedString
+                            .size
+                    )).into(ivGenerated)
+                }
+
+
                 parseFile = ParseFile("photo.webp", decodedString)
                 post.setImage(parseFile)
                 post.saveInBackground { exception ->
                     if (exception != null) {
                         Log.e(TAG, "Error while saving post")
                         exception.printStackTrace()
+                        /*
                         Toast.makeText(
                             requireContext(),
                             "Error while saving post",
                             Toast.LENGTH_SHORT
-                        ).show()
+                        ).show()*/
                     } else {
                         Log.i(TAG, "Successfully saved post")
+                        /*
                         Toast.makeText(
                             requireContext(),
                             "Successfully saved post",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            Toast.LENGTH_SHORT*/
                     }
                 }
             }
