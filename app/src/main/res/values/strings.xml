@@ -49,7 +49,7 @@ New? Register here
     </string-array>
 
     <string name="dropdown">dropDownMenuExample</string>
-    <string-array name="languages">
+    <string-array name="visibility">
         <item>Public</item>
         <item>Private</item>
 

@@ -78,7 +78,7 @@ class ProfileFragment : Fragment() {
 
         queryPosts()
 
-        var btnLogout = view.findViewById<Button>(R.id.btnLogout)
+
         var btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
         var ivProfileImage = view.findViewById<ImageView>(R.id.ivProfileImage)
         var tvUsername = view.findViewById<TextView>(R.id.tvUsername)
@@ -87,14 +87,12 @@ class ProfileFragment : Fragment() {
         var numberOfPosts = 0
 
 
-        btnLogout.setOnClickListener {
-            logoutUser();
-        }
+
 
         btnSettings.setOnClickListener {
             // TODO: Uncomment when Settings activity is created
-            //var intent = Intent(context, SettingsActivity::class.java)
-            //startActivity(intent)
+            var intent = Intent(context, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         Glide.with(this@ProfileFragment).load(ParseUser.getCurrentUser().getParseFile("avatar")?.url).into(ivProfileImage)
@@ -105,16 +103,7 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun logoutUser() {
-        ParseUser.logOut()
-        ParseUser.getCurrentUser()
 
-        var intent = Intent(context, LoginActivity::class.java)
-        // This prevents the user to go back to the previous activity, which causes the app to crash as there is no user logged in
-        // It clears the activity stack
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
-    }
 
     // function to get the number of photos the user has posted
 
