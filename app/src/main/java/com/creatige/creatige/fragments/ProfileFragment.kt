@@ -2,6 +2,7 @@ package com.creatige.creatige.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +47,7 @@ class ProfileFragment : Fragment() {
     lateinit var tvNumberPhotos: TextView
     lateinit var query: ParseQuery<posts>
     lateinit var rvPosts: RecyclerView
+    lateinit var ivProfileImage : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +82,7 @@ class ProfileFragment : Fragment() {
 
 
         var btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
-        var ivProfileImage = view.findViewById<ImageView>(R.id.ivProfileImage)
+        ivProfileImage = view.findViewById<ImageView>(R.id.ivProfileImage)
         var tvUsername = view.findViewById<TextView>(R.id.tvUsername)
         tvNumberPhotos = view.findViewById<TextView>(R.id.tvNumberPhotos)
 
@@ -103,7 +105,17 @@ class ProfileFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i("ProfileFragment", "onResume")
+        updateUIOnResume()
+    }
 
+
+    private fun updateUIOnResume(){
+        // updates the profile picture if it has been changed in Settings
+        Glide.with(this@ProfileFragment).load(ParseUser.getCurrentUser().getParseFile("avatar")?.url).into(ivProfileImage)
+    }
 
     // function to get the number of photos the user has posted
 
