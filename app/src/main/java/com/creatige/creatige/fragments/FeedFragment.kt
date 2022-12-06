@@ -91,7 +91,7 @@ open class FeedFragment : Fragment() {
                         allPosts.addAll(posts)
                         adapter.notifyDataSetChanged()
                         //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
-                        //swipeContainer.setRefreshing(false)
+                        swipeContainer.setRefreshing(false)
                     }
                 }
 
