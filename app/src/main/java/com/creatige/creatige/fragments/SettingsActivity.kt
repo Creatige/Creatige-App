@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.widget.addTextChangedListener
+import com.bumptech.glide.Glide
 import com.creatige.creatige.LoginActivity
 import com.creatige.creatige.R
 import com.parse.ParseFile
@@ -45,6 +46,10 @@ class SettingsActivity: AppCompatActivity() {
         btnChangePw=findViewById(R.id.btn_changePass)
         author=findViewById(R.id.user_name)
         author.text = ParseUser.getCurrentUser()?.username.toString()
+
+
+        val profile :ParseFile = ParseUser.getCurrentUser().get("avatar") as ParseFile
+        Glide.with(this).load(profile.url).into(ivProfileImg)
         ArrayAdapter.createFromResource(
             this,
             R.array.visibility,
@@ -102,7 +107,6 @@ class SettingsActivity: AppCompatActivity() {
 
             val old = etOldPass.text
             val new = etNewPass.text
-            val confirm = etConfirmPass.text
 
             if(old.isNotEmpty()){
                 val user :ParseUser = ParseUser.getCurrentUser()
@@ -120,6 +124,7 @@ class SettingsActivity: AppCompatActivity() {
                         }
                         Log.i(TAG, "password is correct")
                     } else {
+                        Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
                         e.printStackTrace()
                         Log.i(TAG, "incorrect password")
                         Log.e(TAG, "$e")
