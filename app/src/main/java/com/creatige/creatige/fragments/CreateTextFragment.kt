@@ -290,7 +290,8 @@ class CreateTextFragment : Fragment() {
                 ) {
                     Log.e(TAG, "onFailure1111 $statusCode $response $headers")
                     // TODO REMOVE
-                    Looper.prepare()
+                    if (Looper.myLooper()==null)
+                        Looper.prepare();
                     Toast.makeText(
                         requireContext(),
                         "Could not send generation request (Error $statusCode)",
@@ -327,7 +328,8 @@ class CreateTextFragment : Fragment() {
             ) {
                 Log.e(TAG, "onFailure $statusCode $response ")
                 // TODO REMOVE
-                Looper.prepare()
+                if (Looper.myLooper()==null)
+                    Looper.prepare();
                 Toast.makeText(
                     requireContext(),
                     "Could not retrieve generated image (Error $statusCode)",
