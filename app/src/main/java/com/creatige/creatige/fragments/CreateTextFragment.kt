@@ -26,7 +26,6 @@ import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
 import com.creatige.creatige.R
-import com.creatige.creatige.fragments.CreateImageFragment.Companion.wait_time
 import com.creatige.creatige.posts
 import com.parse.ParseFile
 import com.parse.ParseUser
