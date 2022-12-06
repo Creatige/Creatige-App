@@ -54,7 +54,6 @@ class LoginActivity : AppCompatActivity() {
                 Log.i(TAG, "login success")
                 goToMainActivity()
             } else {
-
                 e.printStackTrace()
                 Toast.makeText(this, "error logging in", Toast.LENGTH_SHORT).show()
                 Log.e(TAG, "$e")
