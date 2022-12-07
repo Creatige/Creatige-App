@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.creatige.creatige.LoginActivity
 import com.creatige.creatige.PostAdapter
@@ -41,6 +42,8 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var swipeContainer: SwipeRefreshLayout
+
 
     lateinit var adapter: ProfilePostAdapter
     var allPosts: MutableList<posts> = mutableListOf()
@@ -80,6 +83,19 @@ class ProfileFragment : Fragment() {
 
         queryPosts()
 
+        swipeContainer = view.findViewById(R.id.swipeContainer)
+
+        swipeContainer.setOnRefreshListener {
+            Log.i(FeedFragment.TAG,"Refreshing timeline")
+            queryPosts()
+        }
+
+        swipeContainer.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light);
+
 
         var btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
         ivProfileImage = view.findViewById<ImageView>(R.id.ivProfileImage)
@@ -104,6 +120,10 @@ class ProfileFragment : Fragment() {
 
 
     }
+
+
+
+
 
     override fun onResume() {
         super.onResume()
@@ -153,9 +173,15 @@ class ProfileFragment : Fragment() {
                             "Post:" + post.getPrompt() + ", username: " + post.getUser()?.username
                         )
                     }
+
+
                     allPosts.clear()
                     allPosts.addAll(posts)
                     adapter.notifyDataSetChanged()
+                    swipeContainer.setRefreshing(false)
+
+
+
                     //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
                     //swipeContainer.setRefreshing(false)
                 }
