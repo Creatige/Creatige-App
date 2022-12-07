@@ -8,6 +8,7 @@ class CreatigeApplication : Application() {
     override fun onCreate(){
         super.onCreate()
         ParseObject.registerSubclass(posts::class.java)
+        ParseObject.registerSubclass(comments::class.java)
         Parse.initialize(
             Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))

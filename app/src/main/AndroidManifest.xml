@@ -8,6 +8,13 @@
     <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="ANDROID.PERMISSION.WRITE_EXTERNAL_STORAGE"/>
 
+    <queries>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".CreatigeApplication"
         android:allowBackup="true"
@@ -18,7 +25,19 @@
         android:roundIcon="@mipmap/ic_creatige_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Creatige"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.codepath.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
 
         <meta-data
             android:name="com.parse.SERVER_URL"
@@ -31,19 +50,22 @@
             android:value="@string/back4app_client_key" />
 
 
-
         <activity
-            android:name="com.creatige.creatige.register"
+            android:name=".fragments.SettingsActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".register"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
-
         </activity>
-
         <activity
-            android:name="com.creatige.creatige.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -54,12 +76,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
-            android:name="com.creatige.creatige.MainActivity"
-            android:exported="true">
+            android:name=".MainActivity"
+            android:exported="true"></activity>
 
+        <activity
+            android:name="com.creatige.creatige.fragments.Detail"
+            android:exported="true">
         </activity>
 
         <meta-data

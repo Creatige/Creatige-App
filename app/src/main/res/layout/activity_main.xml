@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_below="@id/bottom_navigation"
         android:id="@+id/flContainer"
+        android:layout_above="@id/bottom_navigation"
         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -4,6 +4,7 @@ import com.parse.ParseClassName
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseUser
+import java.util.Date
 
 //Prompt : String
 //Image : File
@@ -34,11 +35,16 @@ class posts() : ParseObject() {
         put(KEY_USER, user)
     }
 
+    fun getTime(): Date?{
+        return createdAt
+    }
+
 
     companion object{
         const val KEY_PROMPT = "prompt"
         const val KEY_IMAGE = "image"
         const val KEY_USER = "user"
-
+        const val KEY_TIME = "createdAt"
+        const val KEY_POST_ID = "objectId"
     }
 }

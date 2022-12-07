@@ -39,35 +39,36 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [x] User can create an account 
 
-- [ ] Create a stream to view creations posted on the app 
+- [x] Create a stream to view creations posted on the app 
 
 - [x] The current signed in user is persisted across app restarts 
 
-- [ ] The user profile shows the user’s creations
+- [x] The user profile shows the user’s creations
 
-- [ ] User can tap on a post and it will display a detailed view of that post
+- [x] User can tap on a post and it will display a detailed view of that post
 
-- [ ] User will be able to create AI generated pictures using a text description on the creation screen
+- [x] User will be able to create AI generated pictures using a text description on the creation screen
 
-- [ ] User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
+- [x] User will be able to create AI generated pictures using a text description and an initialization image taken with the phone camera on the creation screen
 
-- [ ] User receives push notifications to notify them their image is ready
+- [x] Detail view shows comments
 
-- [ ] Detail view shows comments
-
-- [ ] Detail view lets user add comments
+- [x] Detail view lets user add comments
 
 - [x] User can log out of the app
 
-- [ ] User can change their profile picture
+- [x] User can change their profile picture
  
-- [ ] User can change their password
+- [x] User can change their password
 
-- [ ] User can change the visibility of their profile
 
 **Optional Nice-to-have Stories**
 
 - [ ] Share between other social media
+
+- [ ] User receives push notifications to notify them their image is ready
+
+- [ ] User can change the visibility of their profile
 
 - [ ] Allow user to search for other accounts in the app 
 
@@ -346,3 +347,17 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 
   <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/networking/updateUserPassword.png" width=500><br>
+  
+  ## Sprint 1
+  
+  
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint1Demo.gif" width=500><br>
+
+  ## Sprint 2
+
+
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint2Demo.gif" width=500><br>
+
+  ## Sprint 3
+
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint3Demo.gif" width=500><br>

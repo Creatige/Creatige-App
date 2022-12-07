@@ -71,7 +71,7 @@ open class FeedFragment : Fragment() {
                 } else {
                     if (posts != null){
                         for(post in posts){
-                            Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
+                            Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username + "CreatedAt:" + post.getTime())
                         }
                         allPosts.clear()
                         allPosts.addAll(posts)
@@ -87,13 +87,33 @@ open class FeedFragment : Fragment() {
     }
     open fun searchDB(searchItem : String){
         //specify which class to query
+        var allPosts: MutableList<posts> = mutableListOf()
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
+        query.include(posts.KEY_PROMPT)
+        view?.findViewById<Button>(R.id.searchButton)?.setOnClickListener{
+            val search = view?.findViewById<EditText>(R.id.searchBox)?.text.toString()
 
-        findViewById<Button>(R.id.searchButton).setOnClickListener{
-            val search = findViewById<EditText>(R.id.searchBox).text.toString()
         }
 
+        query.findInBackground(object : FindCallback<posts> {
+            override fun done(posts: MutableList<posts>?, e: ParseException?){
+                if(e != null){
+                    Log.e(FeedFragment.TAG, "Error fetching posts")
+                } else {
+                    if (posts != null){
+                        for(post in posts){
+                            Log.i(FeedFragment.TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
+                        }
+                        allPosts.clear()
+                        allPosts.addAll(posts)
+                        adapter.notifyDataSetChanged()
+                        //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
+                        //swipeContainer.setRefreshing(false)
+                    }
+                }
 
+            }
+        })
     }
     companion object{
         const val TAG = "FeedFragment"
