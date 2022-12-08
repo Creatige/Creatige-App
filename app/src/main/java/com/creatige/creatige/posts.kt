@@ -19,27 +19,21 @@ class posts() : ParseObject() {
     fun setPrompt(prompt: String){
         put(KEY_PROMPT, prompt)
     }
-
     fun getImage(): ParseFile? {
         return getParseFile(KEY_IMAGE)
     }
-
     fun setImage(parsefile: ParseFile){
         put(KEY_IMAGE, parsefile)
     }
     fun getUser(): ParseUser?{
         return getParseUser(KEY_USER)
     }
-
     fun setUser(user: ParseUser){
         put(KEY_USER, user)
     }
-
     fun getTime(): Date?{
         return createdAt
     }
-
-
     companion object{
         const val KEY_PROMPT = "prompt"
         const val KEY_IMAGE = "image"
