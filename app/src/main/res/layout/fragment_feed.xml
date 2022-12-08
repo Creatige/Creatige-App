@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content">
 
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/searchBox"
                     android:layout_width="345dp"
                     android:layout_height="49dp"
