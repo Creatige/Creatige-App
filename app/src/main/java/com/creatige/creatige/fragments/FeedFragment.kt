@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.creatige.creatige.PostAdapter
 import com.creatige.creatige.R
 import com.creatige.creatige.posts
@@ -22,6 +23,7 @@ open class FeedFragment : Fragment() {
     lateinit var postsRecyclerView: RecyclerView
     lateinit var adapter: PostAdapter
     var allPosts: MutableList<posts> = mutableListOf()
+    lateinit var swipeContainer: SwipeRefreshLayout
 
     //TODO: implement swiperefreshlayout
     //lateinit var swipeContainer:SwipeRefreshLayout
@@ -43,10 +45,22 @@ open class FeedFragment : Fragment() {
 //            queryPosts()
 //        }
 
+        swipeContainer = view.findViewById(R.id.swipeContainer)
+
+        swipeContainer.setOnRefreshListener {
+            Log.i(TAG,"Refreshing timeline")
+            queryPosts()
+        }
+
+        swipeContainer.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light);
         //this is where we set up our views and click listeners
 
         postsRecyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
-        adapter = PostAdapter(requireContext(), allPosts)
+        adapter = PostAdapter(requireContext(), allPosts as ArrayList<posts>)
         postsRecyclerView.adapter = adapter
 
         postsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -77,7 +91,7 @@ open class FeedFragment : Fragment() {
                         allPosts.addAll(posts)
                         adapter.notifyDataSetChanged()
                         //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
-                        //swipeContainer.setRefreshing(false)
+                        swipeContainer.setRefreshing(false)
                     }
                 }
 
@@ -104,9 +118,12 @@ open class FeedFragment : Fragment() {
                         for(post in posts){
                             Log.i(FeedFragment.TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
                         }
+                        adapter.clear()
+                        adapter.addAll(posts)
                         allPosts.clear()
                         allPosts.addAll(posts)
                         adapter.notifyDataSetChanged()
+                        swipeContainer.setRefreshing(false)
                         //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
                         //swipeContainer.setRefreshing(false)
                     }
