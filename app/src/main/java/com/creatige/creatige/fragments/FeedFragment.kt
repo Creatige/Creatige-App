@@ -50,8 +50,8 @@ open class FeedFragment : Fragment() {
 
         queryPosts()  //fills up the List with posts
 
-        //1. get all username handles as strings
-        allUsernames = queryUsers()
+        //get all username handles as strings
+        allUsernames = queryUsernames()
 
         val arrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(view.context, android.R.layout.simple_dropdown_item_1line, allUsernames)
         autoCompleteTextView.setAdapter(arrayAdapter)
@@ -63,7 +63,6 @@ open class FeedFragment : Fragment() {
             val search = autoCompleteTextView.text.toString()
             searchDB(search)
         }
-
     }
 
 
@@ -97,21 +96,16 @@ open class FeedFragment : Fragment() {
     }
 
 
-
-    open fun queryUsers(): MutableList<String> {
+    open fun queryUsernames(): MutableList<String> {
         var usernames: MutableList<String> = mutableListOf()
         val query: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
-        query.findInBackground(object: FindCallback<ParseUser>{
-            override fun done(users: MutableList<ParseUser>?, e: ParseException?) {
-                if(users != null){
-                    Log.e(TAG, "Users fetched from the queryUsers query: $users")
-                    for (user in users){
-                        //fill up the list with all of the available usernames to be selected from
-                        usernames.add(user.fetchIfNeeded().username.toString())
-                    }
-                }
+        val users = query.find()
+        if(users != null){
+            for (user in users){
+                //fill up the list with all of the available usernames to be selected from
+                usernames.add(user.fetchIfNeeded().username.toString())
             }
-        })
+        }
         return usernames
     }
 
@@ -119,39 +113,23 @@ open class FeedFragment : Fragment() {
     open fun searchDB(searchItem : String){
         val userQuery: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
         userQuery.whereEqualTo("username", searchItem)
-        userQuery.findInBackground(object: FindCallback<ParseUser>{
-            override fun done(users: MutableList<ParseUser>?, e: ParseException?) {
-                if(users != null){
-                    val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
-                    query.include(posts.KEY_PROMPT)
-                    query.whereEqualTo("user", users.elementAt(0))
+        val user = userQuery.find() // all users that match the search input from user
 
-                    query.findInBackground(object : FindCallback<posts> {
-                        override fun done(posts: MutableList<posts>?, e: ParseException?){
-                            if(e != null){
-                                Log.e(FeedFragment.TAG, "Error fetching posts")
-                            } else {
-                                if (posts != null){
-                                    for(post in posts){
-                                        Log.i(FeedFragment.TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.fetchIfNeeded()?.username)
-                                    }
-                                    allPosts.clear()
-                                    allPosts.addAll(posts)
-                                    adapter.notifyDataSetChanged()
-                                    //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
-                                    //swipeContainer.setRefreshing(false)
-                                }
-                            }
-                        }
-                    })
-                } else {
-                    //in other words: too bad, so fucking sad
-                    Toast.makeText(requireContext(), "Error finding user", Toast.LENGTH_SHORT).show()
-                }
+        if(user != null){
+            val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
+            query.whereEqualTo("user", user.get(0)) //gets the first match from the first query
+            val posts = query.find()//fetches all posts that match the query
+            if (posts != null){
+                allPosts.clear()
+                allPosts.addAll(posts)
+                adapter.notifyDataSetChanged()
+            } else {
+                Toast.makeText(requireContext(), "User has no posts", Toast.LENGTH_SHORT).show()
             }
-        })
+        } else {
+            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+        }
     }
-
 
     companion object{
         const val TAG = "FeedFragment"
