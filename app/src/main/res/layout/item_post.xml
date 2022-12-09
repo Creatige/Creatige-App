@@ -7,8 +7,9 @@
 
     <ImageView
         android:id="@+id/imgPost"
-        android:layout_width="match_parent"
-        android:layout_height="381dp"
+        android:layout_width="404dp"
+        android:layout_height="344dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -27,16 +28,35 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/createdAt"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/cardviewimg"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/cardviewimg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:elevation="12dp"
+        android:innerRadius="0dp"
+        android:layout_marginTop="8dp"
+        android:shape="ring"
+        android:thicknessRatio="1.5"
+        android:layout_marginLeft="10dp"
+
+        app:cardCornerRadius="45dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/createdAt"
@@ -50,12 +70,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0" />
 
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:layout_below="@id/imgPost"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/postPrompt" />
+
     <TextView
         android:id="@+id/postPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:fontFamily="@font/khula"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="8dp"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgPost" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:layout_below="@id/imgPost"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postPrompt" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
