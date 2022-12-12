@@ -1,17 +1,20 @@
 package com.creatige.creatige.fragments
 
+import android.content.ClipData.Item
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.creatige.creatige.PostAdapter
+import com.creatige.creatige.adapters.PostAdapter
 import com.creatige.creatige.R
-import com.creatige.creatige.posts
+import com.creatige.creatige.models.posts
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
 import com.parse.ParseException
 import com.parse.ParseQuery
@@ -22,9 +25,9 @@ open class FeedFragment : Fragment() {
     lateinit var postsRecyclerView: RecyclerView
     lateinit var autoCompleteTextView : AutoCompleteTextView
     lateinit var adapter: PostAdapter
-    lateinit var userSelected : String
     var allPosts: MutableList<posts> = mutableListOf()
     var allUsernames: MutableList<String> = mutableListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +39,9 @@ open class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
-
         //Accessing the views on the screen
         postsRecyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
         autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.searchBox)
-
         //setting up the adapter to allow Posts to be updated from within the query
         adapter = PostAdapter(requireContext(), allPosts)
         postsRecyclerView.adapter = adapter
@@ -63,6 +64,7 @@ open class FeedFragment : Fragment() {
             val search = autoCompleteTextView.text.toString()
             searchDB(search)
         }
+
     }
 
 

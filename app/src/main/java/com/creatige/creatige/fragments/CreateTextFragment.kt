@@ -26,7 +26,7 @@ import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
 import com.creatige.creatige.R
-import com.creatige.creatige.posts
+import com.creatige.creatige.models.posts
 import com.parse.ParseFile
 import com.parse.ParseUser
 import okhttp3.Headers

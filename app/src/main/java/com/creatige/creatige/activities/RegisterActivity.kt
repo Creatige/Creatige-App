@@ -1,4 +1,4 @@
-package com.creatige.creatige
+package com.creatige.creatige.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,9 +8,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.creatige.creatige.R
 import com.parse.ParseUser
 
-class register : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -27,7 +28,7 @@ class register : AppCompatActivity() {
         val screen_login = findViewById<TextView>(R.id.new_registe);
 
         screen_login.setOnClickListener({
-            val screen_login = Intent(this@register, LoginActivity::class.java);
+            val screen_login = Intent(this@RegisterActivity, LoginActivity::class.java);
             startActivity(screen_login);
 
         })
@@ -68,7 +69,7 @@ class register : AppCompatActivity() {
 
     private fun goToMainActivity(){
 
-        val intent = Intent(this@register,MainActivity::class.java)
+        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
         startActivity(intent)
         finish()
 

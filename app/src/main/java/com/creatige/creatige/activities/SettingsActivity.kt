@@ -1,6 +1,5 @@
-package com.creatige.creatige.fragments
+package com.creatige.creatige.activities
 
-import android.R.attr.button
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -13,10 +12,9 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
-import com.creatige.creatige.LoginActivity
 import com.creatige.creatige.R
+import com.creatige.creatige.fragments.CreateTextFragment
 import com.parse.ParseFile
 import com.parse.ParseUser
 import java.io.File
