@@ -82,8 +82,6 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
                         var post = posts[adapterPosition]
 
                         deletePost(post)
-
-
                         true
                     }
                     else -> true
