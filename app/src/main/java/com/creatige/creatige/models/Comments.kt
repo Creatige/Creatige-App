@@ -1,4 +1,4 @@
-package com.creatige.creatige
+package com.creatige.creatige.models
 
 import com.parse.ParseClassName
 import com.parse.ParseObject

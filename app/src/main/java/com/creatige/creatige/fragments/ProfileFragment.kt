@@ -2,27 +2,22 @@ package com.creatige.creatige.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
-import com.creatige.creatige.LoginActivity
-import com.creatige.creatige.PostAdapter
 import com.creatige.creatige.R
+import com.creatige.creatige.activities.SettingsActivity
 import com.creatige.creatige.adapters.ProfilePostAdapter
-import com.creatige.creatige.posts
-import com.parse.FindCallback
-import com.parse.ParseException
+import com.creatige.creatige.models.posts
 import com.parse.ParseQuery
 import com.parse.ParseUser
 
@@ -41,6 +36,8 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var swipeContainer: SwipeRefreshLayout
+
 
     lateinit var adapter: ProfilePostAdapter
     var allPosts: MutableList<posts> = mutableListOf()
@@ -80,6 +77,19 @@ class ProfileFragment : Fragment() {
 
         queryPosts()
 
+        swipeContainer = view.findViewById(R.id.swipeContainer)
+
+        swipeContainer.setOnRefreshListener {
+            Log.i(FeedFragment.TAG,"Refreshing timeline")
+            queryPosts()
+        }
+
+        swipeContainer.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light);
+
 
         var btnSettings = view.findViewById<ImageButton>(R.id.btnSettings)
         ivProfileImage = view.findViewById<ImageView>(R.id.ivProfileImage)
@@ -104,6 +114,10 @@ class ProfileFragment : Fragment() {
 
 
     }
+
+
+
+
 
     override fun onResume() {
         super.onResume()
@@ -153,9 +167,15 @@ class ProfileFragment : Fragment() {
                             "Post:" + post.getPrompt() + ", username: " + post.getUser()?.username
                         )
                     }
+
+
                     allPosts.clear()
                     allPosts.addAll(posts)
                     adapter.notifyDataSetChanged()
+                    swipeContainer.setRefreshing(false)
+
+
+
                     //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
                     //swipeContainer.setRefreshing(false)
                 }
