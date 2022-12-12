@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
 
     <ImageView
         android:id="@+id/imgPost"
-        android:layout_width="404dp"
-        android:layout_height="344dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -80,8 +81,8 @@
         android:layout_marginTop="1dp"
         android:fontFamily="@font/khula"
         android:text="TextView"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,9 +93,9 @@
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
         android:layout_below="@id/imgPost"
-        android:background="@color/white"
+        android:background="#555555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postPrompt" />
 
