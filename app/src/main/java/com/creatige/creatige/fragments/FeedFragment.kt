@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.creatige.creatige.adapters.PostAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.creatige.creatige.R
 import com.creatige.creatige.models.posts
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,8 +26,11 @@ open class FeedFragment : Fragment() {
     lateinit var postsRecyclerView: RecyclerView
     lateinit var autoCompleteTextView : AutoCompleteTextView
     lateinit var adapter: PostAdapter
-    var allPosts: MutableList<posts> = mutableListOf()
+    var allPosts: ArrayList<posts> = ArrayList()
     var allUsernames: MutableList<String> = mutableListOf()
+
+    lateinit var swipeContainer: SwipeRefreshLayout
+
 
 
     override fun onCreateView(
@@ -44,6 +48,29 @@ open class FeedFragment : Fragment() {
         autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.searchBox)
         //setting up the adapter to allow Posts to be updated from within the query
         adapter = PostAdapter(requireContext(), allPosts)
+        queryPosts()
+        //TODO: IMPLEMENT THE SWIPE CONTAINER LOGIC AND CREATE SWIPECONTAINER KOTLIN FILE
+//        swipeContainer = view.findViewById(R.id.swipeContainer)
+//        swipeContainer.setOnRefreshListener{
+//            queryPosts()
+//        }
+
+        swipeContainer = view.findViewById(R.id.swipeContainer)
+
+        swipeContainer.setOnRefreshListener {
+            Log.i(TAG,"Refreshing timeline")
+            queryPosts()
+        }
+
+        swipeContainer.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light);
+        //this is where we set up our views and click listeners
+
+        postsRecyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
+        adapter = PostAdapter(requireContext(), allPosts as ArrayList<posts>)
         postsRecyclerView.adapter = adapter
 
         //allows the recyclerView to display posts fetched from the query
@@ -90,7 +117,7 @@ open class FeedFragment : Fragment() {
                         allPosts.addAll(posts)
                         adapter.notifyDataSetChanged()
                         //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
-                        //swipeContainer.setRefreshing(false)
+                        swipeContainer.setRefreshing(false)
                     }
                 }
             }

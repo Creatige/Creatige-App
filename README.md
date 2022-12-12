@@ -70,9 +70,9 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [ ] User can change the visibility of their profile
 
-- [ ] Allow user to search for other accounts in the app 
+- [x] Allow user to search for other user posts
 
-- [ ] User can refresh posts timeline by pulling down to refresh
+- [x] User can refresh posts timeline by pulling down to refresh
 
 - [ ] User can add friends to see their creations on their feed
 

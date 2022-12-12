@@ -20,7 +20,7 @@ import com.parse.ParseQuery
 
 const val Post_Extra = "Post_Extra"
 
-class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
+class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
@@ -35,6 +35,17 @@ class PostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.A
 
     override fun getItemCount(): Int {
         return posts.size
+    }
+
+    fun clear() {
+        posts.clear()
+        notifyDataSetChanged()
+    }
+
+    // Add a list of items -- change to type used
+    fun addAll(tweetList: List<posts>) {
+        posts.addAll(tweetList)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
