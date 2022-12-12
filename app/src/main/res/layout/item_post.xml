@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp">
+    android:layout_marginTop="10dp">
 
     <ImageView
         android:id="@+id/imgPost"
@@ -71,14 +71,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0" />
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="wrap_content"
-        android:layout_height="3dp"
-        android:layout_below="@id/imgPost"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/postPrompt" />
+
 
     <TextView
         android:id="@+id/postPrompt"
@@ -87,6 +80,8 @@
         android:layout_marginTop="1dp"
         android:fontFamily="@font/khula"
         android:text="TextView"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
