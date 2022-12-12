@@ -98,7 +98,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
 
         fun bind(post: posts){
             tvDescription.text = post.getPrompt()
-            tvUsername.text = post.getUser()?.username
+            tvUsername.text = post.getUser()?.fetchIfNeeded()?.username
 
             tvCreatedAT.text = TimeFormatter.getTimeDifference(post.getTime())
 

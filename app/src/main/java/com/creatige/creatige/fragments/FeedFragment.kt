@@ -128,13 +128,17 @@ open class FeedFragment : Fragment() {
     open fun queryUsernames(): MutableList<String> {
         var usernames: MutableList<String> = mutableListOf()
         val query: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
-        val users = query.find()
-        if(users != null){
-            for (user in users){
-                //fill up the list with all of the available usernames to be selected from
-                usernames.add(user.fetchIfNeeded().username.toString())
+        query.findInBackground(object: FindCallback<ParseUser>{
+            override fun done(users: MutableList<ParseUser>?, e: ParseException?) {
+                if(users != null){
+                    Log.e(TAG, "Users fetched from the queryUsers query: $users")
+                    for (user in users){
+                        //fill up the list with all of the available usernames to be selected from
+                        usernames.add(user.fetchIfNeeded().username.toString())
+                    }
+                }
             }
-        }
+        })
         return usernames
     }
 
@@ -144,13 +148,18 @@ open class FeedFragment : Fragment() {
         userQuery.whereEqualTo("username", searchItem)
         val user = userQuery.find() // all users that match the search input from user
 
-        if(user != null){
+//        Log.e(TAG, "User: $user")
+       Log.e(TAG, "User: ${user.get(0)}")
+
+        if(user.size != 0){
             val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
-            query.whereEqualTo("user", user.get(0)) //gets the first match from the first query
+            query.whereEqualTo("user", user[0]) //gets the first match from the first query
             val posts = query.find()//fetches all posts that match the query
+            Log.e(TAG, "Posts: $posts")
             if (posts != null){
                 allPosts.clear()
                 allPosts.addAll(posts)
+                Log.e(TAG, "allPosts: $allPosts")
                 adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(requireContext(), "User has no posts", Toast.LENGTH_SHORT).show()
