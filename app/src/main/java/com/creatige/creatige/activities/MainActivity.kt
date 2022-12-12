@@ -1,10 +1,10 @@
-package com.creatige.creatige
+package com.creatige.creatige.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.creatige.creatige.R
 import com.creatige.creatige.fragments.CreateTextFragment
 import com.creatige.creatige.fragments.FeedFragment
 import com.creatige.creatige.fragments.ProfileFragment

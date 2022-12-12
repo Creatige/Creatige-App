@@ -1,4 +1,4 @@
-package com.creatige.creatige.fragments
+package com.creatige.creatige.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.creatige.creatige.*
 import com.creatige.creatige.R
+import com.creatige.creatige.adapters.CommentAdapter
+import com.creatige.creatige.adapters.Post_Extra
+import com.creatige.creatige.models.comments
+import com.creatige.creatige.models.posts
 import com.parse.*
 
 
-private const val TAG = "DetailActivity"
-class Detail : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
     private lateinit var ivProfileImage: ImageView
     private lateinit var author: TextView
@@ -41,9 +43,7 @@ class Detail : AppCompatActivity() {
 
 
         val Post = intent.getParcelableExtra<posts>(Post_Extra) as posts
-        //val profile = intent.getParcelableExtra<ParseFile>("profile") as ParseFile
         val profile :ParseFile = Post.getUser()?.get("avatar") as ParseFile
-
         val currentUserPFP : ParseFile = ParseUser.getCurrentUser()?.get("avatar") as ParseFile
 
         Glide.with(this).load(Post.getImage()?.url).into(imgPost)
