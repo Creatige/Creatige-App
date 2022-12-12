@@ -1,6 +1,8 @@
 package com.creatige.creatige
 
 import android.app.Application
+import com.creatige.creatige.models.comments
+import com.creatige.creatige.models.posts
 import com.parse.Parse
 import com.parse.ParseObject
 

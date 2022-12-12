@@ -63,13 +63,13 @@
         android:id="@+id/createdAt"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:text="3 mins ago"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/imgPost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintEnd_toStartOf="@+id/postOptions"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 
@@ -88,6 +88,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgPost" />
 
+
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
@@ -96,6 +97,17 @@
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postPrompt" />
+
+    <ImageButton
+        android:id="@+id/postOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@+id/imgPost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/more_menu" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

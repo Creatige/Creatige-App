@@ -1,32 +1,37 @@
 package com.creatige.creatige.fragments
 
+import android.content.ClipData.Item
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.creatige.creatige.adapters.PostAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.creatige.creatige.PostAdapter
 import com.creatige.creatige.R
-import com.creatige.creatige.posts
+import com.creatige.creatige.models.posts
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
 import com.parse.ParseException
 import com.parse.ParseQuery
+import com.parse.ParseUser
 
 
 open class FeedFragment : Fragment() {
     lateinit var postsRecyclerView: RecyclerView
+    lateinit var autoCompleteTextView : AutoCompleteTextView
     lateinit var adapter: PostAdapter
-    var allPosts: MutableList<posts> = mutableListOf()
+    var allPosts: ArrayList<posts> = ArrayList()
+    var allUsernames: MutableList<String> = mutableListOf()
+
     lateinit var swipeContainer: SwipeRefreshLayout
 
-    //TODO: implement swiperefreshlayout
-    //lateinit var swipeContainer:SwipeRefreshLayout
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +43,11 @@ open class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
+        //Accessing the views on the screen
+        postsRecyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
+        autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.searchBox)
+        //setting up the adapter to allow Posts to be updated from within the query
+        adapter = PostAdapter(requireContext(), allPosts)
         queryPosts()
         //TODO: IMPLEMENT THE SWIPE CONTAINER LOGIC AND CREATE SWIPECONTAINER KOTLIN FILE
 //        swipeContainer = view.findViewById(R.id.swipeContainer)
@@ -63,12 +73,28 @@ open class FeedFragment : Fragment() {
         adapter = PostAdapter(requireContext(), allPosts as ArrayList<posts>)
         postsRecyclerView.adapter = adapter
 
+        //allows the recyclerView to display posts fetched from the query
         postsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Pedro: commented it out because this was being called twice
-//        queryPosts()
+        queryPosts()  //fills up the List with posts
+
+        //get all username handles as strings
+        allUsernames = queryUsernames()
+
+        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(view.context, android.R.layout.simple_dropdown_item_1line, allUsernames)
+        autoCompleteTextView.setAdapter(arrayAdapter)
+
+
+        //takes input from searchBox when the searchButton is clicked
+        view.findViewById<ImageButton>(R.id.searchButton)?.setOnClickListener{
+            Toast.makeText(view.context, "Item selected was: $autoCompleteTextView", Toast.LENGTH_SHORT).show()
+            val search = autoCompleteTextView.text.toString()
+            searchDB(search)
+        }
 
     }
+
+
     open fun queryPosts() {
         //specify which class to query
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
@@ -94,47 +120,47 @@ open class FeedFragment : Fragment() {
                         swipeContainer.setRefreshing(false)
                     }
                 }
-
             }
         })
-
     }
-    open fun searchDB(searchItem : String){
-        //specify which class to query
-        var allPosts: MutableList<posts> = mutableListOf()
-        val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
-        query.include(posts.KEY_PROMPT)
-        view?.findViewById<Button>(R.id.searchButton)?.setOnClickListener{
-            val search = view?.findViewById<EditText>(R.id.searchBox)?.text.toString()
 
+
+    open fun queryUsernames(): MutableList<String> {
+        var usernames: MutableList<String> = mutableListOf()
+        val query: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
+        val users = query.find()
+        if(users != null){
+            for (user in users){
+                //fill up the list with all of the available usernames to be selected from
+                usernames.add(user.fetchIfNeeded().username.toString())
+            }
         }
-
-        query.findInBackground(object : FindCallback<posts> {
-            override fun done(posts: MutableList<posts>?, e: ParseException?){
-                if(e != null){
-                    Log.e(FeedFragment.TAG, "Error fetching posts")
-                } else {
-                    if (posts != null){
-                        for(post in posts){
-                            Log.i(FeedFragment.TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username)
-                        }
-                        adapter.clear()
-                        adapter.addAll(posts)
-                        allPosts.clear()
-                        allPosts.addAll(posts)
-                        adapter.notifyDataSetChanged()
-                        swipeContainer.setRefreshing(false)
-                        //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
-                        //swipeContainer.setRefreshing(false)
-                    }
-                }
-
-            }
-        })
+        return usernames
     }
+
+
+    open fun searchDB(searchItem : String){
+        val userQuery: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
+        userQuery.whereEqualTo("username", searchItem)
+        val user = userQuery.find() // all users that match the search input from user
+
+        if(user != null){
+            val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
+            query.whereEqualTo("user", user.get(0)) //gets the first match from the first query
+            val posts = query.find()//fetches all posts that match the query
+            if (posts != null){
+                allPosts.clear()
+                allPosts.addAll(posts)
+                adapter.notifyDataSetChanged()
+            } else {
+                Toast.makeText(requireContext(), "User has no posts", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     companion object{
         const val TAG = "FeedFragment"
     }
-
-
 }
