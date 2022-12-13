@@ -50,10 +50,7 @@ open class FeedFragment : Fragment() {
         adapter = PostAdapter(requireContext(), allPosts)
         queryPosts()
         //TODO: IMPLEMENT THE SWIPE CONTAINER LOGIC AND CREATE SWIPECONTAINER KOTLIN FILE
-//        swipeContainer = view.findViewById(R.id.swipeContainer)
-//        swipeContainer.setOnRefreshListener{
-//            queryPosts()
-//        }
+
 
         swipeContainer = view.findViewById(R.id.swipeContainer)
 
@@ -148,9 +145,6 @@ open class FeedFragment : Fragment() {
         userQuery.whereEqualTo("username", searchItem)
         val user = userQuery.find() // all users that match the search input from user
 
-//        Log.e(TAG, "User: $user")
-       Log.e(TAG, "User: ${user.get(0)}")
-
         if(user.size != 0){
             val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
             query.whereEqualTo("user", user[0]) //gets the first match from the first query
@@ -162,10 +156,10 @@ open class FeedFragment : Fragment() {
                 Log.e(TAG, "allPosts: $allPosts")
                 adapter.notifyDataSetChanged()
             } else {
-                Toast.makeText(requireContext(), "User has no posts", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "User has no posts", Toast.LENGTH_LONG).show()
             }
         } else {
-            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
         }
     }
 
