@@ -20,5 +20,15 @@ class GlobalVariableClass {
         val censor_nsfw = true
         // Whether our prompt has NSFW content; some workers disable NSFW so they don't get any of those requests
         val nsfw_enabled = false
+
+
+        // Default values for the generation parameters values
+
+        val def_steps = 15
+        val def_width = 8 // needs to be multiplied by 64 to get the real value
+        val def_height = 8 // needs to be multiplied by 64 to get the real value
+        val def_guidance = 14 // needs to be divided by 2 to get the real value
+        val def_denoising = 14 // needs to be divided by 20 to get the real value
+
     }
 }
