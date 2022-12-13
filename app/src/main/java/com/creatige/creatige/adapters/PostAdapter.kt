@@ -106,8 +106,6 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
         }
 
-        
-
 
         override fun onClick(v: View?) {
             val post = posts[adapterPosition]

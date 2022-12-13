@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.Detail"
+    tools:context=".activities.DetailActivity"
     android:background="@color/black">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:orientation="horizontal"
-        android:id="@+id/linearLayout2"
+        android:id="@+id/detail_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
@@ -32,20 +32,20 @@
             android:shape="ring"
             android:thicknessRatio="1.5"
             android:layout_marginLeft="10dp"
-
             app:cardCornerRadius="45dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/ivProfileImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toTopOf="@+id/imgPost"
-            app:layout_constraintEnd_toStartOf="@+id/author"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                app:layout_constraintBottom_toTopOf="@+id/imgPost"
+                app:layout_constraintEnd_toStartOf="@+id/author"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
 
         </androidx.cardview.widget.CardView>
 
@@ -53,42 +53,105 @@
             android:id="@+id/author"
             android:layout_width="158dp"
             android:layout_height="38dp"
-            android:paddingLeft="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="8dp"
             android:layout_gravity="center|center_horizontal"
-            android:layout_marginEnd="160dp"
+            android:paddingLeft="5dp"
             android:text="ormolu"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/imgPost" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardviewimg"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_timeOfCreation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="1d"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_detailOptions"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ib_detailOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/more_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    here is where we will put the icons-->
 
 
     <ImageView
         android:id="@+id/imgPost"
         android:layout_width="match_parent"
-        android:layout_height="254dp"
-        android:layout_below="@id/linearLayout2"
-        app:srcCompat="@drawable/img_register" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detail_top"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detail_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgPost"
+        android:layout_marginTop="0dp">
+
+        <ImageButton
+            android:id="@+id/ib_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_download"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ib_favorite"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageButton
+            android:id="@+id/ib_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/ic_bookmark_unclicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
-        android:layout_height="3dp"
-        android:background="@color/white"
-        android:layout_below="@id/imgPost"/>
+        android:layout_height="1dp"
+        android:background="#494949"
+        android:layout_below = "@id/detail_options"/>
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="300dp"
+        android:layout_below="@id/view"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="0dp"
         android:text="Comments"
-        android:textColor="@color/white"
-        android:layout_below="@id/view" />
+        android:textColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/commentRecyclerView"
@@ -134,5 +197,7 @@
             app:srcCompat="@drawable/comment" />
 
     </LinearLayout>
+
+
 
 </RelativeLayout>
