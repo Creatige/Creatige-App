@@ -87,11 +87,9 @@ open class FeedFragment : Fragment() {
 
         //takes input from searchBox when the searchButton is clicked
         view.findViewById<ImageButton>(R.id.searchButton)?.setOnClickListener{
-            Toast.makeText(view.context, "Item selected was: $autoCompleteTextView", Toast.LENGTH_SHORT).show()
             val search = autoCompleteTextView.text.toString()
             searchDB(search)
         }
-
     }
 
 

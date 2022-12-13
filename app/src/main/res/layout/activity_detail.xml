@@ -117,7 +117,7 @@
             android:background="@null"
             android:src="@drawable/ic_download"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ib_favorite"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -129,10 +129,9 @@
             android:baselineAlignBottom="true"
             android:src="@drawable/ic_bookmark_unclicked"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

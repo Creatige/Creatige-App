@@ -2,11 +2,10 @@ package com.creatige.creatige.models
 
 import com.parse.ParseClassName
 import com.parse.ParseObject
-import com.parse.ParseQuery
 import com.parse.ParseUser
 
 @ParseClassName("favorites")
-class Favorites: ParseObject() {
+class favorites: ParseObject() {
     fun getUser():ParseUser?{
         return getParseUser(KEY_USER)
     }
@@ -21,7 +20,7 @@ class Favorites: ParseObject() {
     }
 
     companion object{
-        const val KEY_USER = "user_id"
-        const val KEY_POST = "post_id"
+        const val KEY_USER = "user"
+        const val KEY_POST = "post"
     }
 }

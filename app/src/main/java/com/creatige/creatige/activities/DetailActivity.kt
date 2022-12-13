@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.creatige.creatige.R
 import com.creatige.creatige.adapters.CommentAdapter
 import com.creatige.creatige.adapters.Post_Extra
-import com.creatige.creatige.models.Favorites
 import com.creatige.creatige.models.comments
+import com.creatige.creatige.models.favorites
 import com.creatige.creatige.models.posts
 import com.parse.*
 
@@ -70,6 +70,7 @@ class DetailActivity : AppCompatActivity() {
             submitComment(composedComment.text.toString(), ParseUser.getCurrentUser(), Post)
             queryComments(Post)
         }
+
         detailOptions.setOnClickListener(){
             //TODO: Insert logic to open up the pop up menu and delete the post
 
@@ -82,27 +83,28 @@ class DetailActivity : AppCompatActivity() {
         downloadButton.setOnClickListener(){
             //TODO: Insert logic here to download the image onto your phone
         }
-//        if (isLiked(Post, ParseUser.getCurrentUser())){
-//            //user has already set post to favorites, set icon to be full
-//            favoritesButton.setImageResource(R.drawable.ic_bookmark_clicked)
-//        }
+
+        if (isLiked(Post, ParseUser.getCurrentUser())){
+            //user has already set post to favorites, set icon to be full
+            favoritesButton.setImageResource(R.drawable.ic_bookmark_clicked)
+            Log.e(TAG, "USER HAS ALREADY FAVORITED THE POST")
+        }
 
 
-//        favoritesButton.setOnClickListener(){
-//            //TODO: if user has already favorited, then set the button to be empty
-//            //TODO: if user has not clicked, then set the button to be filled
-//            if (isLiked(Post, ParseUser.getCurrentUser())){
-//                likePost(Post)
-//                favoritesButton.setImageResource(R.drawable.ic_bookmark_clicked)
-//            } else {
-//                unlikePost(Post)
-//                favoritesButton.setImageResource(R.drawable.ic_bookmark_unclicked)
-//            }
-//
-//        }
+        favoritesButton.setOnClickListener() {
+            //TODO: if user has already favorited, then set the button to be empty
+            //TODO: if user has not clicked, then set the button to be filled
+            if (isLiked(Post, ParseUser.getCurrentUser())) {
+                favoritesButton.setImageResource(R.drawable.ic_bookmark_unclicked)
+                Log.e(TAG, "THIS IS TO UNFAVORITE POST")
+                unfavoritePost(Post, ParseUser.getCurrentUser())
+            } else {
+                favoritesButton.setImageResource(R.drawable.ic_bookmark_clicked)
+                Log.e(TAG, "THIS IS TO FAVORITE POST")
+                favoritePost(Post, ParseUser.getCurrentUser())
+            }
+        }
     }
-
-
 
     fun queryComments(Post:posts){
         val query: ParseQuery<comments> = ParseQuery.getQuery(comments::class.java)
@@ -144,6 +146,7 @@ class DetailActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun popupMenus(v: View?, post: posts) {
         val popupMenus = PopupMenu(this, v)
         popupMenus.inflate(R.menu.menu_post_options)
@@ -181,67 +184,74 @@ class DetailActivity : AppCompatActivity() {
                 Toast.makeText(this,"Error: "+ e.printStackTrace(), Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
+    fun countFavorites(Post:posts): Int{
+        val likesQuery = ParseQuery(favorites::class.java)
+        likesQuery.whereEqualTo(favorites.KEY_USER,ParseUser.getCurrentUser())
+        likesQuery.whereEqualTo(favorites.KEY_POST,Post)
+        val likes = likesQuery.find()
 
+        return likes.size
+    }
 
-//    fun isLiked(post: posts, user: ParseUser): Boolean{
-//        val likesQuery = ParseQuery(Favorites::class.java)
-//        likesQuery.whereEqualTo(Favorites.KEY_USER,user)
-//        likesQuery.whereEqualTo(Favorites.KEY_POST,post)
-//
-//        val likes = likesQuery.find()
-//
-//        return likes.size != 0
-//    }
-//    fun likePost(post: posts){
-//        val entity = ParseObject("favorites")
-//
-//        entity.put("user", ParseUser.getCurrentUser())
-//        entity.put("post", post)
-//
-//        // Saves the new object.
-//        // Notice that the SaveCallback is totally optional!
-//
-//        // Saves the new object.
-//        // Notice that the SaveCallback is totally optional!
-//        entity.saveInBackground { e: ParseException? ->
-//            if (e == null) {
-//                //Save was done
-//                Toast.makeText(this, "Added post to favorites", Toast.LENGTH_SHORT).show()
-//            } else {
-//                //Something went wrong
-//                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
-//    fun unlikePost(post: posts) {
-//        //TODO: remove user from the liked posts list
-////    }
-//fun queryFavorites(Post:posts){
-//    val query: ParseQuery<comments> = ParseQuery.getQuery(comments::class.java)
-//    query.whereEqualTo("post_id", Post)
-//    query.whereEqualTo("user_id", Post.getUser())
-//    query.findInBackground { comments, e ->
-//        if (e != null) {
-//            //something went wrong
-//            Log.e(TAG, "Error fetching comments")
-//        } else {
-//
-//            if (comments != null) {
-//                for (com in comments) {
-//                    val comment = com.getComment()
-//                    Log.i(TAG, "comment is: $comment")
-//                }
-//                allComments.clear()
-//                allComments.addAll(comments)
-//                Log.e(TAG, "Allcomments during the query: $allComments")
-//                commentAdapter.notifyDataSetChanged()
-//            }
-//        }
-//    }
-//}
+    //function that just checks if the user has put this in their favorites
+    fun isLiked(post: posts, user: ParseUser): Boolean{
+        val likesQuery = ParseQuery(favorites::class.java)
+        likesQuery.whereEqualTo(favorites.KEY_USER,user)
+        likesQuery.whereEqualTo(favorites.KEY_POST,post)
+
+        val likes = likesQuery.find()
+
+        return likes.size != 0
+    }
+
+    //allows user to add the post to the user favorites
+    fun favoritePost(post: posts, user: ParseUser){
+        var newFav = favorites()
+        newFav.setUser(user)
+        newFav.setPost(post)
+        newFav.saveInBackground{ exception ->
+            if(exception != null){
+                Log.e(TAG, "Error while adding post to favorites")
+                exception.printStackTrace()
+            } else {
+                Log.i(TAG, "Successfully added post to favorites")
+
+            }
+        }
+    }
+
+    //allows user to unlike the post
+
+    fun unfavoritePost(post: posts, user: ParseUser) {
+        //TODO: remove user from the liked posts list
+        val query = ParseQuery.getQuery<ParseObject>("favorites")
+        query.whereEqualTo(favorites.KEY_POST, post)
+        query.whereEqualTo(favorites.KEY_USER, user)
+        val favorite = query.find()
+        // Retrieve the object by id
+        //retrieve the first object in the list to delete
+        //TODO: THIS MIGHT CAUSE ISSUES LATER
+        query.getInBackground(favorite.get(0).objectId) { `object`: ParseObject, e: ParseException? ->
+            if (e == null) {
+                //Object was fetched
+                //Deletes the fetched ParseObject from the database
+                `object`.deleteInBackground { e2: ParseException? ->
+                    if (e2 == null) {
+                        Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show()
+                    } else {
+                        //Something went wrong while deleting the Object
+                        Toast.makeText(this, "Error: " + e2.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                //Something went wrong
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     companion object {
         const val TAG = "DetailView"
     }
