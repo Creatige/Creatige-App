@@ -33,15 +33,12 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-
         ivProfileImage = findViewById(R.id.ivProfileImage)
         author = findViewById(R.id.author)
         imgPost = findViewById(R.id.imgPost)
         submitComment = findViewById<ImageButton>(R.id.submitComment)
         composedComment = findViewById(R.id.et_composeComment)
         userProfilePicture = findViewById<ImageView>(R.id.userProfilePicture)
-
-
         val Post = intent.getParcelableExtra<posts>(Post_Extra) as posts
         val profile :ParseFile = Post.getUser()?.get("avatar") as ParseFile
         val currentUserPFP : ParseFile = ParseUser.getCurrentUser()?.get("avatar") as ParseFile
@@ -94,7 +91,6 @@ class DetailActivity : AppCompatActivity() {
         comment.setUser(user)
         comment.setComment(entry)
         comment.put("post_id", Post)
-
         comment.saveInBackground{ exception ->
             if(exception != null){
                 Log.e(TAG, "Error while saving comment")
