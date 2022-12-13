@@ -152,7 +152,11 @@ open class FeedFragment : Fragment() {
        Log.e(TAG, "User: ${user.get(0)}")
 
         if(user.size != 0){
-            val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
+//STEVE CODE
+
+
+
+/*ELI CODE            val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
             query.whereEqualTo("user", user[0]) //gets the first match from the first query
             val posts = query.find()//fetches all posts that match the query
             Log.e(TAG, "Posts: $posts")
@@ -163,7 +167,7 @@ open class FeedFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(requireContext(), "User has no posts", Toast.LENGTH_SHORT).show()
-            }
+*/            }
         } else {
             Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
         }
