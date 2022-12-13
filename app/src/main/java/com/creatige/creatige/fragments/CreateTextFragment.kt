@@ -1,7 +1,7 @@
 package com.creatige.creatige.fragments
 
+// Parse Dependencies
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -35,11 +35,14 @@ import com.creatige.creatige.GlobalVariableClass.Companion.def_width
 import com.creatige.creatige.R
 import com.creatige.creatige.models.posts
 import com.parse.ParseFile
+import com.parse.ParsePush
 import com.parse.ParseUser
 import okhttp3.Headers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -433,14 +436,11 @@ class CreateTextFragment : Fragment() {
                             getImg(id)
                         }, wait_time)
                     }
-
                 }
             })
         }
         //TODO: Add a loading bar to indicate the saving of the post? or at least the generation of an image
     }
-
-
     //this function allows us to retrieve the image from the API call
     fun getImg(id: String) {
         val idUrl = GlobalVariableClass.api_retrieve_img_url + id
@@ -456,19 +456,15 @@ class CreateTextFragment : Fragment() {
                 // TODO REMOVE
                 if (Looper.myLooper()==null)
                     Looper.prepare();
-
                 Toast.makeText(
                     requireContext(),
                     "Could not retrieve generated image (Error $statusCode)",
                     Toast.LENGTH_LONG
                 ).show()
-
-
                 //Hide progressbar
                 Handler(Looper.getMainLooper()).post {
                     pbGenerating.visibility = View.INVISIBLE}
             }
-
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                 Log.e(TAG, "Retrieved image  $statusCode $json")
                 //Change if we do multiple generations in the future
@@ -490,7 +486,6 @@ class CreateTextFragment : Fragment() {
                     Handler(Looper.getMainLooper()).post {
                         pbGenerating.visibility = View.INVISIBLE}
                 } else {
-
                     val jsonObjectImg = generations?.getJSONObject(0)
                     val img64 = jsonObjectImg?.getString("img")
                     val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
@@ -500,7 +495,6 @@ class CreateTextFragment : Fragment() {
                                 .size
                         )).into(ivGenerated)
                     }
-
                     parseFile = ParseFile("photo.webp", decodedString)
                     post.setImage(parseFile)
                     post.saveInBackground { exception ->
@@ -518,18 +512,29 @@ class CreateTextFragment : Fragment() {
                             Log.i(TAG, "Successfully saved post")
                             if (Looper.myLooper()==null)
                                 Looper.prepare();
-                            Toast.makeText(
-                                requireContext(),
-                                "Successfully saved post",
-                                Toast.LENGTH_SHORT)
-                        }
+                            val data = JSONObject()
+// Put data in the JSON object
+// Put data in the JSON object
+                            try {
+                                Log.e(TAG,"Notification")
+                                data.put("alert", "Back4App Rocks!")
+                                data.put("title", "Hello from Device")
+                            } catch (e: JSONException) {
+                                // should not happen
+                                throw IllegalArgumentException("unexpected parsing error", e)
+                            }
+// Configure the push
+// Configure the push
+                            val push = ParsePush()
+                            push.setChannel("News")
+                            push.setData(data)
+                            push.sendInBackground()
 
+                        }
                         //Hide progressbar
                         Handler(Looper.getMainLooper()).post {
                             pbGenerating.visibility = View.INVISIBLE}
                 }
-
-
                 }
             }
         })
