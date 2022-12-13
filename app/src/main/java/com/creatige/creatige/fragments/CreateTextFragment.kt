@@ -1,5 +1,7 @@
 package com.creatige.creatige.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -105,6 +107,15 @@ class CreateTextFragment : Fragment() {
         }
         btnGenerate.setOnClickListener {
             val user = ParseUser.getCurrentUser()
+            val alertbox = AlertDialog.Builder(requireContext())
+            alertbox.setMessage("Do not close the app for 30 seconds.")
+
+            alertbox.setNegativeButton(
+                "Ok"
+            ) { arg0, arg1 ->
+
+            }
+            alertbox.show()
             val thread = Thread{
                 submitPost(user)
             }
@@ -190,6 +201,8 @@ class CreateTextFragment : Fragment() {
         }
     }
     private fun submitPost( user: ParseUser) {
+
+
         var prompt = etPrompt.text.toString()
         val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
         val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
