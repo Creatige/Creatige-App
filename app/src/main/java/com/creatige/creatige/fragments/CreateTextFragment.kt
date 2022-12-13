@@ -148,7 +148,7 @@ class CreateTextFragment : Fragment() {
             btnGenerate.requestFocus();
             val user = ParseUser.getCurrentUser()
             val alertbox = AlertDialog.Builder(requireContext())
-            alertbox.setMessage("Do not close the app for 30 seconds.")
+            alertbox.setMessage("Do not close the app for $wait_time_in_seconds seconds.")
 
             alertbox.setNegativeButton(
                 "Ok"
