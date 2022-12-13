@@ -231,11 +231,13 @@ class CreateTextFragment : Fragment() {
                         "\"source_image\":\"$encoded\"," +
                         " \"source_processing\":\"img2img\"}"
             }else{
-                /*Toast.makeText(
+                if (Looper.myLooper()==null)
+                    Looper.prepare();
+                Toast.makeText(
                     requireContext(),
                     "Please take a picture",
                     Toast.LENGTH_SHORT
-                ).show()*/
+                ).show()
             }
 
         }else {
@@ -254,13 +256,14 @@ class CreateTextFragment : Fragment() {
                     "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}}"
         }
         if (!modeImageEnabled || tookPicture) {
-            Log.i(TAG, "Submitting request to the API...")
-            /*
+            Log.i(TAG, "Submitting request to the API...");
+            if (Looper.myLooper()==null)
+                Looper.prepare();
             Toast.makeText(
                 requireContext(),
                 "Sending generation request",
                 Toast.LENGTH_SHORT
-            ).show()*/
+            ).show()
             Log.i(TAG, "Sending JSON: $json")
             val body: RequestBody = json.toRequestBody(JSON)
             post = posts()
@@ -295,12 +298,12 @@ class CreateTextFragment : Fragment() {
                     // TODO REMOVE
                     if (Looper.myLooper()==null)
                         Looper.prepare();
-                    /*
+
                     Toast.makeText(
                         requireContext(),
                         "Could not send generation request (Error $statusCode)",
                         Toast.LENGTH_LONG
-                    ).show()*/
+                    ).show()
                 }
                 override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                     Log.e(TAG, "onSuccess $statusCode $json")
@@ -334,12 +337,12 @@ class CreateTextFragment : Fragment() {
                 // TODO REMOVE
                 if (Looper.myLooper()==null)
                     Looper.prepare();
-                /*
+
                 Toast.makeText(
                     requireContext(),
                     "Could not retrieve generated image (Error $statusCode)",
                     Toast.LENGTH_LONG
-                ).show()*/
+                ).show()
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
@@ -364,19 +367,21 @@ class CreateTextFragment : Fragment() {
                     if (exception != null) {
                         Log.e(TAG, "Error while saving post")
                         exception.printStackTrace()
-                        /*
+                        if (Looper.myLooper()==null)
+                            Looper.prepare();
                         Toast.makeText(
                             requireContext(),
                             "Error while saving post",
                             Toast.LENGTH_SHORT
-                        ).show()*/
+                        ).show()
                     } else {
                         Log.i(TAG, "Successfully saved post")
-                        /*
+                        if (Looper.myLooper()==null)
+                            Looper.prepare();
                         Toast.makeText(
                             requireContext(),
                             "Successfully saved post",
-                            Toast.LENGTH_SHORT*/
+                            Toast.LENGTH_SHORT)
                     }
                 }
             }
