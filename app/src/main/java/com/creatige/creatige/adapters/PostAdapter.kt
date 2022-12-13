@@ -16,6 +16,7 @@ import com.creatige.creatige.models.posts
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseQuery
+import com.parse.ParseUser
 
 
 const val Post_Extra = "Post_Extra"
@@ -81,8 +82,12 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
                     R.id.delete ->{
                         Log.e(TAG, "Delete was pressed")
                         var post = posts[adapterPosition]
-
-                        deletePost(post)
+                        if(ParseUser.getCurrentUser().fetchIfNeeded().username == post.getUser()?.fetchIfNeeded()?.username){
+                            Toast.makeText(context, "Successfully deleted post", Toast.LENGTH_SHORT).show()
+                            deletePost(post)
+                        } else {
+                            Toast.makeText(context, "You're not allowed to delete this post", Toast.LENGTH_SHORT).show()
+                        }
                         true
                     }
                     else -> true
@@ -92,13 +97,12 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
         }
         init {
             itemView.setOnClickListener(this)
-
         }
 
 
         fun bind(post: posts){
             tvDescription.text = post.getPrompt()
-            tvUsername.text = post.getUser()?.username
+            tvUsername.text = post.getUser()?.fetchIfNeeded()?.username
             tvCreatedAT.text = TimeFormatter.getTimeDifference(post.getTime())
             val profile :ParseFile = post.getUser()?.get("avatar") as ParseFile
             Log.i(TAG, "Tvcreated is ${post.getTime()}")
