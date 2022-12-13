@@ -21,22 +21,22 @@ import com.parse.ParseUser
 
 const val Post_Extra = "Post_Extra"
 
+
 class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
         return ViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = posts.get(position)
         holder.bind(post)
 
     }
-
     override fun getItemCount(): Int {
         return posts.size
     }
+
 
     fun clear() {
         posts.clear()
@@ -48,6 +48,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
         posts.addAll(tweetList)
         notifyDataSetChanged()
     }
+
 
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         //TODO: Get Users profile image to display it in the imageview (may need to create user class for this)
@@ -94,7 +95,6 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
             }
             popupMenus.show()
         }
-
         init {
             itemView.setOnClickListener(this)
         }
@@ -103,16 +103,14 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
         fun bind(post: posts){
             tvDescription.text = post.getPrompt()
             tvUsername.text = post.getUser()?.fetchIfNeeded()?.username
-
             tvCreatedAT.text = TimeFormatter.getTimeDifference(post.getTime())
-
             val profile :ParseFile = post.getUser()?.get("avatar") as ParseFile
             Log.i(TAG, "Tvcreated is ${post.getTime()}")
-
             Glide.with(itemView.context).load(profile.url).into(ivProfileImg)
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
-
         }
+
+        
 
 
         override fun onClick(v: View?) {

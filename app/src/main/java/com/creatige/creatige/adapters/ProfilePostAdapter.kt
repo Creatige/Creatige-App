@@ -1,17 +1,22 @@
 package com.creatige.creatige.adapters
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.R
 import com.creatige.creatige.activities.DetailActivity
 import com.creatige.creatige.models.posts
-
+import com.parse.ParseException
+import com.parse.ParseObject
+import com.parse.ParseQuery
 
 
 class ProfilePostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.Adapter<ProfilePostAdapter.ViewHolder>() {
@@ -41,6 +46,45 @@ class ProfilePostAdapter(val context: Context, val posts: List<posts>) : Recycle
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener {
+                val alertbox = AlertDialog.Builder(context)
+                alertbox.setMessage("Are you sure you want to delete?")
+                alertbox.setNegativeButton("Cancel"){ dialogInterface: DialogInterface, i: Int ->
+
+                }
+                alertbox.setPositiveButton(
+                    "Delete"
+                ) { arg0, arg1 ->
+                    val query = ParseQuery.getQuery<ParseObject>("posts")
+                    query.getInBackground(
+                        posts[adapterPosition].objectId.toString()
+                    ) { `object`: ParseObject, e: ParseException? ->
+                        if (e == null) {
+                            //Object was fetched
+                            //Deletes the fetched ParseObject from the database
+                            `object`.deleteInBackground { e2: ParseException? ->
+                                if (e2 == null) {
+                                    Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else {
+                                    //Something went wrong while deleting the Object
+                                    Toast.makeText(context, "Error: " + e2.message, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                        } else {
+                            //Something went wrong
+                            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+                alertbox.show()
+
+
+
+                return@setOnLongClickListener true
+            }
         }
 
         fun bind(post: posts){
