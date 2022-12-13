@@ -27,6 +27,11 @@ import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
+import com.creatige.creatige.GlobalVariableClass.Companion.def_denoising
+import com.creatige.creatige.GlobalVariableClass.Companion.def_guidance
+import com.creatige.creatige.GlobalVariableClass.Companion.def_height
+import com.creatige.creatige.GlobalVariableClass.Companion.def_steps
+import com.creatige.creatige.GlobalVariableClass.Companion.def_width
 import com.creatige.creatige.R
 import com.creatige.creatige.models.posts
 import com.parse.ParseFile
@@ -48,6 +53,22 @@ class CreateTextFragment : Fragment() {
     lateinit var btnSwitchModes : Button
     lateinit var ivCaptured : ImageView
     lateinit var btnExpand: Button
+    lateinit var pbGenerating: ProgressBar
+
+    lateinit var tvSteps: TextView
+    lateinit var tvWidth : TextView
+    lateinit var tvHeight : TextView
+    lateinit var tvGuidance : TextView
+    lateinit var tvDenoising : TextView
+
+    lateinit var sbSteps : SeekBar
+    lateinit var sbWidth : SeekBar
+    lateinit var sbHeight : SeekBar
+    lateinit var sbGuidance : SeekBar
+    lateinit var sbDenoising : SeekBar
+
+    lateinit var llDenoising : LinearLayout
+
     val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034
     var photoFile: File? = null
     val photoFileName = "photo.jpg"
@@ -78,6 +99,18 @@ class CreateTextFragment : Fragment() {
         etPrompt = view.findViewById<EditText>(R.id.etPrompt)
         spinner = view.findViewById(R.id.spinner)
         btnSwitchModes = view.findViewById(R.id.btnSwitchModes)
+        pbGenerating = view.findViewById(R.id.pbGenerating)
+        tvSteps = view.findViewById(R.id.tvSteps)
+        tvWidth = view.findViewById(R.id.tvWidth)
+        tvHeight = view.findViewById(R.id.tvHeight)
+        tvGuidance = view.findViewById(R.id.tvGuidance)
+        tvDenoising = view.findViewById(R.id.tvDenoising)
+        sbSteps = view.findViewById(R.id.sbSteps)
+        sbWidth = view.findViewById(R.id.sbWidth)
+        sbHeight = view.findViewById(R.id.sbHeight)
+        sbGuidance = view.findViewById(R.id.sbGuidance)
+        sbDenoising = view.findViewById(R.id.sbDenoising)
+        llDenoising = view.findViewById(R.id.llDenoising)
 
 
         val layoutParams = LayoutParams(to_dp(160), to_dp(160))
@@ -97,6 +130,10 @@ class CreateTextFragment : Fragment() {
                 expanded = true
             }
         }
+
+
+        // Populates the sampler spinner
+
         ArrayAdapter.createFromResource(
             view.context,
             R.array.sampler,
@@ -105,7 +142,10 @@ class CreateTextFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
+
         btnGenerate.setOnClickListener {
+            etPrompt.clearFocus();
+            btnGenerate.requestFocus();
             val user = ParseUser.getCurrentUser()
             val alertbox = AlertDialog.Builder(requireContext())
             alertbox.setMessage("Do not close the app for 30 seconds.")
@@ -122,6 +162,61 @@ class CreateTextFragment : Fragment() {
             thread.start()
         }
 
+        sbSteps.progress = def_steps
+        tvSteps.text = (def_steps*2).toString()
+
+        sbSteps.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvSteps.text = (progress*2).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbWidth.progress = def_width
+        tvWidth.text = (def_width*64).toString()
+
+        sbWidth.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvWidth.text = (progress*64).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbHeight.progress = def_height
+        tvHeight.text = (def_height*64).toString()
+
+        sbHeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvHeight.text = (progress*64).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbGuidance.progress = def_guidance
+        tvGuidance.text = (def_guidance*0.5).toString()
+
+        sbGuidance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvGuidance.text = (progress*0.5).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbDenoising.progress = def_denoising
+        tvDenoising.text = (def_denoising*0.05).toString()
+
+        sbDenoising.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvDenoising.text = (progress*0.05).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
         // Switch modes
         btnSwitchModes.setOnClickListener {
             if (modeImageEnabled) {
@@ -129,6 +224,7 @@ class CreateTextFragment : Fragment() {
                 btnSwitchModes.text = "Text Mode"
                 modeImageEnabled = false
                 ivCaptured.visibility = View.GONE
+                llDenoising.visibility = View.GONE
 
                 val layoutParams = LayoutParams(
                     to_dp(160), to_dp(160)
@@ -141,6 +237,7 @@ class CreateTextFragment : Fragment() {
                 btnSwitchModes.text = "Image Mode"
                 modeImageEnabled = true
                 ivCaptured.visibility = View.VISIBLE
+                llDenoising.visibility = View.VISIBLE
 
                 val layoutParams = LayoutParams(to_dp(160), to_dp(160));
 
@@ -149,9 +246,11 @@ class CreateTextFragment : Fragment() {
                 ivGenerated.layoutParams = layoutParams;
             }
         }
+
         ivCaptured.setOnClickListener{
             onLaunchCamera()
         }
+
     }
     private fun onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -205,13 +304,13 @@ class CreateTextFragment : Fragment() {
 
         var prompt = etPrompt.text.toString()
         val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
-        val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
+        val steps = view?.findViewById<SeekBar>(R.id.sbSteps)?.progress?.times(2)
         val sampler = view?.findViewById<Spinner>(R.id.spinner)?.selectedItem.toString()
-        val height = view?.findViewById<SeekBar>(R.id.height_seekbar)?.progress?.times(64)
-        val width = view?.findViewById<SeekBar>(R.id.width_seekbar)?.progress?.times(64)
-        val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)?.progress?.div(2)
+        val height = view?.findViewById<SeekBar>(R.id.sbHeight)?.progress?.times(64)
+        val width = view?.findViewById<SeekBar>(R.id.sbWidth)?.progress?.times(64)
+        val guidance = view?.findViewById<SeekBar>(R.id.sbGuidance)?.progress?.toFloat()?.div(2)
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
-        val denoising = view?.findViewById<SeekBar>(R.id.denoising)?.progress?.toFloat()?.div(20)
+        val denoising = view?.findViewById<SeekBar>(R.id.sbDenoising)?.progress?.toFloat()?.div(20)
         if (negative != ""){
             prompt= "$prompt ### $negative"
         }
@@ -244,11 +343,13 @@ class CreateTextFragment : Fragment() {
                         "\"source_image\":\"$encoded\"," +
                         " \"source_processing\":\"img2img\"}"
             }else{
-                /*Toast.makeText(
+                if (Looper.myLooper()==null)
+                    Looper.prepare();
+                Toast.makeText(
                     requireContext(),
                     "Please take a picture",
                     Toast.LENGTH_SHORT
-                ).show()*/
+                ).show()
             }
 
         }else {
@@ -267,13 +368,17 @@ class CreateTextFragment : Fragment() {
                     "\"censor_nsfw\":${GlobalVariableClass.censor_nsfw}}"
         }
         if (!modeImageEnabled || tookPicture) {
-            Log.i(TAG, "Submitting request to the API...")
-            /*
+            Log.i(TAG, "Submitting request to the API...");
+            //Show progressbar
+            Handler(Looper.getMainLooper()).post {
+                pbGenerating.visibility = View.VISIBLE}
+            if (Looper.myLooper()==null)
+                Looper.prepare();
             Toast.makeText(
                 requireContext(),
                 "Sending generation request",
                 Toast.LENGTH_SHORT
-            ).show()*/
+            ).show()
             Log.i(TAG, "Sending JSON: $json")
             val body: RequestBody = json.toRequestBody(JSON)
             post = posts()
@@ -308,12 +413,15 @@ class CreateTextFragment : Fragment() {
                     // TODO REMOVE
                     if (Looper.myLooper()==null)
                         Looper.prepare();
-                    /*
+
                     Toast.makeText(
                         requireContext(),
                         "Could not send generation request (Error $statusCode)",
                         Toast.LENGTH_LONG
-                    ).show()*/
+                    ).show()
+                    //Hide progressbar
+                    Handler(Looper.getMainLooper()).post {
+                        pbGenerating.visibility = View.INVISIBLE}
                 }
                 override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                     Log.e(TAG, "onSuccess $statusCode $json")
@@ -325,6 +433,7 @@ class CreateTextFragment : Fragment() {
                             getImg(id)
                         }, wait_time)
                     }
+
                 }
             })
         }
@@ -347,12 +456,17 @@ class CreateTextFragment : Fragment() {
                 // TODO REMOVE
                 if (Looper.myLooper()==null)
                     Looper.prepare();
-                /*
+
                 Toast.makeText(
                     requireContext(),
                     "Could not retrieve generated image (Error $statusCode)",
                     Toast.LENGTH_LONG
-                ).show()*/
+                ).show()
+
+
+                //Hide progressbar
+                Handler(Looper.getMainLooper()).post {
+                    pbGenerating.visibility = View.INVISIBLE}
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
@@ -360,37 +474,62 @@ class CreateTextFragment : Fragment() {
                 //Change if we do multiple generations in the future
                 val jsonObject = json?.jsonObject
                 val generations = jsonObject?.getJSONArray("generations")
-                val jsonObjectImg = generations?.getJSONObject(0)
-                val img64 = jsonObjectImg?.getString("img")
-                val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
-                if( !(this@CreateTextFragment.isRemoving || this@CreateTextFragment.activity == null || this@CreateTextFragment.isDetached || !this@CreateTextFragment.isAdded || this@CreateTextFragment.view == null )){
-                    Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
-                        decodedString, 0, decodedString
-                            .size
-                    )).into(ivGenerated)
+
+                // check if generations array is empty
+                if (generations?.length() == 0) {
+                    Log.e(TAG, "Generations array is empty")
+                    // TODO REMOVE
+                    if (Looper.myLooper()==null)
+                        Looper.prepare();
+                    Toast.makeText(
+                        requireContext(),
+                        "Generation did not return images (Code $statusCode)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    //Hide progressbar
+                    Handler(Looper.getMainLooper()).post {
+                        pbGenerating.visibility = View.INVISIBLE}
+                } else {
+
+                    val jsonObjectImg = generations?.getJSONObject(0)
+                    val img64 = jsonObjectImg?.getString("img")
+                    val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
+                    if( !(this@CreateTextFragment.isRemoving || this@CreateTextFragment.activity == null || this@CreateTextFragment.isDetached || !this@CreateTextFragment.isAdded || this@CreateTextFragment.view == null )){
+                        Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
+                            decodedString, 0, decodedString
+                                .size
+                        )).into(ivGenerated)
+                    }
+
+                    parseFile = ParseFile("photo.webp", decodedString)
+                    post.setImage(parseFile)
+                    post.saveInBackground { exception ->
+                        if (exception != null) {
+                            Log.e(TAG, "Error while saving post")
+                            exception.printStackTrace()
+                            if (Looper.myLooper()==null)
+                                Looper.prepare();
+                            Toast.makeText(
+                                requireContext(),
+                                "Error while saving post",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Log.i(TAG, "Successfully saved post")
+                            if (Looper.myLooper()==null)
+                                Looper.prepare();
+                            Toast.makeText(
+                                requireContext(),
+                                "Successfully saved post",
+                                Toast.LENGTH_SHORT)
+                        }
+
+                        //Hide progressbar
+                        Handler(Looper.getMainLooper()).post {
+                            pbGenerating.visibility = View.INVISIBLE}
                 }
 
 
-                parseFile = ParseFile("photo.webp", decodedString)
-                post.setImage(parseFile)
-                post.saveInBackground { exception ->
-                    if (exception != null) {
-                        Log.e(TAG, "Error while saving post")
-                        exception.printStackTrace()
-                        /*
-                        Toast.makeText(
-                            requireContext(),
-                            "Error while saving post",
-                            Toast.LENGTH_SHORT
-                        ).show()*/
-                    } else {
-                        Log.i(TAG, "Successfully saved post")
-                        /*
-                        Toast.makeText(
-                            requireContext(),
-                            "Successfully saved post",
-                            Toast.LENGTH_SHORT*/
-                    }
                 }
             }
         })
@@ -402,7 +541,8 @@ class CreateTextFragment : Fragment() {
 
     companion object {
         const val TAG = "CreateTextFragment"
-        const val wait_time = 30000L
+        const val wait_time_in_seconds = 30
+        const val wait_time = wait_time_in_seconds * 1000L
     }
 }
 
