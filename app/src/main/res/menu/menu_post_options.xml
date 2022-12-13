@@ -4,5 +4,6 @@
 
     <item
         android:title="Delete"
-        android:id="@+id/delete"/>
+        android:id="@+id/delete"
+        android:visible="true"/>
 </menu>
