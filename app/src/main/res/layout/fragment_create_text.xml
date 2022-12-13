@@ -192,9 +192,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/steps"
-                android:layout_marginEnd="65dp"/>
+                android:layout_marginEnd="30dp"/>
+            <TextView
+                android:id="@+id/tvSteps"
+                android:layout_width="35dp"
+                android:text="003"
+                android:textAlignment="viewEnd"
+                android:layout_height="match_parent"/>
             <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/steps_seekbar"
+                android:id="@+id/sbSteps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="50"
@@ -211,9 +217,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/width"
-                android:layout_marginEnd="65dp"/>
+                android:layout_marginEnd="30dp"/>
+            <TextView
+                android:id="@+id/tvWidth"
+                android:layout_width="35dp"
+                android:text="9999"
+                android:textAlignment="viewEnd"
+                android:layout_height="match_parent"/>
             <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/width_seekbar"
+                android:id="@+id/sbWidth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
@@ -229,9 +241,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/height"
-                android:layout_marginEnd="60dp"/>
+                android:layout_marginEnd="25dp"/>
+            <TextView
+                android:id="@+id/tvHeight"
+                android:layout_width="35dp"
+                android:text="123"
+                android:textAlignment="viewEnd"
+                android:layout_height="match_parent"/>
             <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/height_seekbar"
+                android:id="@+id/sbHeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="16"
@@ -249,9 +267,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/guidance"
-                android:layout_marginEnd="43dp"/>
+                android:layout_marginEnd="8dp"/>
+            <TextView
+                android:id="@+id/tvGuidance"
+                android:layout_width="35dp"
+                android:text="1.25"
+                android:textAlignment="viewEnd"
+                android:layout_height="match_parent"/>
             <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/guid_seekbar"
+                android:id="@+id/sbGuidance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="48"
@@ -259,17 +283,25 @@
                 android:progress="14"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/llDenoising"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:layout_marginTop="8dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/denoising"
-                android:layout_marginEnd="43dp"/>
+                android:layout_marginEnd="4dp"/>
+            <TextView
+                android:id="@+id/tvDenoising"
+                android:layout_width="35dp"
+                android:text="1.25"
+                android:textAlignment="viewEnd"
+                android:layout_height="match_parent"/>
             <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/denoising"
+                android:id="@+id/sbDenoising"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="20"

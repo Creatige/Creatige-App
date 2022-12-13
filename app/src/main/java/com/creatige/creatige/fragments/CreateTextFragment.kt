@@ -25,6 +25,11 @@ import com.codepath.asynchttpclient.RequestHeaders
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.creatige.creatige.GlobalVariableClass
+import com.creatige.creatige.GlobalVariableClass.Companion.def_denoising
+import com.creatige.creatige.GlobalVariableClass.Companion.def_guidance
+import com.creatige.creatige.GlobalVariableClass.Companion.def_height
+import com.creatige.creatige.GlobalVariableClass.Companion.def_steps
+import com.creatige.creatige.GlobalVariableClass.Companion.def_width
 import com.creatige.creatige.R
 import com.creatige.creatige.models.posts
 import com.parse.ParseFile
@@ -47,6 +52,20 @@ class CreateTextFragment : Fragment() {
     lateinit var ivCaptured : ImageView
     lateinit var btnExpand: Button
     lateinit var pbGenerating: ProgressBar
+
+    lateinit var tvSteps: TextView
+    lateinit var tvWidth : TextView
+    lateinit var tvHeight : TextView
+    lateinit var tvGuidance : TextView
+    lateinit var tvDenoising : TextView
+
+    lateinit var sbSteps : SeekBar
+    lateinit var sbWidth : SeekBar
+    lateinit var sbHeight : SeekBar
+    lateinit var sbGuidance : SeekBar
+    lateinit var sbDenoising : SeekBar
+
+    lateinit var llDenoising : LinearLayout
 
     val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034
     var photoFile: File? = null
@@ -79,6 +98,17 @@ class CreateTextFragment : Fragment() {
         spinner = view.findViewById(R.id.spinner)
         btnSwitchModes = view.findViewById(R.id.btnSwitchModes)
         pbGenerating = view.findViewById(R.id.pbGenerating)
+        tvSteps = view.findViewById(R.id.tvSteps)
+        tvWidth = view.findViewById(R.id.tvWidth)
+        tvHeight = view.findViewById(R.id.tvHeight)
+        tvGuidance = view.findViewById(R.id.tvGuidance)
+        tvDenoising = view.findViewById(R.id.tvDenoising)
+        sbSteps = view.findViewById(R.id.sbSteps)
+        sbWidth = view.findViewById(R.id.sbWidth)
+        sbHeight = view.findViewById(R.id.sbHeight)
+        sbGuidance = view.findViewById(R.id.sbGuidance)
+        sbDenoising = view.findViewById(R.id.sbDenoising)
+        llDenoising = view.findViewById(R.id.llDenoising)
 
 
         val layoutParams = LayoutParams(to_dp(160), to_dp(160))
@@ -98,6 +128,10 @@ class CreateTextFragment : Fragment() {
                 expanded = true
             }
         }
+
+
+        // Populates the sampler spinner
+
         ArrayAdapter.createFromResource(
             view.context,
             R.array.sampler,
@@ -106,6 +140,7 @@ class CreateTextFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
+
         btnGenerate.setOnClickListener {
             etPrompt.clearFocus();
             btnGenerate.requestFocus();
@@ -116,6 +151,61 @@ class CreateTextFragment : Fragment() {
             thread.start()
         }
 
+        sbSteps.progress = def_steps
+        tvSteps.text = (def_steps*2).toString()
+
+        sbSteps.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvSteps.text = (progress*2).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbWidth.progress = def_width
+        tvWidth.text = (def_width*64).toString()
+
+        sbWidth.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvWidth.text = (progress*64).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbHeight.progress = def_height
+        tvHeight.text = (def_height*64).toString()
+
+        sbHeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvHeight.text = (progress*64).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbGuidance.progress = def_guidance
+        tvGuidance.text = (def_guidance*0.5).toString()
+
+        sbGuidance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvGuidance.text = (progress*0.5).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
+        sbDenoising.progress = def_denoising
+        tvDenoising.text = (def_denoising*0.05).toString()
+
+        sbDenoising.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                tvDenoising.text = (progress*0.05).toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+
         // Switch modes
         btnSwitchModes.setOnClickListener {
             if (modeImageEnabled) {
@@ -123,6 +213,7 @@ class CreateTextFragment : Fragment() {
                 btnSwitchModes.text = "Text Mode"
                 modeImageEnabled = false
                 ivCaptured.visibility = View.GONE
+                llDenoising.visibility = View.GONE
 
                 val layoutParams = LayoutParams(
                     to_dp(160), to_dp(160)
@@ -135,6 +226,7 @@ class CreateTextFragment : Fragment() {
                 btnSwitchModes.text = "Image Mode"
                 modeImageEnabled = true
                 ivCaptured.visibility = View.VISIBLE
+                llDenoising.visibility = View.VISIBLE
 
                 val layoutParams = LayoutParams(to_dp(160), to_dp(160));
 
@@ -143,9 +235,11 @@ class CreateTextFragment : Fragment() {
                 ivGenerated.layoutParams = layoutParams;
             }
         }
+
         ivCaptured.setOnClickListener{
             onLaunchCamera()
         }
+
     }
     private fun onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -197,13 +291,13 @@ class CreateTextFragment : Fragment() {
     private fun submitPost( user: ParseUser) {
         var prompt = etPrompt.text.toString()
         val seed = view?.findViewById<EditText>(R.id.et_seed)?.text.toString()
-        val steps = view?.findViewById<SeekBar>(R.id.steps_seekbar)?.progress?.times(2)
+        val steps = view?.findViewById<SeekBar>(R.id.sbSteps)?.progress?.times(2)
         val sampler = view?.findViewById<Spinner>(R.id.spinner)?.selectedItem.toString()
-        val height = view?.findViewById<SeekBar>(R.id.height_seekbar)?.progress?.times(64)
-        val width = view?.findViewById<SeekBar>(R.id.width_seekbar)?.progress?.times(64)
-        val guidance = view?.findViewById<SeekBar>(R.id.guid_seekbar)?.progress?.div(2)
+        val height = view?.findViewById<SeekBar>(R.id.sbHeight)?.progress?.times(64)
+        val width = view?.findViewById<SeekBar>(R.id.sbWidth)?.progress?.times(64)
+        val guidance = view?.findViewById<SeekBar>(R.id.sbGuidance)?.progress?.toFloat()?.div(2)
         val negative = view?.findViewById<EditText>(R.id.et_neg_prompt)?.text.toString()
-        val denoising = view?.findViewById<SeekBar>(R.id.denoising)?.progress?.toFloat()?.div(20)
+        val denoising = view?.findViewById<SeekBar>(R.id.sbDenoising)?.progress?.toFloat()?.div(20)
         if (negative != ""){
             prompt= "$prompt ### $negative"
         }
@@ -434,7 +528,7 @@ class CreateTextFragment : Fragment() {
 
     companion object {
         const val TAG = "CreateTextFragment"
-        const val wait_time_in_seconds = 15
+        const val wait_time_in_seconds = 20
         const val wait_time = wait_time_in_seconds * 1000L
     }
 }
