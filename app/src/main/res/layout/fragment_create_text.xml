@@ -79,6 +79,20 @@
         android:textColor="#E9E9E9" />
 
 
+    <ProgressBar
+        android:id="@+id/pbGenerating"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignTop="@id/etPrompt"
+        android:layout_centerVertical="true"
+        android:layout_alignBottom="@id/etPrompt"
+        android:scrollbarSize="50dp"
+        android:layout_centerInParent="true"
+        android:padding="30dp"
+        android:visibility="invisible" />
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="wrap_content"
@@ -273,6 +287,7 @@
         android:layout_marginTop="16dp"
         android:layout_centerInParent="true"
         android:text="@string/generate" />
+
 
 </RelativeLayout>
 </ScrollView>

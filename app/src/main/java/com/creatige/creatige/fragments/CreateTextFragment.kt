@@ -46,6 +46,8 @@ class CreateTextFragment : Fragment() {
     lateinit var btnSwitchModes : Button
     lateinit var ivCaptured : ImageView
     lateinit var btnExpand: Button
+    lateinit var pbGenerating: ProgressBar
+
     val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034
     var photoFile: File? = null
     val photoFileName = "photo.jpg"
@@ -76,6 +78,7 @@ class CreateTextFragment : Fragment() {
         etPrompt = view.findViewById<EditText>(R.id.etPrompt)
         spinner = view.findViewById(R.id.spinner)
         btnSwitchModes = view.findViewById(R.id.btnSwitchModes)
+        pbGenerating = view.findViewById(R.id.pbGenerating)
 
 
         val layoutParams = LayoutParams(to_dp(160), to_dp(160))
@@ -104,6 +107,8 @@ class CreateTextFragment : Fragment() {
             spinner.adapter = adapter
         }
         btnGenerate.setOnClickListener {
+            etPrompt.clearFocus();
+            btnGenerate.requestFocus();
             val user = ParseUser.getCurrentUser()
             val thread = Thread{
                 submitPost(user)
@@ -257,6 +262,9 @@ class CreateTextFragment : Fragment() {
         }
         if (!modeImageEnabled || tookPicture) {
             Log.i(TAG, "Submitting request to the API...");
+            //Show progressbar
+            Handler(Looper.getMainLooper()).post {
+                pbGenerating.visibility = View.VISIBLE}
             if (Looper.myLooper()==null)
                 Looper.prepare();
             Toast.makeText(
@@ -304,6 +312,9 @@ class CreateTextFragment : Fragment() {
                         "Could not send generation request (Error $statusCode)",
                         Toast.LENGTH_LONG
                     ).show()
+                    //Hide progressbar
+                    Handler(Looper.getMainLooper()).post {
+                        pbGenerating.visibility = View.INVISIBLE}
                 }
                 override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
                     Log.e(TAG, "onSuccess $statusCode $json")
@@ -315,6 +326,7 @@ class CreateTextFragment : Fragment() {
                             getImg(id)
                         }, wait_time)
                     }
+
                 }
             })
         }
@@ -343,6 +355,11 @@ class CreateTextFragment : Fragment() {
                     "Could not retrieve generated image (Error $statusCode)",
                     Toast.LENGTH_LONG
                 ).show()
+
+
+                //Hide progressbar
+                Handler(Looper.getMainLooper()).post {
+                    pbGenerating.visibility = View.INVISIBLE}
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
@@ -350,39 +367,62 @@ class CreateTextFragment : Fragment() {
                 //Change if we do multiple generations in the future
                 val jsonObject = json?.jsonObject
                 val generations = jsonObject?.getJSONArray("generations")
-                val jsonObjectImg = generations?.getJSONObject(0)
-                val img64 = jsonObjectImg?.getString("img")
-                val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
-                if( !(this@CreateTextFragment.isRemoving || this@CreateTextFragment.activity == null || this@CreateTextFragment.isDetached || !this@CreateTextFragment.isAdded || this@CreateTextFragment.view == null )){
-                    Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
-                        decodedString, 0, decodedString
-                            .size
-                    )).into(ivGenerated)
+
+                // check if generations array is empty
+                if (generations?.length() == 0) {
+                    Log.e(TAG, "Generations array is empty")
+                    // TODO REMOVE
+                    if (Looper.myLooper()==null)
+                        Looper.prepare();
+                    Toast.makeText(
+                        requireContext(),
+                        "Generation did not return images (Code $statusCode)",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    //Hide progressbar
+                    Handler(Looper.getMainLooper()).post {
+                        pbGenerating.visibility = View.INVISIBLE}
+                } else {
+
+                    val jsonObjectImg = generations?.getJSONObject(0)
+                    val img64 = jsonObjectImg?.getString("img")
+                    val decodedString: ByteArray = Base64.decode(img64, Base64.DEFAULT)
+                    if( !(this@CreateTextFragment.isRemoving || this@CreateTextFragment.activity == null || this@CreateTextFragment.isDetached || !this@CreateTextFragment.isAdded || this@CreateTextFragment.view == null )){
+                        Glide.with(this@CreateTextFragment).load(BitmapFactory.decodeByteArray(
+                            decodedString, 0, decodedString
+                                .size
+                        )).into(ivGenerated)
+                    }
+
+                    parseFile = ParseFile("photo.webp", decodedString)
+                    post.setImage(parseFile)
+                    post.saveInBackground { exception ->
+                        if (exception != null) {
+                            Log.e(TAG, "Error while saving post")
+                            exception.printStackTrace()
+                            if (Looper.myLooper()==null)
+                                Looper.prepare();
+                            Toast.makeText(
+                                requireContext(),
+                                "Error while saving post",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Log.i(TAG, "Successfully saved post")
+                            if (Looper.myLooper()==null)
+                                Looper.prepare();
+                            Toast.makeText(
+                                requireContext(),
+                                "Successfully saved post",
+                                Toast.LENGTH_SHORT)
+                        }
+
+                        //Hide progressbar
+                        Handler(Looper.getMainLooper()).post {
+                            pbGenerating.visibility = View.INVISIBLE}
                 }
 
 
-                parseFile = ParseFile("photo.webp", decodedString)
-                post.setImage(parseFile)
-                post.saveInBackground { exception ->
-                    if (exception != null) {
-                        Log.e(TAG, "Error while saving post")
-                        exception.printStackTrace()
-                        if (Looper.myLooper()==null)
-                            Looper.prepare();
-                        Toast.makeText(
-                            requireContext(),
-                            "Error while saving post",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Log.i(TAG, "Successfully saved post")
-                        if (Looper.myLooper()==null)
-                            Looper.prepare();
-                        Toast.makeText(
-                            requireContext(),
-                            "Successfully saved post",
-                            Toast.LENGTH_SHORT)
-                    }
                 }
             }
         })
@@ -394,7 +434,8 @@ class CreateTextFragment : Fragment() {
 
     companion object {
         const val TAG = "CreateTextFragment"
-        const val wait_time = 30000L
+        const val wait_time_in_seconds = 15
+        const val wait_time = wait_time_in_seconds * 1000L
     }
 }
 
