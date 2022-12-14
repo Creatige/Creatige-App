@@ -1,12 +1,16 @@
 package com.creatige.creatige.activities
 
 import android.content.DialogInterface
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,6 +21,8 @@ import com.creatige.creatige.models.comments
 import com.creatige.creatige.models.favorites
 import com.creatige.creatige.models.posts
 import com.parse.*
+import java.io.File
+import java.io.FileOutputStream
 
 
 class DetailActivity : AppCompatActivity() {
@@ -126,6 +132,51 @@ class DetailActivity : AppCompatActivity() {
                 favoritePost(Post, ParseUser.getCurrentUser())
                 favoritesCount.text = countFavorites(Post).toString()
             }
+        }
+
+        ActivityCompat.requestPermissions(
+            this@DetailActivity,
+            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            1
+        )
+        ActivityCompat.requestPermissions(
+            this@DetailActivity,
+            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+            1
+        )
+        downloadButton!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                saveToGallery()
+                Toast.makeText(this@DetailActivity, "Image Downloading", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+    }
+
+    private fun saveToGallery() {
+        val bitmapDrawable = imgPost.drawable as BitmapDrawable
+        val bitmap = bitmapDrawable.bitmap
+        var outputStream: FileOutputStream? = null
+        val file: File = Environment.getExternalStorageDirectory()
+        val dir = File(file.absolutePath + "/Download")
+        dir.mkdirs()
+        val filename = String.format("%d.png", System.currentTimeMillis())
+        val outFile = File(dir, filename)
+        try {
+            outputStream = FileOutputStream(outFile)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        try {
+            outputStream?.flush()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        try {
+            outputStream?.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
