@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.creatige.creatige.R
 import com.creatige.creatige.adapters.PostAdapter
+import com.creatige.creatige.models.favorites
 import com.creatige.creatige.models.posts
 import com.parse.FindCallback
 import com.parse.ParseException
@@ -191,6 +192,7 @@ open class FeedFragment : Fragment() {
     open fun searchDB(searchItem : String){
         val userQuery: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
         userQuery.whereEqualTo("username", searchItem)
+        userQuery.addDescendingOrder("createdAt")
         val user = userQuery.find() // all users that match the search input from user
 
         if(user.size != 0){

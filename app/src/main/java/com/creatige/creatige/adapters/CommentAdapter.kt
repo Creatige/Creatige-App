@@ -62,6 +62,8 @@ class CommentAdapter(val context: Context, val comments: List<comments>, val pos
 
             var profile: ParseFile = comment.getUser()?.get("avatar") as ParseFile
             Glide.with(itemView.context).load(profile.url).into(ivProfilePicture)
+
+
             if(post.getUser()?.username == ParseUser.getCurrentUser().username){
                 Log.e(TAG, "Your own post")
                 optionsMenu.visibility = View.VISIBLE
