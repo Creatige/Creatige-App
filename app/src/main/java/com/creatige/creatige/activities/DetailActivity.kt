@@ -182,7 +182,8 @@ class DetailActivity : AppCompatActivity() {
                     //Deletes the fetched ParseObject from the database
                     `object`.deleteInBackground { e2 ->
                         if (e2 == null) {
-                            Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show()
+                            finish()
                         } else {
                             //Something went wrong while deleting the Object
                             Toast.makeText(this, "Error: " + e2.printStackTrace(), Toast.LENGTH_SHORT).show()

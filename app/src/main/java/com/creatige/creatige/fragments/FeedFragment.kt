@@ -137,6 +137,11 @@ open class FeedFragment : Fragment() {
         return usernames
     }
 
+    override fun onResume() {
+        super.onResume()
+        queryPosts()
+    }
+
 
     open fun searchDB(searchItem : String){
         val userQuery: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
