@@ -76,7 +76,7 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 - [ ] User can add friends to see their creations on their feed
 
-- [ ] User can add posts to their favorites
+- [x] User can add posts to their favorites
 
 - [ ] User can view a feed of their favorite images
 
