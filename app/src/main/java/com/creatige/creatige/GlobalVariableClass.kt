@@ -30,5 +30,8 @@ class GlobalVariableClass {
         val def_guidance = 14 // needs to be divided by 2 to get the real value
         val def_denoising = 14 // needs to be divided by 20 to get the real value
 
+        // Number of seconds to wait before retrieving image in Create
+        val wait_in_create_seconds = 30;
+
     }
 }

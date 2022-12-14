@@ -541,8 +541,8 @@ class CreateTextFragment : Fragment() {
 
     companion object {
         const val TAG = "CreateTextFragment"
-        const val wait_time_in_seconds = 30
-        const val wait_time = wait_time_in_seconds * 1000L
+        val wait_time_in_seconds = GlobalVariableClass.wait_in_create_seconds
+        val wait_time = wait_time_in_seconds * 1000L
     }
 }
 

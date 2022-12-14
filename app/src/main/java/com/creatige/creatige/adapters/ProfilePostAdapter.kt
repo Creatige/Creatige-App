@@ -66,6 +66,9 @@ class ProfilePostAdapter(val context: Context, val posts: List<posts>) : Recycle
                                 if (e2 == null) {
                                     Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT)
                                         .show()
+                                    // Refresh the list
+                                    posts.drop(adapterPosition);
+                                    notifyItemRemoved(adapterPosition);
                                 } else {
                                     //Something went wrong while deleting the Object
                                     Toast.makeText(context, "Error: " + e2.message, Toast.LENGTH_SHORT)
