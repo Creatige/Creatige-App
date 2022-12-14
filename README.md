@@ -64,21 +64,39 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
 
 **Optional Nice-to-have Stories**
 
-- [ ] Share between other social media
+Feed
 
-- [ ] User receives push notifications to notify them their image is ready
+ - [x] Make profile pictures circular
+ - [x] Pull to refresh
+ - [x] Make image take whole width of screen 
+ - [x] Implement search function, by user
+ - [x] User can delete posts
+ - [x] Delete refreshes feed
 
-- [ ] User can change the visibility of their profile
+Detail
 
-- [x] Allow user to search for other user posts
+ - [x] Make profile pictures circular
+ - [x] Make image take all width of screen
+ - [x] Show prompt
+ - [x] Show negative prompt
+ - [x] Allow user to favorite a post (the Favorites view should be implemented in Feed for this to be evident)
+ - [x] Show number of times a post was added to favorites
+ - [x] Allow user to delete post
+ - [x] delete finishes the Detail activity, goes back to Feed, and refreshes it
 
-- [x] User can refresh posts timeline by pulling down to refresh
+Create
 
-- [ ] User can add friends to see their creations on their feed
+ - [x] Add progressbar
+ - [x] Create thread to continue generating in background when navigating away from fragment
+ - [x] Show the values of the sliders in TextViews next to them
+ - [x] Auto hide keyboard after pressing "Create" button and make EditText lose focus
 
-- [x] User can add posts to their favorites
+Profile
 
-- [ ] User can view a feed of their favorite images
+ - [x] Pull to refresh
+ - [x] Delete should also refresh recyclerview to show the deletion
+ - [x] Long press to delete
+ - [x] Make profile pictures circular
 
 ### 2. Screen Archetypes
 
@@ -361,3 +379,8 @@ The advent of generative AIs is estimated to be [no short of a revolution](https
   ## Sprint 3
 
   <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint3Demo.gif" width=500><br>
+  
+  ## Sprint 4
+  
+  
+  <img src="https://github.com/Creatige/Creatige-App/blob/main/others/pictures/demos/Sprint4Demo.gif" width=500><br>
