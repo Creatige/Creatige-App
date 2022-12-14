@@ -26,6 +26,9 @@ class comments():ParseObject() {
     fun setPostId(postId: String){
         put(KEY_POST_ID, postId)
     }
+    fun getPostId():ParseObject?{
+        return getParseObject(KEY_POST_ID)
+    }
     fun getTime(): Date?{
         return createdAt
     }

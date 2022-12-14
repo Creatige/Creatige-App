@@ -1,21 +1,20 @@
 package com.creatige.creatige.fragments
 
-import android.content.ClipData.Item
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.creatige.creatige.adapters.PostAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.creatige.creatige.R
+import com.creatige.creatige.adapters.PostAdapter
 import com.creatige.creatige.models.posts
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
 import com.parse.ParseException
 import com.parse.ParseQuery
@@ -85,6 +84,9 @@ open class FeedFragment : Fragment() {
         //takes input from searchBox when the searchButton is clicked
         view.findViewById<ImageButton>(R.id.searchButton)?.setOnClickListener{
             val search = autoCompleteTextView.text.toString()
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+            autoCompleteTextView.setText("")
             searchDB(search)
         }
     }
