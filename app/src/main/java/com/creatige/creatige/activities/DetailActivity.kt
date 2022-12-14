@@ -1,9 +1,11 @@
 package com.creatige.creatige.activities
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var author: TextView
     private lateinit var imgPost: ImageView
     private lateinit var timeOfCreation: TextView
-    private lateinit var detailOptions: ImageButton
+    private lateinit var deletePost: ImageButton
     private lateinit var downloadButton: ImageButton
     private lateinit var favoritesButton: ImageButton
     private lateinit var commentRecyclerView: RecyclerView
@@ -30,6 +32,10 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var submitComment:ImageButton
     private lateinit var composedComment:TextView
     private lateinit var userProfilePicture: ImageView
+    private lateinit var prompt: TextView
+    private lateinit var negativePrompt : TextView
+    private lateinit var favoritesCount: TextView
+    private lateinit var negativePromptLabel:TextView
     private var allComments: MutableList<comments> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,15 +54,31 @@ class DetailActivity : AppCompatActivity() {
         composedComment = findViewById(R.id.et_composeComment)
         userProfilePicture = findViewById<ImageView>(R.id.userProfilePicture)
         timeOfCreation = findViewById(R.id.tv_timeOfCreation)
-        detailOptions = findViewById(R.id.ib_detailOptions)
+        deletePost = findViewById(R.id.ib_deleteOption)
         downloadButton = findViewById(R.id.ib_download)
         favoritesButton = findViewById(R.id.ib_favorite)
+        prompt = findViewById(R.id.tv_prompt)
+        negativePrompt = findViewById(R.id.tv_negativePrompt)
+        favoritesCount = findViewById(R.id.tv_favoritesCount)
+        negativePromptLabel = findViewById(R.id.tv_negLabel)
+
+        var textToSplit = Post.getPrompt()
+        var delimeter = "###"
+        val parts = textToSplit?.split(delimeter)
 
 
         Glide.with(this).load(Post.getImage()?.url).into(imgPost)
         author.text = Post.getUser()?.username
+        prompt.text = parts?.get(0)
+        if(parts?.size!! > 1){
+            negativePrompt.text = parts.get(1)
+        } else {
+            negativePromptLabel.visibility = View.INVISIBLE
+            negativePrompt.visibility = View.INVISIBLE
+        }
         Glide.with(this).load(profile.url).into(ivProfileImage)
         Glide.with(this).load(currentUserPFP.url).into(userProfilePicture)
+        favoritesCount.text = countFavorites(Post).toString()
 
         commentRecyclerView = findViewById<RecyclerView>(R.id.commentRecyclerView)
         commentAdapter = CommentAdapter(this, allComments)
@@ -69,15 +91,16 @@ class DetailActivity : AppCompatActivity() {
         submitComment.setOnClickListener(){
             submitComment(composedComment.text.toString(), ParseUser.getCurrentUser(), Post)
             queryComments(Post)
+            composedComment.setText("")
         }
 
-        detailOptions.setOnClickListener(){
-            //TODO: Insert logic to open up the pop up menu and delete the post
+        if(Post.getUser()!!.fetchIfNeeded().username == ParseUser.getCurrentUser().fetchIfNeeded().username){
+            deletePost.visibility = View.VISIBLE
+        }
 
-            //TODO: MIGHT NEED TO CHANGE THIS CONDITIONAL IF IT DOESNT WORK
-            if(Post.getUser()!! == ParseUser.getCurrentUser()){
-                popupMenus(it, Post)
-            }
+        deletePost.setOnClickListener(){
+            //TODO: Insert logic to open up the pop up menu and delete the post
+            deletePost(Post)
         }
 
         downloadButton.setOnClickListener(){
@@ -92,16 +115,16 @@ class DetailActivity : AppCompatActivity() {
 
 
         favoritesButton.setOnClickListener() {
-            //TODO: if user has already favorited, then set the button to be empty
-            //TODO: if user has not clicked, then set the button to be filled
             if (isLiked(Post, ParseUser.getCurrentUser())) {
                 favoritesButton.setImageResource(R.drawable.ic_bookmark_unclicked)
                 Log.e(TAG, "THIS IS TO UNFAVORITE POST")
                 unfavoritePost(Post, ParseUser.getCurrentUser())
+                favoritesCount.text = countFavorites(Post).toString()
             } else {
                 favoritesButton.setImageResource(R.drawable.ic_bookmark_clicked)
                 Log.e(TAG, "THIS IS TO FAVORITE POST")
                 favoritePost(Post, ParseUser.getCurrentUser())
+                favoritesCount.text = countFavorites(Post).toString()
             }
         }
     }
@@ -147,43 +170,31 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun popupMenus(v: View?, post: posts) {
-        val popupMenus = PopupMenu(this, v)
-        popupMenus.inflate(R.menu.menu_post_options)
-        popupMenus.setOnMenuItemClickListener {
-            when(it.itemId){
-                R.id.delete ->{
-                    if(ParseUser.getCurrentUser().fetchIfNeeded().username == post.getUser()?.fetchIfNeeded()?.username){
-                        Toast.makeText(this, "Successfully deleted post", Toast.LENGTH_SHORT).show()
-                        deletePost(post)
-                    } else {
-                        Toast.makeText(this, "You're not allowed to delete this post", Toast.LENGTH_SHORT).show()
-                    }
-                    true
-                } else -> true
-            }
-        }
-    }
-
     private fun deletePost(post: posts) {
-        val query = ParseQuery.getQuery<ParseObject>("posts")
-        query.getInBackground(post.objectId) { `object`, e ->
-            if (e == null) {
-                //Object was fetched
-                //Deletes the fetched ParseObject from the database
-                `object`.deleteInBackground { e2 ->
-                    if (e2 == null) {
-                        Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show()
-                    } else {
-                        //Something went wrong while deleting the Object
-                        Toast.makeText(this, "Error: " + e2.printStackTrace(), Toast.LENGTH_SHORT).show()
+        val alertbox = AlertDialog.Builder(this)
+        alertbox.setMessage("Are you sure you want to delete?")
+        alertbox.setNegativeButton("Cancel"){ dialogInterface: DialogInterface, i: Int -> }
+        alertbox.setPositiveButton("Delete"){arg0, arg1 ->
+            val query = ParseQuery.getQuery<ParseObject>("posts")
+            query.getInBackground(post.objectId) { `object`, e ->
+                if (e == null) {
+                    //Object was fetched
+                    //Deletes the fetched ParseObject from the database
+                    `object`.deleteInBackground { e2 ->
+                        if (e2 == null) {
+                            Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show()
+                        } else {
+                            //Something went wrong while deleting the Object
+                            Toast.makeText(this, "Error: " + e2.printStackTrace(), Toast.LENGTH_SHORT).show()
+                        }
                     }
+                } else {
+                    //Something went wrong
+                    Toast.makeText(this,"Error: "+ e.printStackTrace(), Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                //Something went wrong
-                Toast.makeText(this,"Error: "+ e.printStackTrace(), Toast.LENGTH_SHORT).show()
             }
         }
+        alertbox.show()
     }
 
     fun countFavorites(Post:posts): Int{
@@ -239,7 +250,7 @@ class DetailActivity : AppCompatActivity() {
                 //Deletes the fetched ParseObject from the database
                 `object`.deleteInBackground { e2: ParseException? ->
                     if (e2 == null) {
-                        Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show()
+                        Log.e(TAG, "Successfully removed post from user favorites")
                     } else {
                         //Something went wrong while deleting the Object
                         Toast.makeText(this, "Error: " + e2.message, Toast.LENGTH_SHORT).show()

@@ -70,16 +70,17 @@
             android:text="1d"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ib_detailOptions"
+            app:layout_constraintEnd_toStartOf="@+id/ib_deleteOption"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/ib_detailOptions"
+            android:id="@+id/ib_deleteOption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/more_menu"
+            android:src="@drawable/ic_delete"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -117,7 +118,7 @@
             android:background="@null"
             android:src="@drawable/ic_download"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -129,9 +130,57 @@
             android:baselineAlignBottom="true"
             android:src="@drawable/ic_bookmark_unclicked"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_download"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_favoritesCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_favorite"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_negativePrompt"
+            app:layout_constraintStart_toEndOf="@+id/tv_prompt3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_prompt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Prompt:  "
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_negLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_negLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Negative Prompt:  "
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/tv_negativePrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_negLabel" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -186,7 +235,9 @@
             android:paddingLeft="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
 
         <ImageButton
             android:id="@+id/submitComment"
@@ -196,7 +247,6 @@
             app:srcCompat="@drawable/comment" />
 
     </LinearLayout>
-
 
 
 </RelativeLayout>
