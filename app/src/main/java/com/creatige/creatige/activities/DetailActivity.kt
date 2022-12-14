@@ -234,6 +234,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
+
     //allows user to unlike the post
 
     fun unfavoritePost(post: posts, user: ParseUser) {
