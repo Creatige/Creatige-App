@@ -148,7 +148,7 @@ class CreateTextFragment : Fragment() {
             btnGenerate.requestFocus();
             val user = ParseUser.getCurrentUser()
             val alertbox = AlertDialog.Builder(requireContext())
-            alertbox.setMessage("Do not close the app for 30 seconds.")
+            alertbox.setMessage("Do not close the app for $wait_time_in_seconds seconds.")
 
             alertbox.setNegativeButton(
                 "Ok"
@@ -295,7 +295,7 @@ class CreateTextFragment : Fragment() {
                 ivCaptured.setImageBitmap(takenImage)
                 tookPicture = true
             }else{
-                Toast.makeText(requireContext(), "Error taking picture", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Error taking picture", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -343,13 +343,13 @@ class CreateTextFragment : Fragment() {
                         "\"source_image\":\"$encoded\"," +
                         " \"source_processing\":\"img2img\"}"
             }else{
-                if (Looper.myLooper()==null)
-                    Looper.prepare();
-                Toast.makeText(
-                    requireContext(),
-                    "Please take a picture",
-                    Toast.LENGTH_SHORT
-                ).show()
+//                if (Looper.myLooper()==null)
+//                    Looper.prepare();
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Please take a picture",
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
 
         }else {
@@ -372,13 +372,13 @@ class CreateTextFragment : Fragment() {
             //Show progressbar
             Handler(Looper.getMainLooper()).post {
                 pbGenerating.visibility = View.VISIBLE}
-            if (Looper.myLooper()==null)
-                Looper.prepare();
-            Toast.makeText(
-                requireContext(),
-                "Sending generation request",
-                Toast.LENGTH_SHORT
-            ).show()
+//            if (Looper.myLooper()==null)
+//                Looper.prepare();
+//            Toast.makeText(
+//                requireContext(),
+//                "Sending generation request",
+//                Toast.LENGTH_SHORT
+//            ).show()
             Log.i(TAG, "Sending JSON: $json")
             val body: RequestBody = json.toRequestBody(JSON)
             post = posts()
@@ -410,15 +410,15 @@ class CreateTextFragment : Fragment() {
                     throwable: Throwable?
                 ) {
                     Log.e(TAG, "onFailure1111 $statusCode $response $headers")
-                    // TODO REMOVE
-                    if (Looper.myLooper()==null)
-                        Looper.prepare();
-
-                    Toast.makeText(
-                        requireContext(),
-                        "Could not send generation request (Error $statusCode)",
-                        Toast.LENGTH_LONG
-                    ).show()
+//                    // TODO REMOVE
+//                    if (Looper.myLooper()==null)
+//                        Looper.prepare();
+//
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Could not send generation request (Error $statusCode)",
+//                        Toast.LENGTH_LONG
+//                    ).show()
                     //Hide progressbar
                     Handler(Looper.getMainLooper()).post {
                         pbGenerating.visibility = View.INVISIBLE}
@@ -453,15 +453,15 @@ class CreateTextFragment : Fragment() {
                 throwable: Throwable?
             ) {
                 Log.e(TAG, "onFailure $statusCode $response ")
-                // TODO REMOVE
-                if (Looper.myLooper()==null)
-                    Looper.prepare();
-
-                Toast.makeText(
-                    requireContext(),
-                    "Could not retrieve generated image (Error $statusCode)",
-                    Toast.LENGTH_LONG
-                ).show()
+//                // TODO REMOVE
+//                if (Looper.myLooper()==null)
+//                    Looper.prepare();
+//
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Could not retrieve generated image (Error $statusCode)",
+//                    Toast.LENGTH_LONG
+//                ).show()
 
 
                 //Hide progressbar
@@ -478,14 +478,14 @@ class CreateTextFragment : Fragment() {
                 // check if generations array is empty
                 if (generations?.length() == 0) {
                     Log.e(TAG, "Generations array is empty")
-                    // TODO REMOVE
-                    if (Looper.myLooper()==null)
-                        Looper.prepare();
-                    Toast.makeText(
-                        requireContext(),
-                        "Generation did not return images (Code $statusCode)",
-                        Toast.LENGTH_LONG
-                    ).show()
+//                    // TODO REMOVE
+//                    if (Looper.myLooper()==null)
+//                        Looper.prepare();
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Generation did not return images (Code $statusCode)",
+//                        Toast.LENGTH_LONG
+//                    ).show()
                     //Hide progressbar
                     Handler(Looper.getMainLooper()).post {
                         pbGenerating.visibility = View.INVISIBLE}
@@ -507,21 +507,21 @@ class CreateTextFragment : Fragment() {
                         if (exception != null) {
                             Log.e(TAG, "Error while saving post")
                             exception.printStackTrace()
-                            if (Looper.myLooper()==null)
-                                Looper.prepare();
-                            Toast.makeText(
-                                requireContext(),
-                                "Error while saving post",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            if (Looper.myLooper()==null)
+//                                Looper.prepare();
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "Error while saving post",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                         } else {
                             Log.i(TAG, "Successfully saved post")
-                            if (Looper.myLooper()==null)
-                                Looper.prepare();
-                            Toast.makeText(
-                                requireContext(),
-                                "Successfully saved post",
-                                Toast.LENGTH_SHORT)
+//                            if (Looper.myLooper()==null)
+//                                Looper.prepare();
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "Successfully saved post",
+//                                Toast.LENGTH_SHORT)
                         }
 
                         //Hide progressbar
