@@ -1,10 +1,12 @@
 package com.creatige.creatige.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.creatige.creatige.R
 import com.creatige.creatige.adapters.PostAdapter
-import com.creatige.creatige.models.favorites
 import com.creatige.creatige.models.posts
-import com.parse.*
+import com.parse.FindCallback
+import com.parse.ParseException
+import com.parse.ParseQuery
+import com.parse.ParseUser
 
 
 open class FeedFragment : Fragment() {
@@ -84,6 +88,9 @@ open class FeedFragment : Fragment() {
         //takes input from searchBox when the searchButton is clicked
         view.findViewById<ImageButton>(R.id.searchButton)?.setOnClickListener{
             val search = autoCompleteTextView.text.toString()
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+            autoCompleteTextView.setText("")
             searchDB(search)
         }
         favoriteButton.setOnClickListener{

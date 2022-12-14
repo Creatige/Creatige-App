@@ -51,16 +51,17 @@
 
         <TextView
             android:id="@+id/author"
-            android:layout_width="158dp"
-            android:layout_height="38dp"
-            android:layout_gravity="center|center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center_horizontal|center_vertical"
             android:paddingLeft="5dp"
             android:text="ormolu"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardviewimg"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.615" />
 
         <TextView
             android:id="@+id/tv_timeOfCreation"
@@ -80,7 +81,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:src="@drawable/ic_delete"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

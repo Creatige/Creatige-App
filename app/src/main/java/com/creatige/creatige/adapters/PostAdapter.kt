@@ -110,7 +110,6 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
         }
 
-
         override fun onClick(v: View?) {
             val post = posts[adapterPosition]
             val intent = Intent(context, DetailActivity::class.java)
@@ -118,6 +117,28 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
             intent.putExtra("postID", postID)
             intent.putExtra(Post_Extra, post)
             context.startActivity(intent)
+        }
+        private fun popupMenus(v: View) {
+            val popupMenus = PopupMenu(context, v)
+            popupMenus.inflate(R.menu.menu_post_options)
+            popupMenus.setOnMenuItemClickListener {
+                when(it.itemId){
+                    R.id.delete ->{
+                        Log.e(TAG, "Delete was pressed")
+                        var post = posts[adapterPosition]
+                        if(ParseUser.getCurrentUser().fetchIfNeeded().username == post.getUser()?.fetchIfNeeded()?.username){
+                            Toast.makeText(context, "Successfully deleted post", Toast.LENGTH_SHORT).show()
+                            deletePost(post)
+                        } else {
+                            Toast.makeText(context, "You're not allowed to delete this post", Toast.LENGTH_SHORT).show()
+
+                        }
+                        true
+                    }
+                    else -> true
+                }
+            }
+            popupMenus.show()
         }
     }
 

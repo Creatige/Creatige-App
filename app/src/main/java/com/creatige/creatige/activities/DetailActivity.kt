@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var negativePrompt : TextView
     private lateinit var favoritesCount: TextView
     private lateinit var negativePromptLabel:TextView
+    private lateinit var commentOptions: ImageButton
     private var allComments: MutableList<comments> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +83,7 @@ class DetailActivity : AppCompatActivity() {
         favoritesCount.text = countFavorites(Post).toString()
 
         commentRecyclerView = findViewById<RecyclerView>(R.id.commentRecyclerView)
-        commentAdapter = CommentAdapter(this, allComments)
+        commentAdapter = CommentAdapter(this, allComments, Post)
         commentRecyclerView.layoutManager = LinearLayoutManager(this)
         commentRecyclerView.adapter = commentAdapter
         commentRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -91,6 +93,8 @@ class DetailActivity : AppCompatActivity() {
         submitComment.setOnClickListener(){
             submitComment(composedComment.text.toString(), ParseUser.getCurrentUser(), Post)
             queryComments(Post)
+            val inputMethodManager: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(it.getApplicationWindowToken(), 0)
             composedComment.setText("")
         }
 
