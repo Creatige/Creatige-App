@@ -83,8 +83,8 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
                         Log.e(TAG, "Delete was pressed")
                         var post = posts[adapterPosition]
                         if(ParseUser.getCurrentUser().fetchIfNeeded().username == post.getUser()?.fetchIfNeeded()?.username){
-                            Toast.makeText(context, "Successfully deleted post", Toast.LENGTH_SHORT).show()
-                            deletePost(post)
+//                            Toast.makeText(context, "Successfully deleted post", Toast.LENGTH_SHORT).show()
+                            deletePost(post, adapterPosition)
                         } else {
                             Toast.makeText(context, "You're not allowed to delete this post", Toast.LENGTH_SHORT).show()
                         }
@@ -121,7 +121,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
         }
     }
 
-    private fun deletePost(post: posts) {
+    private fun deletePost(post: posts, adapterPosition: Int) {
         val query = ParseQuery.getQuery<ParseObject>("posts")
         query.getInBackground(post.objectId) { `object`, e ->
             if (e == null) {
@@ -130,6 +130,9 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
                 `object`.deleteInBackground { e2 ->
                     if (e2 == null) {
                         Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT).show()
+                        // Remove the post from the feed
+                        posts.drop(adapterPosition);
+                        notifyItemRemoved(adapterPosition);
                     } else {
                         //Something went wrong while deleting the Object
                         Toast.makeText(context, "Error: " + e2.printStackTrace(), Toast.LENGTH_SHORT).show()
