@@ -1,10 +1,13 @@
 package com.creatige.creatige.activities
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -27,12 +30,14 @@ import java.io.FileOutputStream
 
 
 class DetailActivity : AppCompatActivity() {
+
     private lateinit var ivProfileImage: ImageView
     private lateinit var author: TextView
     private lateinit var imgPost: ImageView
     private lateinit var timeOfCreation: TextView
     private lateinit var deletePost: ImageButton
     private lateinit var downloadButton: ImageButton
+    private lateinit var shareButton: ImageButton
     private lateinit var favoritesButton: ImageButton
     private lateinit var commentRecyclerView: RecyclerView
     private lateinit var commentAdapter: CommentAdapter
@@ -64,6 +69,7 @@ class DetailActivity : AppCompatActivity() {
         timeOfCreation = findViewById(R.id.tv_timeOfCreation)
         deletePost = findViewById(R.id.ib_deleteOption)
         downloadButton = findViewById(R.id.ib_download)
+        shareButton = findViewById(R.id.ib_share)
         favoritesButton = findViewById(R.id.ib_favorite)
         prompt = findViewById(R.id.tv_prompt)
         negativePrompt = findViewById(R.id.tv_negativePrompt)
@@ -154,6 +160,23 @@ class DetailActivity : AppCompatActivity() {
                 Toast.makeText(this@DetailActivity, "Image Downloading", Toast.LENGTH_SHORT).show()
             }
         })
+
+        shareButton.setOnClickListener {
+            val bitmapDrawable = imgPost.drawable as BitmapDrawable
+            val bitmap = bitmapDrawable.bitmap
+            val intent= Intent()
+
+            intent.action=Intent.ACTION_SEND
+
+            val path= MediaStore.Images.Media.insertImage(contentResolver,bitmap,"Title",null)
+
+            val uri = Uri.parse(path)
+
+            intent.putExtra(Intent.EXTRA_STREAM,uri)
+            intent.type="image/*"
+            startActivity(Intent.createChooser(intent,"Share To :"))
+
+        }
 
     }
 
