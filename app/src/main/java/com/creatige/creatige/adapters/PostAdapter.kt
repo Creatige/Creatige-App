@@ -70,9 +70,15 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
         }
 
         fun bind(post: posts){
-            tvDescription.text = post.getPrompt()
+
+            var textToSplit = post.getPrompt()
+            var delimeter = "###"
+            val parts = textToSplit?.split(delimeter)
+
+            tvDescription.text = parts?.get(0)
             tvUsername.text = post.getUser()?.fetchIfNeeded()?.username
             tvCreatedAT.text = TimeFormatter.getTimeDifference(post.getTime())
+            
             val profile :ParseFile = post.getUser()?.get("avatar") as ParseFile
             Log.i(TAG, "Tvcreated is ${post.getTime()}")
             Glide.with(itemView.context).load(profile.url).into(ivProfileImg)

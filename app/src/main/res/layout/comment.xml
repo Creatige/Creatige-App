@@ -7,15 +7,16 @@
 
     <TextView
         android:id="@+id/comments"
-        android:layout_width="327dp"
+        android:layout_width="fill_parent"
         android:layout_height="60dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/commentbox"
-        android:text="Great post"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
+        android:text="Great post"
         android:textColor="@color/white"
         android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,18 +36,37 @@
         android:text="username"
         android:textColor="@color/white"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/createdAt"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginLeft="10dp"
+        android:elevation="0dp"
+        android:innerRadius="0dp"
+        android:shape="ring"
+        android:thicknessRatio="1.5"
+        app:cardCornerRadius="45dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
+    </androidx.cardview.widget.CardView>
+
+
 
     <TextView
         android:id="@+id/createdAt"

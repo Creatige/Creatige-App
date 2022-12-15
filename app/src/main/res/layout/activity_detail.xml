@@ -16,8 +16,7 @@
         android:padding="5dp"
         tools:layout_editor_absoluteX="5dp"
         android:layout_alignParentTop="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/imgPost">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
 
@@ -28,10 +27,10 @@
             android:layout_centerHorizontal="true"
             android:elevation="12dp"
             android:innerRadius="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:shape="ring"
             android:thicknessRatio="1.5"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             app:cardCornerRadius="45dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,7 +38,7 @@
             <ImageView
                 android:id="@+id/ivProfileImage"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toTopOf="@+id/imgPost"
                 app:layout_constraintEnd_toStartOf="@+id/author"
                 app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +57,7 @@
             android:text="ormolu"
             android:textColor="@color/white"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardviewimg"
             app:layout_constraintTop_toTopOf="parent"
@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:text="1d"
             android:textSize="20sp"
-android:layout_marginTop="10dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -151,89 +151,99 @@ android:layout_marginTop="10dp"
             android:id="@+id/tv_favoritesCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="100"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
 
-            app:layout_constraintTop_toBottomOf="@id/imgPost"
-            app:layout_constraintVertical_bias="0.6"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="NotSibling" />
+
         <ImageButton
             android:id="@+id/ib_share"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@null"
-            android:tint="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgPost"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="?attr/actionModeShareDrawable"
-            tools:ignore="NotSibling" />
-        <TextView
-            android:id="@+id/tv_prompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:text="TextView"
-            app:layout_constrainedWidth="true"
-            android:textSize="20sp"
-            android:gravity="start"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintBottom_toTopOf="@+id/tv_negativePrompt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_prompt3"
-            app:layout_constraintTop_toBottomOf="@id/ib_favorite"
-             />
-
-        <TextView
-            android:id="@+id/tv_prompt3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Prompt:  "
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_negLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ib_favorite" />
-
-        <TextView
-            android:id="@+id/tv_negLabel"
-            android:layout_width="134dp"
-            android:layout_height="27dp"
-            android:text="Negative Prompt:  "
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <TextView
-            android:id="@+id/tv_negativePrompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_favoritesCount"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tv_negLabel" />
-
-
+            tools:ignore="NotSibling"
+            app:tint="#FFFFFF" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="#494949"
-        android:layout_below = "@id/detail_options"/>
 
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_below="@+id/constraintLayout"
+            android:layout_marginTop="0dp"
+            android:background="#686767" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/commentRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view"
-         />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view"
+            android:layout_marginTop="0dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_options"
+            android:layout_marginTop="0dp">
+
+
+            <TextView
+                android:id="@+id/tv_prompt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="top"
+                android:text="TextView"
+                android:textSize="20sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_prompt3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_prompt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prompt:  "
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_negLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Negative: "
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_prompt" />
+
+            <TextView
+                android:id="@+id/tv_negativePrompt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.527"
+                app:layout_constraintStart_toEndOf="@+id/tv_negLabel"
+                app:layout_constraintTop_toBottomOf="@+id/tv_prompt" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>
 
@@ -245,28 +255,51 @@ android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
-        <ImageView
-            android:id="@+id/userProfilePicture"
-            android:layout_width="87dp"
-            android:layout_height="66dp"
-            android:layout_marginRight="10dp"
-            android:paddingTop="10dp"
-            tools:srcCompat="@tools:sample/avatars" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
+            android:elevation="0dp"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.5"
+            app:cardCornerRadius="45dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/userProfilePicture"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="0dp"
+                android:paddingTop="0dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+
+        </androidx.cardview.widget.CardView>
+
 
         <EditText
             android:id="@+id/et_composeComment"
             android:layout_width="236dp"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="0dp"
             android:background="@drawable/et_passuser"
             android:fontFamily="@font/khula"
             android:hint="  Add a comment"
+            android:imeOptions="actionDone"
             android:paddingLeft="10dp"
+            android:singleLine="true"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="15sp"
-            android:imeOptions="actionDone"
-            android:singleLine="true"/>
+            android:textSize="15sp" />
 
         <ImageButton
             android:id="@+id/submitComment"
