@@ -142,7 +142,7 @@ open class FeedFragment : Fragment() {
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
         //find all post objects
         query.include(posts.KEY_USER)
-        query.setLimit(20)
+        //query.setLimit(20)
         query.addDescendingOrder("createdAt")
         //TODO: Only return the most recent 20 posts
 
