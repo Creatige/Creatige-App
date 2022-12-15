@@ -70,21 +70,11 @@
             android:layout_weight="1"
             android:text="1d"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ib_deleteOption"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/ib_deleteOption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:src="@drawable/ic_delete"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -130,11 +120,21 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/ic_download"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ib_share"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
+            app:layout_constraintTop_toBottomOf="@id/imgPost"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="NotSibling" />
+        <ImageButton
+            android:id="@+id/ib_deleteOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/ib_download"
+            app:layout_constraintTop_toBottomOf="@id/imgPost"
+            tools:ignore="NotSibling" />
         <ImageButton
             android:id="@+id/ib_favorite"
             android:layout_width="wrap_content"
@@ -142,10 +142,10 @@
             android:background="@null"
             android:baselineAlignBottom="true"
             android:src="@drawable/ic_bookmark_unclicked"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ib_download"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toEndOf="@id/tv_favoritesCount"
+            app:layout_constraintTop_toBottomOf="@id/imgPost"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="NotSibling" />
 
         <TextView
             android:id="@+id/tv_favoritesCount"
@@ -153,23 +153,37 @@
             android:layout_height="wrap_content"
             android:text="100"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ib_favorite"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintStart_toStartOf="parent"
 
+            app:layout_constraintTop_toBottomOf="@id/imgPost"
+            app:layout_constraintVertical_bias="0.6"
+            tools:ignore="NotSibling" />
+        <ImageButton
+            android:id="@+id/ib_share"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:tint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgPost"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="?attr/actionModeShareDrawable"
+            tools:ignore="NotSibling" />
         <TextView
             android:id="@+id/tv_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:text="TextView"
+            app:layout_constrainedWidth="true"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_negativePrompt"
-            app:layout_constraintEnd_toStartOf="@+id/tv_favoritesCount"
+            android:gravity="start"
             app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/tv_negativePrompt"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_prompt3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@id/ib_favorite"
+             />
 
         <TextView
             android:id="@+id/tv_prompt3"
@@ -179,7 +193,7 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_negLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/ib_favorite" />
 
         <TextView
             android:id="@+id/tv_negLabel"
@@ -201,17 +215,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/tv_negLabel" />
 
-        <ImageButton
-            android:id="@+id/ib_share"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@null"
-            android:tint="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="?attr/actionModeShareDrawable" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
