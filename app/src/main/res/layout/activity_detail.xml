@@ -93,6 +93,7 @@
     <!--    here is where we will put the icons-->
 
 <androidx.core.widget.NestedScrollView
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@id/detail_top"
@@ -101,6 +102,7 @@
     android:layout_above="@id/linearLayout">
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <ImageView
