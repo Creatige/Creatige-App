@@ -167,6 +167,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_confirm_pass" />
     <TextView
         android:id="@+id/tv_profileVisibility"
+        android:visibility="gone"
         android:layout_width="250dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
@@ -179,6 +180,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_changePass" />
     <Spinner
         android:id="@+id/spinner_visibility"
+        android:visibility="gone"
         android:layout_width="352dp"
         android:layout_height="40dp"
         android:layout_marginBottom="196dp"
