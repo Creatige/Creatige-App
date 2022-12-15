@@ -82,6 +82,7 @@ Detail
  - [x] Allow user to favorite a post (the Favorites view should be implemented in Feed for this to be evident)
  - [x] Show number of times a post was added to favorites
  - [x] Allow user to delete post
+ - [x] Allow user to download post
  - [x] delete finishes the Detail activity, goes back to Feed, and refreshes it
 
 Create
