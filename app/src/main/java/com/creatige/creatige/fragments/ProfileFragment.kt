@@ -129,6 +129,7 @@ class ProfileFragment : Fragment() {
     private fun updateUIOnResume(){
         // updates the profile picture if it has been changed in Settings
         Glide.with(this@ProfileFragment).load(ParseUser.getCurrentUser().getParseFile("avatar")?.url).into(ivProfileImage)
+        queryPosts()
     }
 
     // function to get the number of photos the user has posted
