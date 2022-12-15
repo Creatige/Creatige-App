@@ -125,7 +125,6 @@ open class FeedFragment : Fragment() {
                         if (posts != null){
                             for(post in posts){
                                 Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username + "CreatedAt:" + post.getTime())
-
                             }
                             allPosts.addAll(posts)
                             adapter.notifyDataSetChanged()
@@ -182,7 +181,6 @@ open class FeedFragment : Fragment() {
         })
         return usernames
     }
-
     override fun onResume() {
         super.onResume()
         queryPosts()

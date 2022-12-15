@@ -1,6 +1,7 @@
 package com.creatige.creatige.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creatige.creatige.R
 import com.creatige.creatige.TimeFormatter
+import com.creatige.creatige.activities.DetailActivity
 import com.creatige.creatige.models.comments
 import com.creatige.creatige.models.posts
 import com.parse.*
@@ -19,7 +21,7 @@ import com.parse.*
 private const val TAG = "CommentAdapter"
 
 
-class CommentAdapter(val context: Context, val comments: List<comments>, val post: posts) : RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
+class CommentAdapter(val context: Context, var comments: MutableList<comments>, val post: posts) : RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         Log.e(PostAdapter.TAG, "onCreateViewHolder")
@@ -44,9 +46,6 @@ class CommentAdapter(val context: Context, val comments: List<comments>, val pos
         val tvComment: TextView
         val timeOfCreation: TextView
         val optionsMenu : ImageButton
-
-
-
         init {
             ivProfilePicture = itemView.findViewById(R.id.ivProfileImage)
             tvUser = itemView.findViewById(R.id.commenter)
@@ -78,6 +77,7 @@ class CommentAdapter(val context: Context, val comments: List<comments>, val pos
                     Log.e(TAG, "${tvUser.text} should not see the options")
                 }
             }
+
         }
         private fun menuClickListener(){
             optionsMenu.setOnClickListener{
@@ -92,19 +92,21 @@ class CommentAdapter(val context: Context, val comments: List<comments>, val pos
                 popupMenus.setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.delete ->{
+
+
                             Log.e(PostAdapter.TAG, "Delete was pressed")
-                            deleteComment(comment)
+                            deleteComment(comment,adapterPosition)
                             true
                         }
                         else -> true
                     }
                 }
                 popupMenus.show()
-
         }
+
     }
 
-    private fun deleteComment(comment: comments) {
+    private fun deleteComment(comment: comments, position:Int) {
         //TODO: add logic to delete comments here
         val query = ParseQuery.getQuery<ParseObject>("comments")
 
@@ -114,10 +116,10 @@ class CommentAdapter(val context: Context, val comments: List<comments>, val pos
                 //Deletes the fetched ParseObject from the database
                 `object`.deleteInBackground { e2: ParseException? ->
                     if (e2 == null) {
-                        Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT).show()
+                        comments.removeAt(position)
+                        notifyItemRemoved(position)
                     } else {
                         //Something went wrong while deleting the Object
-                        Toast.makeText(context, "Error: " + e2.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
