@@ -1,7 +1,10 @@
 package com.creatige.creatige.activities
 
 import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -107,8 +110,13 @@ class DetailActivity : AppCompatActivity() {
             deletePost(Post)
         }
 
-        downloadButton.setOnClickListener(){
+        downloadButton.setOnClickListener(){ //Using this to share for now
             //TODO: Insert logic here to download the image onto your phone
+            val b=BitmapFactory.decodeResource(resources,R.drawable.imgPost)
+            val intent= Intent()
+            intent.action=Intent.ACTION_SEND
+
+            val path= MediaStore.Images.Media.insertImage(contentResolver,b,"Title",null)
         }
 
         if (isLiked(Post, ParseUser.getCurrentUser())){
