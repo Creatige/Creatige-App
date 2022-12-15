@@ -70,7 +70,7 @@
         android:text="3 mins ago"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/imgPost"
-        app:layout_constraintEnd_toStartOf="@+id/postOptions"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -99,17 +99,6 @@
         android:background="#555555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postPrompt" />
-
-    <ImageButton
-        android:id="@+id/postOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/imgPost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/more_menu" />
 
 
 
