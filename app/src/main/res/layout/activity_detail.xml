@@ -119,9 +119,9 @@
             android:background="@null"
             android:src="@drawable/ic_download"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_share"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
             android:id="@+id/ib_favorite"
@@ -133,7 +133,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ib_download"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/tv_favoritesCount"
@@ -143,7 +143,8 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ib_favorite"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.6" />
 
         <TextView
             android:id="@+id/tv_prompt"
@@ -170,8 +171,8 @@
 
         <TextView
             android:id="@+id/tv_negLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="134dp"
+            android:layout_height="27dp"
             android:text="Negative Prompt:  "
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -187,6 +188,18 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_favoritesCount"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/tv_negLabel" />
+
+        <ImageButton
+            android:id="@+id/ib_share"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:tint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="?attr/actionModeShareDrawable" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
