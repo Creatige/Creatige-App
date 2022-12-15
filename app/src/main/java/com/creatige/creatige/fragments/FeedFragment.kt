@@ -1,21 +1,21 @@
 package com.creatige.creatige.fragments
 
-import android.content.ClipData.Item
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.creatige.creatige.adapters.PostAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.creatige.creatige.R
+import com.creatige.creatige.adapters.PostAdapter
+import com.creatige.creatige.models.favorites
 import com.creatige.creatige.models.posts
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
 import com.parse.ParseException
 import com.parse.ParseQuery
@@ -26,6 +26,8 @@ open class FeedFragment : Fragment() {
     lateinit var postsRecyclerView: RecyclerView
     lateinit var autoCompleteTextView : AutoCompleteTextView
     lateinit var adapter: PostAdapter
+    lateinit var favoriteButton: ImageButton
+    lateinit var favoriteButtonOff:ImageButton
     var allPosts: ArrayList<posts> = ArrayList()
     var allUsernames: MutableList<String> = mutableListOf()
 
@@ -46,6 +48,8 @@ open class FeedFragment : Fragment() {
         //Accessing the views on the screen
         postsRecyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
         autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.searchBox)
+        favoriteButton = view.findViewById<ImageButton>(R.id.ib_favorites)
+        favoriteButtonOff = view.findViewById<ImageButton>(R.id.ib_favorites2)
         //setting up the adapter to allow Posts to be updated from within the query
         adapter = PostAdapter(requireContext(), allPosts)
         queryPosts()
@@ -85,7 +89,50 @@ open class FeedFragment : Fragment() {
         //takes input from searchBox when the searchButton is clicked
         view.findViewById<ImageButton>(R.id.searchButton)?.setOnClickListener{
             val search = autoCompleteTextView.text.toString()
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+            autoCompleteTextView.setText("")
             searchDB(search)
+        }
+        favoriteButton.setOnClickListener{
+            queryFavorites()
+            favoriteButton.visibility = View.GONE
+            favoriteButtonOff.visibility = View.VISIBLE
+        }
+        favoriteButtonOff.setOnClickListener{
+            queryPosts()
+            favoriteButton.visibility = View.VISIBLE
+            favoriteButtonOff.visibility = View.GONE
+        }
+    }
+
+    private fun queryFavorites() {
+        val favoritesQuery: ParseQuery<favorites> = ParseQuery.getQuery("favorites")
+        favoritesQuery.whereEqualTo(favorites.KEY_USER, ParseUser.getCurrentUser())
+        val favoritePosts = favoritesQuery.find() // all users that match the search input from user
+        Log.e(TAG, "favorites results: $favoritePosts")
+        allPosts.clear()
+        for(fav in favoritePosts){
+            val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
+            //find all post objects
+            query.whereEqualTo("objectId", fav.getPost()?.objectId)
+            query.include(posts.KEY_USER)
+            query.findInBackground(object : FindCallback<posts> {
+                override fun done(posts: MutableList<posts>?, e: ParseException?){
+                    if(e != null){
+                        Log.e(TAG, "Error fetching posts")
+                    } else {
+                        if (posts != null){
+                            for(post in posts){
+                                Log.i(TAG, "Post:" + post.getPrompt()+ ", username: "+ post.getUser()?.username + "CreatedAt:" + post.getTime())
+
+                            }
+                            allPosts.addAll(posts)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            })
         }
     }
 
@@ -95,7 +142,7 @@ open class FeedFragment : Fragment() {
         val query: ParseQuery<posts> = ParseQuery.getQuery(posts::class.java)
         //find all post objects
         query.include(posts.KEY_USER)
-        query.setLimit(20)
+        //query.setLimit(20)
         query.addDescendingOrder("createdAt")
         //TODO: Only return the most recent 20 posts
 
@@ -111,7 +158,6 @@ open class FeedFragment : Fragment() {
                         allPosts.clear()
                         allPosts.addAll(posts)
                         adapter.notifyDataSetChanged()
-                        //TODO: Implement the logic to set the swipecontainer to stop spinning around like its really silly for spinning around really
                         swipeContainer.setRefreshing(false)
                     }
                 }
@@ -146,6 +192,7 @@ open class FeedFragment : Fragment() {
     open fun searchDB(searchItem : String){
         val userQuery: ParseQuery<ParseUser> = ParseQuery.getQuery("_User")
         userQuery.whereEqualTo("username", searchItem)
+        userQuery.addDescendingOrder("createdAt")
         val user = userQuery.find() // all users that match the search input from user
 
         if(user.size != 0){

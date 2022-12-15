@@ -58,7 +58,6 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
         val tvDescription: TextView
         val tvCreatedAT: TextView
         val ivProfileImg: ImageView
-        val postOptions : ImageButton
 
         init{
             ivProfileImage = itemView.findViewById((R.id.ivProfileImage))
@@ -67,38 +66,8 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
             ivProfileImg = itemView.findViewById(R.id.ivProfileImage)
             tvDescription = itemView.findViewById(R.id.postPrompt)
             tvCreatedAT = itemView.findViewById(R.id.createdAt)
-            postOptions = itemView.findViewById(R.id.postOptions)
-            postOptions.setOnClickListener{
-                popupMenus(it)
-            }
 
         }
-
-        private fun popupMenus(v: View) {
-            val popupMenus = PopupMenu(context, v)
-            popupMenus.inflate(R.menu.menu_post_options)
-            popupMenus.setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.delete ->{
-                        Log.e(TAG, "Delete was pressed")
-                        var post = posts[adapterPosition]
-                        if(ParseUser.getCurrentUser().fetchIfNeeded().username == post.getUser()?.fetchIfNeeded()?.username){
-//                            Toast.makeText(context, "Successfully deleted post", Toast.LENGTH_SHORT).show()
-                            deletePost(post, adapterPosition)
-                        } else {
-                            Toast.makeText(context, "You're not allowed to delete this post", Toast.LENGTH_SHORT).show()
-                        }
-                        true
-                    }
-                    else -> true
-                }
-            }
-            popupMenus.show()
-        }
-        init {
-            itemView.setOnClickListener(this)
-        }
-
 
         fun bind(post: posts){
             tvDescription.text = post.getPrompt()
@@ -110,7 +79,6 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
             Glide.with(itemView.context).load(post.getImage()?.url).into(ivImage)
         }
 
-
         override fun onClick(v: View?) {
             val post = posts[adapterPosition]
             val intent = Intent(context, DetailActivity::class.java)
@@ -119,30 +87,11 @@ class PostAdapter(val context: Context, val posts: ArrayList<posts>) : RecyclerV
             intent.putExtra(Post_Extra, post)
             context.startActivity(intent)
         }
-    }
 
-    private fun deletePost(post: posts, adapterPosition: Int) {
-        val query = ParseQuery.getQuery<ParseObject>("posts")
-        query.getInBackground(post.objectId) { `object`, e ->
-            if (e == null) {
-                //Object was fetched
-                //Deletes the fetched ParseObject from the database
-                `object`.deleteInBackground { e2 ->
-                    if (e2 == null) {
-                        Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT).show()
-                        // Remove the post from the feed
-                        posts.drop(adapterPosition);
-                        notifyItemRemoved(adapterPosition);
-                    } else {
-                        //Something went wrong while deleting the Object
-                        Toast.makeText(context, "Error: " + e2.printStackTrace(), Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
-                //Something went wrong
-                Toast.makeText(context,"Error: "+ e.printStackTrace(), Toast.LENGTH_SHORT).show()
-            }
+        init {
+            itemView.setOnClickListener(this)
         }
+
     }
 
     companion object{
