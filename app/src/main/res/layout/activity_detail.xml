@@ -92,12 +92,22 @@
 
     <!--    here is where we will put the icons-->
 
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/detail_top"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentEnd="true"
+    android:layout_above="@id/linearLayout">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ImageView
         android:id="@+id/imgPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/detail_top"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
@@ -197,22 +207,16 @@
         android:background="#494949"
         android:layout_below = "@id/detail_options"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="0dp"
-        android:text="Comments"
-        android:textColor="@color/white" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/commentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView3"
-        android:layout_above="@id/linearLayout" />
+        android:layout_below="@id/view"
+         />
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/linearLayout"
