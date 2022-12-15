@@ -19,7 +19,7 @@ import com.parse.ParseObject
 import com.parse.ParseQuery
 
 
-class ProfilePostAdapter(val context: Context, val posts: List<posts>) : RecyclerView.Adapter<ProfilePostAdapter.ViewHolder>() {
+class ProfilePostAdapter(val context: Context, val posts: MutableList<posts>) : RecyclerView.Adapter<ProfilePostAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_profile_post, parent, false)
@@ -64,15 +64,12 @@ class ProfilePostAdapter(val context: Context, val posts: List<posts>) : Recycle
                             //Deletes the fetched ParseObject from the database
                             `object`.deleteInBackground { e2: ParseException? ->
                                 if (e2 == null) {
-                                    Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT)
-                                        .show()
                                     // Refresh the list
-                                    posts.drop(adapterPosition);
+                                    posts.removeAt(adapterPosition)
                                     notifyItemRemoved(adapterPosition);
                                 } else {
                                     //Something went wrong while deleting the Object
-                                    Toast.makeText(context, "Error: " + e2.message, Toast.LENGTH_SHORT)
-                                        .show()
+
                                 }
                             }
                         } else {
